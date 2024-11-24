@@ -7,7 +7,7 @@ from .base import BaseModel
 
 class HabitModel(BaseModel):
     name: Mapped[str]
-    description: Mapped[str] = mapped_column(TEXT)
+    description: Mapped[str | None] = mapped_column(TEXT, default=None)
     notification_hour: Mapped[int | None] = mapped_column(default=None)
     count: Mapped[int | None] = mapped_column(default=None)
     is_done: Mapped[bool] = mapped_column(default=False)

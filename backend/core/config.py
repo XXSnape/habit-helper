@@ -1,8 +1,17 @@
+from pathlib import Path
+
 from dotenv import load_dotenv
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 load_dotenv()
+BASE_DIR = Path(__file__).parent.parent
+
+
+class AuthJWTSettings(BaseSettings):
+    private_key_path: Path = BASE_DIR / "certs" / "private.pem"
+    public_key_path: Path = BASE_DIR / "certs" / "public.pem"
+    algorithm: str = "RS256"
 
 
 class DBSettings(BaseSettings):
@@ -33,6 +42,7 @@ class Settings(BaseSettings):
         case_sensitive=False,
     )
     db: DBSettings = DBSettings()
+    auth_jwt: AuthJWTSettings = AuthJWTSettings()
 
 
 settings = Settings()
