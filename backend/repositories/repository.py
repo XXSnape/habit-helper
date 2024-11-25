@@ -4,9 +4,13 @@
 
 from abc import ABC, abstractmethod
 from typing import Any, Optional
+
+from fastapi import HTTPException, status
 from sqlalchemy import delete, func, insert, select, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
+
+OBJECT_NOT_CREATED_ERROR = "The object has not been created"
 
 
 class AbstractRepository(ABC):
@@ -19,6 +23,7 @@ class AbstractRepository(ABC):
         self,
         session: AsyncSession,
         data: dict,
+        exception_detail: str = OBJECT_NOT_CREATED_ERROR,
         commit_need: bool = True,
     ) -> int:
         """
@@ -141,6 +146,7 @@ class ManagerRepository(AbstractRepository):
         cls,
         session: AsyncSession,
         data: dict,
+        exception_detail: str = OBJECT_NOT_CREATED_ERROR,
         commit_need: bool = True,
     ) -> int:
         """
@@ -171,6 +177,10 @@ class ManagerRepository(AbstractRepository):
 
         except IntegrityError as err:
             await session.rollback()
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=exception_detail,
+            )
 
     @classmethod
     async def delete_object_by_params(
@@ -204,7 +214,7 @@ class ManagerRepository(AbstractRepository):
     @classmethod
     async def update_object_by_params(
         cls, session: AsyncSession, filter_data: dict, update_data: dict
-    ) -> None:
+    ) -> bool:
         """
         Обновляет объекты по параметрам.
 
@@ -216,9 +226,17 @@ class ManagerRepository(AbstractRepository):
 
         Возвращает None
         """
-        stmt = update(cls.model).filter_by(**filter_data).values(**update_data)
-        await session.execute(stmt)
-        await session.commit()
+        stmt = (
+            update(cls.model)
+            .filter_by(**filter_data)
+            .values(**update_data)
+            .returning(cls.model.id)
+        )
+        result = await session.execute(stmt)
+        result = bool(result.fetchone())
+        if result:
+            await session.commit()
+        return result
 
     @classmethod
     async def get_object_by_params(

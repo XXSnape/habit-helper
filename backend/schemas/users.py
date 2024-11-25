@@ -8,3 +8,8 @@ class UserSchema(BaseModel):
 class UserCreate(UserSchema):
     username: str
     password: str
+
+
+class UserHabitSchema(UserSchema):
+    id: int
+    name: str

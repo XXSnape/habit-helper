@@ -38,7 +38,7 @@ class DBHelper:
         """
         async with self.session_factory() as session:  # type: AsyncSession
             yield session
-            await session.close()
+
 
 
 db_helper = DBHelper(
