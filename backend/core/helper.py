@@ -40,7 +40,6 @@ class DBHelper:
             yield session
 
 
-
 db_helper = DBHelper(
     url=settings.db.url,
     echo=settings.db.echo,
