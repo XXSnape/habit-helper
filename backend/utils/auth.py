@@ -1,9 +1,10 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, UTC
 
 import bcrypt
 import jwt
 
 from core.config import settings
+from schemas.tokens import TokenSchema
 
 
 def encode_jwt(
@@ -14,7 +15,7 @@ def encode_jwt(
     expire_timedelta: timedelta | None = None,
 ) -> str:
     to_encode = payload.copy()
-    now = datetime.utcnow()
+    now = datetime.now(UTC)
     if expire_timedelta:
         expire = now + expire_timedelta
     else:
@@ -60,3 +61,9 @@ def validate_password(
         password=password.encode(),
         hashed_password=hashed_password,
     )
+
+
+def get_access_token(user_id: int):
+    payload = {"sub": str(user_id)}
+    token = encode_jwt(payload=payload)
+    return TokenSchema(access_token=token)

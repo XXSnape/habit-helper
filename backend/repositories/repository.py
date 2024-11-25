@@ -4,7 +4,7 @@
 
 from abc import ABC, abstractmethod
 from typing import Any, Optional
-from sqlalchemy import delete, func, insert, select
+from sqlalchemy import delete, func, insert, select, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -83,9 +83,7 @@ class AbstractRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def check_exists_object_by_params(
-        self, session: AsyncSession, data: dict
-    ) -> bool:
+    async def get_object_id_by_params(self, session: AsyncSession, data: dict) -> bool:
         """
         Ищет объект в базе данных.
 
@@ -98,8 +96,27 @@ class AbstractRepository(ABC):
         """
         raise NotImplementedError
 
+    @classmethod
+    async def update_object_by_params(
+        cls, session: AsyncSession, filter_data: dict, update_data: dict
+    ) -> None:
+        """
+        Обновляет объекты по параметрам.
+
+        Параметры:
+
+        session: Сессия для асинхронной работы с базой данных
+        filter_data: Словарь с данными для фильтрации
+        update_data: Словарь с данными для обновления
+
+        Возвращает None
+        """
+        raise NotImplementedError
+
     @abstractmethod
-    async def count_number_objects(self, session: AsyncSession) -> int:
+    async def count_number_objects_by_params(
+        self, session: AsyncSession, data: dict
+    ) -> int:
         """
         Считает количество записей в таблице.
 
@@ -185,6 +202,25 @@ class ManagerRepository(AbstractRepository):
         return result
 
     @classmethod
+    async def update_object_by_params(
+        cls, session: AsyncSession, filter_data: dict, update_data: dict
+    ) -> None:
+        """
+        Обновляет объекты по параметрам.
+
+        Параметры:
+
+        session: Сессия для асинхронной работы с базой данных
+        filter_data: Словарь с данными для фильтрации
+        update_data: Словарь с данными для обновления
+
+        Возвращает None
+        """
+        stmt = update(cls.model).filter_by(**filter_data).values(**update_data)
+        await session.execute(stmt)
+        await session.commit()
+
+    @classmethod
     async def get_object_by_params(
         cls, session: AsyncSession, data: dict
     ) -> Optional[model]:
@@ -203,9 +239,9 @@ class ManagerRepository(AbstractRepository):
         return result.scalar_one_or_none()
 
     @classmethod
-    async def check_exists_object_by_params(
+    async def get_object_id_by_params(
         cls, session: AsyncSession, data: dict
-    ) -> bool:
+    ) -> int | None:
         """
         Ищет объект в базе данных.
 
@@ -217,11 +253,13 @@ class ManagerRepository(AbstractRepository):
         Возвращает True, если объект существует, и False в противном случае.
         """
         query = select(cls.model.id).filter_by(**data).limit(1)
-        result = await session.scalar(query)
-        return bool(result)
+        result = await session.execute(query)
+        return result.scalar_one_or_none()
 
     @classmethod
-    async def count_number_objects(cls, session: AsyncSession) -> int:
+    async def count_number_objects_by_params(
+        cls, session: AsyncSession, data: dict
+    ) -> int:
         """
         Считает количество записей в таблице.
 
@@ -231,5 +269,5 @@ class ManagerRepository(AbstractRepository):
 
         Возвращает количество записей в таблице.
         """
-        query = select(func.count(cls.model.id))
+        query = select(func.count(cls.model.id)).filter_by(**data)
         return await session.scalar(query)

@@ -12,4 +12,4 @@ class TrackingModel(BaseModel):
     date: Mapped[date] = mapped_column(Date, server_default=func.current_date())
     is_done: Mapped[bool] = mapped_column(default=True)
     reason: Mapped[str | None] = mapped_column(default=None)
-    habit_id: Mapped[int] = ForeignKey("habits.id", ondelete="CASCADE")
+    habit_id: Mapped[int] = mapped_column(ForeignKey("habits.id", ondelete="CASCADE"))
