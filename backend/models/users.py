@@ -1,4 +1,4 @@
-from sqlalchemy import BigInteger
+from sqlalchemy import BigInteger, Index
 from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy.testing.schema import mapped_column
 
@@ -11,6 +11,10 @@ if TYPE_CHECKING:
 
 
 class UserModel(BaseModel):
+    __table_args__ = (
+        Index("username_idx", "username"),
+        Index("telegram_id_idx", "telegram_id"),
+    )
     username: Mapped[str]
     password: Mapped[bytes]
     telegram_id: Mapped[int] = mapped_column(BigInteger)

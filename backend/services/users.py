@@ -14,7 +14,7 @@ async def create_user(session: AsyncSession, user_in: UserCreate) -> int:
     return await UserRepository.create_object(session=session, data=data)
 
 
-async def verify_existence_user(session: AsyncSession, user_in: UserSchema):
+async def verify_existence_user(session: AsyncSession, user_in: UserSchema) -> int:
     unauthed_exc = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid telegram_id",
@@ -37,3 +37,10 @@ async def get_users_habits_by_hour(
         UserHabitSchema.model_validate(user_and_habit, from_attributes=True)
         for user_and_habit in users_and_habits
     ]
+
+
+async def verify_username(session: AsyncSession, username: str) -> bool:
+    result = await UserRepository.get_object_id_by_params(
+        session=session, data={"username": username}
+    )
+    return bool(result)
