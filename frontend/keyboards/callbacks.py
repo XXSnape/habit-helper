@@ -1,0 +1,1 @@
+REGISTRATION: str = "register"

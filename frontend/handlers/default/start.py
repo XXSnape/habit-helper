@@ -8,7 +8,10 @@ from telebot.types import Message
 def start(message: Message):
     bot.send_message(
         message.chat.id,
-        f"Привет, {message.from_user.first_name}!\n"
+        f"Здравствуйте, {message.from_user.first_name}!\n"
+        f"Я помогу удобно отслеживать привычки и напоминать о них.\n"
+        f"Но для начала нужно пройти регистрацию, чтобы мной можно было пользоваться"
+        f"на любом аккаунте в телеграм",
     )
 
 
