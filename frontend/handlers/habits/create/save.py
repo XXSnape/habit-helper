@@ -2,8 +2,11 @@ from telebot import TeleBot
 from telebot.types import Message, CallbackQuery
 
 from api.habits.create_habit import create_new_habit
+from api.users.get_token import get_new_access_token_by_id
 from states.habits import HabitsStates
 from utils.constants import NAME_KEY, COUNT_KEY, HOUR_KEY, TOKEN_KEY
+
+from utils.refresh_token import get_response_and_refresh_token
 
 
 def save_habit_with_description(message: Message, bot: TeleBot):
@@ -13,8 +16,14 @@ def save_habit_with_description(message: Message, bot: TeleBot):
         count = data[COUNT_KEY]
         hour = data[HOUR_KEY]
         token = data[TOKEN_KEY]
-    result = create_new_habit(
-        access_token=token, name=name, count=count, hour=hour, description=message.text
+    result = get_response_and_refresh_token(
+        telegram_id=message.chat.id,
+        func=create_new_habit,
+        access_token=token,
+        name=name,
+        count=count,
+        hour=hour,
+        description=message.text,
     )
     if result:
         bot.send_message(message.chat.id, "Привычка успешно добавлена!")
@@ -29,7 +38,10 @@ def save_habit_without_description(callback: CallbackQuery, bot: TeleBot):
         count = data[COUNT_KEY]
         hour = data[HOUR_KEY]
         token = data[TOKEN_KEY]
-    result = create_new_habit(
+
+    result = get_response_and_refresh_token(
+        telegram_id=callback.from_user.id,
+        func=create_new_habit,
         access_token=token,
         name=name,
         count=count,

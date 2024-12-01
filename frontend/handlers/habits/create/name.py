@@ -12,7 +12,7 @@ def request_name(message: Message, bot: TeleBot):
         user_id=message.chat.id, chat_id=message.chat.id, state=HabitsStates.name
     )
     token = check_registration(message.chat.id, bot)
-    if token is False:
+    if token is None:
         return
     bot.send_message(
         message.chat.id, "Введите название для привычки", reply_markup=get_cancel_kb()

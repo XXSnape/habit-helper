@@ -12,7 +12,7 @@ def make_request(
     method: str,
     url: str,
     headers: dict[str, str] | None = None,
-    json: dict[str, str] | None = None,
+    json: dict[str, str | int] | None = None,
     params: dict[str, str] | None = None,
 ) -> dict | None:
 
@@ -20,10 +20,10 @@ def make_request(
         response = requests.request(
             method=method, url=url, headers=headers, json=json, params=params
         )
-        if response.status_code == requests.codes.forbidden:
-            raise InvalidAccessToken
+        if response.status_code == requests.codes.unauthorized:
+            raise InvalidAccessToken()
         j = response.json()
-
+        print(response.status_code)
         print("json", j)
         return j
     except RequestException as e:

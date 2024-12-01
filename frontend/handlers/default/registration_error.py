@@ -5,8 +5,8 @@ from keyboards.inline.keypads.auth import get_auth_request_kb
 from utils.constants import TOKEN_KEY
 
 
-def check_registration(telegram_id: int, bot: TeleBot) -> bool:
-    print("check hello")
+def check_registration(telegram_id: int, bot: TeleBot) -> str | None:
+
     token = get_user_token(telegram_id)
     if not token:
         bot.send_message(
@@ -15,7 +15,7 @@ def check_registration(telegram_id: int, bot: TeleBot) -> bool:
             reply_markup=get_auth_request_kb(),
         )
         bot.delete_state(telegram_id, telegram_id)
-        return False
+        return None
     with bot.retrieve_data(telegram_id, telegram_id) as data:
         data[TOKEN_KEY] = token
-        return True
+        return token
