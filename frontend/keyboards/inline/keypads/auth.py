@@ -1,5 +1,5 @@
 from keyboards.inline.buttons.auth import get_check_in_btn, get_delete_psw_ptn
-from keyboards.inline.buttons.cancel import get_cancel_btn
+from keyboards.inline.buttons.cancel import get_cancel_dict, get_cancel_btn
 from keyboards.inline.callback.callbacks import REGISTRATION_CALLBACK
 from keyboards.inline.keypads.general import create_keyboard
 

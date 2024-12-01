@@ -1,2 +1,7 @@
 USERNAME_KEY = "username"
 MESSAGE_ID_KEY = "message_id"
+TOKEN_KEY = "token"
+NAME_KEY = "name"
+COUNT_KEY = "count"
+DESCRIPTION_KEY = "description"
+HOUR_KEY = "hour"

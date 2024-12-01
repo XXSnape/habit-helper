@@ -6,13 +6,14 @@ load_dotenv()
 
 class DBSettings(BaseSettings):
     db_name: str
+    echo: bool = False
 
     @property
     def url(self) -> str:
         """
         Возвращает строку для подключения к базе данных.
         """
-        return f"sqlite:///{self.db_name}"
+        return f"sqlite:///{self.db_name}.sqlite3"
 
 
 class BotSettings(BaseSettings):
@@ -23,6 +24,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         case_sensitive=False,
     )
+    db: DBSettings = DBSettings()
     bot: BotSettings = BotSettings()
 
 

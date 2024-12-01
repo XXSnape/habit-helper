@@ -1,27 +1,11 @@
 from telebot import TeleBot
-from telebot.types import CallbackQuery, Message
+from telebot.types import Message
 
-from api.users.create_user import create_user
-from keyboards.inline.callback.callbacks import REGISTRATION_CALLBACK
+from api.users.check_user import check_user_existence
 from keyboards.inline.keypads.auth import delete_password_request_kb
 from keyboards.inline.keypads.cancel import get_cancel_kb
 from states.auth import AuthStates
-from api.users.check_user import check_user_existence
 from utils.constants import USERNAME_KEY, MESSAGE_ID_KEY
-
-
-def request_username(callback: CallbackQuery, bot: TeleBot):
-    bot.set_state(
-        user_id=callback.from_user.id,
-        chat_id=callback.message.chat.id,
-        state=AuthStates.username,
-    )
-    bot.edit_message_text(
-        message_id=callback.message.id,
-        chat_id=callback.message.chat.id,
-        text=f"Пожалуйста, введите никнейм для использования бота.",
-        reply_markup=get_cancel_kb(),
-    )
 
 
 def validate_username_and_request_password(message: Message, bot: TeleBot):
@@ -50,26 +34,7 @@ def validate_username_and_request_password(message: Message, bot: TeleBot):
     )
 
 
-def save_user(message: Message, bot: TeleBot):
-    password = message.text
-    with bot.retrieve_data(message.chat.id, message.chat.id) as data:
-        username = data[USERNAME_KEY]
-        message_id = data[MESSAGE_ID_KEY]
-    access_token = create_user(
-        username=username, password=password, telegram_id=message.chat.id
-    )
-    print("token", access_token)
-    bot.delete_message(message.chat.id, message_id)
-    bot.send_message(message.chat.id, "delete your")
-
-
-def register_auth_user(bot: TeleBot):
-    bot.register_callback_query_handler(
-        request_username,
-        pass_bot=True,
-        func=lambda clb: clb.data == REGISTRATION_CALLBACK,
-    )
+def register_password(bot: TeleBot):
     bot.register_message_handler(
         validate_username_and_request_password, pass_bot=True, state=AuthStates.username
     )
-    bot.register_message_handler(save_user, pass_bot=True, state=AuthStates.password)

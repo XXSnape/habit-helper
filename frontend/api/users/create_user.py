@@ -1,7 +1,9 @@
 from api.general import make_request
 
 
-def create_user(username: str, password: str, telegram_id: int) -> str:
+def get_access_token_for_new_user(
+    username: str, password: str, telegram_id: int
+) -> str:
     json = make_request(
         method="post",
         url="http://127.0.0.1:8000/api/users/register/",

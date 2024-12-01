@@ -3,6 +3,8 @@ import logging
 import requests
 from requests import RequestException
 
+from utils.exceptions import InvalidAccessToken
+
 logger = logging.getLogger(name=__name__)
 
 
@@ -18,7 +20,10 @@ def make_request(
         response = requests.request(
             method=method, url=url, headers=headers, json=json, params=params
         )
+        if response.status_code == requests.codes.forbidden:
+            raise InvalidAccessToken
         j = response.json()
+
         print("json", j)
         return j
     except RequestException as e:
