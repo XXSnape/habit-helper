@@ -20,7 +20,7 @@ class HabitRepository(ManagerRepository):
         cls,
         session: AsyncSession,
         user_id: int,
-        is_frozen: bool,
+        # is_frozen: bool,
         is_complete_null: bool,
     ) -> Sequence[HabitModel]:
         query = (
@@ -30,7 +30,7 @@ class HabitRepository(ManagerRepository):
                     TrackingModel.date, TrackingModel.is_done, TrackingModel.reason
                 )
             )
-            .filter_by(user_id=user_id, is_frozen=is_frozen)
+            .filter_by(user_id=user_id)
             .order_by(cls.model.is_frozen.desc())
         )
         if is_complete_null:

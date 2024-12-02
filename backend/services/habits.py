@@ -97,7 +97,7 @@ async def get_habits_by_id(
     habits = await HabitRepository.get_habits(
         session=session,
         user_id=user_id,
-        is_frozen=is_frozen,
+        # is_frozen=is_frozen,
         is_complete_null=is_complete_null,
     )
     return [

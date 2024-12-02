@@ -11,5 +11,7 @@ from .update import (
     register_change_name,
     register_change_time,
     register_change_frozen,
+    register_change_count,
+    register_change_description,
 )
 from .delete import register_delete_habit

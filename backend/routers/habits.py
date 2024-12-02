@@ -137,13 +137,13 @@ async def get_my_habits(
         Depends(db_helper.get_async_session),
     ],
     user_id: Annotated[int, Depends(get_user_id)],
-    is_frozen: bool = False,
+    # is_frozen: bool = False,
     is_complete_null: bool = True,
 ):
     habits = await get_habits_by_id(
         session=session,
         user_id=user_id,
-        is_frozen=is_frozen,
+        # is_frozen=is_frozen,
         is_complete_null=is_complete_null,
     )
     return habits

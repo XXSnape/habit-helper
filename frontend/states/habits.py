@@ -12,6 +12,8 @@ class CreateHabitStates(StatesGroup):
 class ChangeHabitStates(StatesGroup):
     name = State()
     hour = State()
+    count = State()
+    description = State()
 
 
 class ReadHabitStates(StatesGroup):
