@@ -9,7 +9,7 @@ from utils.refresh_token import get_response_and_refresh_token
 
 
 def delete_habit(callback: CallbackQuery, bot: TeleBot) -> None:
-    number = int(actions_with_habit_factory.parse(callback.data))
+    number = int(actions_with_habit_factory.parse(callback.data)["num_habit"])
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
         text = get_response_and_refresh_token(
             telegram_id=callback.from_user.id,

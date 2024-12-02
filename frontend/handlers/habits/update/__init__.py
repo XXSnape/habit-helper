@@ -1,1 +1,3 @@
 from .choosing_to_change import register_provide_with_choosing
+from .name import register_change_name
+from .hour import register_change_time

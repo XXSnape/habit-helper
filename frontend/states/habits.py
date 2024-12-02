@@ -9,6 +9,11 @@ class CreateHabitStates(StatesGroup):
     save = State()
 
 
+class ChangeHabitStates(StatesGroup):
+    name = State()
+    hour = State()
+
+
 class ReadHabitStates(StatesGroup):
     all_habits = State()
     details = State()

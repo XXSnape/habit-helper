@@ -1,12 +1,12 @@
 from enum import StrEnum, IntEnum, auto
 
 
-class HabitProperties(StrEnum):
-    NAME = "name"
-    HOUR = "hour"
-    COUNT = "count"
-    DESCRIPTION = "description"
-    IS_FROZEN = "is_frozen"
+class HabitProperties(IntEnum):
+    NAME = auto()
+    HOUR = auto()
+    COUNT = auto()
+    DESCRIPTION = auto()
+    IS_FROZEN = auto()
 
 
 class ActionsHabitEnum(IntEnum):

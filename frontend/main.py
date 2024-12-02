@@ -28,6 +28,9 @@ def register_handlers(bot: TeleBot):
     habits.register_get_habits(bot)
     habits.register_get_habit_details(bot)
     habits.register_provide_with_choosing(bot)
+    habits.register_delete_habit(bot)
+    habits.register_change_name(bot)
+    habits.register_change_time(bot)
     register_unrecognized_message(bot)
 
 
