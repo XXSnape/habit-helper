@@ -4,6 +4,7 @@ from telebot.types import Message, CallbackQuery
 from keyboards.inline.callback.callbacks import MY_HABITS_CALLBACK
 from states.habits import ReadHabitStates
 from utils.constants import TEXT_KEY
+from utils.output import get_text_from_cache
 from utils.refresh_token import get_response_and_refresh_token
 
 from api.habits.my_habits import get_my_habits_by_token
@@ -34,7 +35,7 @@ def get_my_habits_by_command(message: Message, bot: TeleBot):
 
 def get_my_habits_by_callback(callback: CallbackQuery, bot: TeleBot):
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
-        text = data[TEXT_KEY]
+        text = get_text_from_cache(data)
     bot.edit_message_text(
         message_id=callback.message.id, chat_id=callback.message.chat.id, text=text
     )

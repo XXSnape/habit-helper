@@ -9,9 +9,9 @@ from states.habits import ReadHabitStates
 
 
 def get_habit_details(message: Message, bot: TeleBot):
-    number = message.text
+    number = int(message.text)
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
-        text = get_habit_details_from_cache(data=data, number=number)
+        text = get_habit_details_from_cache(data=data, number=number - 1)
     if text is None:
         bot.send_message(
             message.chat.id, "Не нашлось номера с такой привычкой, попробуйте снова"

@@ -1,7 +1,3 @@
-from enum import StrEnum
-
-from telebot.callback_data import CallbackData
-
 from keyboards.inline.callback.callbacks import MY_HABITS_CALLBACK, CB
 from keyboards.inline.callback.constants import (
     MY_HABITS_OUTPUT,
@@ -12,29 +8,28 @@ from keyboards.inline.callback.constants import (
     DESCRIPTION_OUTPUT,
     IS_FROZEN_OUTPUT,
 )
-
-
-class HabitProperties(StrEnum):
-    NAME = "name"
-    HOUR = "hour"
-    COUNT = "count"
-    DESCRIPTION = "description"
-    IS_FROZEN = "is_frozen"
-
-
-edit_habits_factory = CallbackData("num_habit", prefix="edit_habit")
-opportunities_for_change_factory = CallbackData("num_habit", "property", prefix="edit")
+from keyboards.inline.callback.enums import HabitProperties, ActionsHabitEnum
+from keyboards.inline.callback.factories import (
+    actions_with_habit_factory,
+    opportunities_for_change_factory,
+)
 
 
 def get_my_habits_btn() -> dict[str, dict[str, str]]:
     return {MY_HABITS_OUTPUT: {CB: MY_HABITS_CALLBACK}}
 
 
-def get_selection_to_edit_btn(number: str) -> dict[str, dict[str, str]]:
-    return {EDIT_HABIT_OUTPUT: {CB: edit_habits_factory.new(num_habit=number)}}
+def get_selection_to_edit_btn(number: int) -> dict[str, dict[str, str]]:
+    return {
+        EDIT_HABIT_OUTPUT: {
+            CB: actions_with_habit_factory.new(
+                num_habit=number, action=ActionsHabitEnum.EDIT
+            )
+        }
+    }
 
 
-def get_habit_properties_buttons(number: str):
+def get_habit_properties_buttons(number: int):
     return {
         NAME_OUTPUT: {
             CB: opportunities_for_change_factory.new(

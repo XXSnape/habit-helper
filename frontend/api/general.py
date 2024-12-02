@@ -14,7 +14,7 @@ def make_request(
     headers: dict[str, str] | None = None,
     json: dict[str, str | int] | None = None,
     params: dict[str, str] | None = None,
-) -> dict | None:
+) -> list[dict] | dict | None:
 
     try:
         response = requests.request(

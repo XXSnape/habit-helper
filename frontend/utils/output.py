@@ -1,34 +1,35 @@
 from datetime import datetime
 
-from utils.constants import TEXT_KEY
+from utils.constants import HABITS_KEY
 
 
-def present_data(data: dict) -> str:
-    return "\n\n".join(
+def present_data(data: dict, initial_text="") -> str:
+    return f"<b>{initial_text}</b>\n\n" + "\n\n".join(
         f"<b><i><u>{key}</u></i></b>: {value}" for key, value in data.items()
     )
 
 
-def get_text_and_fill_in_cache(json: dict, data: dict) -> str:
+def get_text_from_cache(data: dict) -> str:
     text = (
         "Чтобы посмотреть детальную информацию о привычке, просто введите её номер\n\n"
     )
-    for ind, habit in enumerate(json, 1):
-        data[str(ind)] = habit
+    for ind, habit in enumerate(data[HABITS_KEY], 1):
         intermediate_text = f"{ind}) {habit['name']}"
         if habit["is_frozen"]:
             intermediate_text += " (приостановлена)"
         text += f"{intermediate_text}\n"
-    data[TEXT_KEY] = text
     return text
 
 
-def get_habit_details_from_cache(data: dict, number: str) -> str | None:
-    habit = data.get(number)
-    if habit is None:
+def get_habit_details_from_cache(
+    data: dict,
+    number: int,
+    initial_text: str = "",
+) -> str | None:
+    try:
+        habit = data.get(HABITS_KEY)[number]
+    except IndexError:
         return None
-    if isinstance(habit, str):
-        return habit
     created_at = datetime.strptime(
         habit["created_at"], "%Y-%m-%dT%H:%M:%S.%f"
     ).strftime("%d.%m.%Y %H:%M")
@@ -41,6 +42,5 @@ def get_habit_details_from_cache(data: dict, number: str) -> str | None:
         "Приостановлена": "Да" if habit["is_frozen"] else "Нет",
         "Дата и время создания": created_at,
     }
-    output = present_data(details)
-    data[number] = output
+    output = present_data(details, initial_text=initial_text)
     return output

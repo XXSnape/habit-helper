@@ -1,5 +1,6 @@
 from api.general import make_request
-from utils.output import get_text_and_fill_in_cache
+from utils.constants import HABITS_KEY
+from utils.output import get_text_from_cache
 
 
 def get_my_habits_by_token(access_token: str, data: dict) -> str | None:
@@ -10,4 +11,5 @@ def get_my_habits_by_token(access_token: str, data: dict) -> str | None:
     )
     if not json:
         return None
-    return get_text_and_fill_in_cache(json=json, data=data)
+    data[HABITS_KEY] = json
+    return get_text_from_cache(data=data)
