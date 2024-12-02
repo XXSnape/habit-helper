@@ -5,7 +5,6 @@ from telebot.custom_filters import StateFilter
 
 import handlers.auth as auth
 import handlers.habits as habits
-
 from handlers.default.cancel import register_cancel
 from handlers.default.unrecognized import register_unrecognized_message
 from keyboards.inline.filters.habits import EditHabitCallbackFilter
@@ -34,6 +33,7 @@ def register_handlers(bot: TeleBot):
     habits.register_change_frozen(bot)
     habits.register_change_count(bot)
     habits.register_change_description(bot)
+    habits.register_calendar(bot)
     register_unrecognized_message(bot)
 
 
