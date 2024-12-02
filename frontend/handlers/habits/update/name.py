@@ -27,7 +27,6 @@ def change_name(message: Message, bot: TeleBot):
     change_property_by_message(message=message, bot=bot, key="name")
 
 
-
 def register_change_name(bot: TeleBot):
     bot.register_callback_query_handler(
         request_new_name,
