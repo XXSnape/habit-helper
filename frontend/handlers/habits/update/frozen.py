@@ -1,12 +1,10 @@
 from telebot import TeleBot
 from telebot.types import CallbackQuery
 
-from api.habits.update_habit import update_habit
 from keyboards.inline.callback.enums import HabitProperties
 from keyboards.inline.callback.factories import opportunities_for_change_factory
-from keyboards.inline.keypads.habits import get_actions_with_habit_kb
-from utils.constants import TOKEN_KEY, HABITS_KEY
-from utils.refresh_token import get_response_and_refresh_token
+from utils.constants import HABITS_KEY
+from utils.routers_assistants import change_property_by_callback
 
 
 def change_frozen_property(callback: CallbackQuery, bot: TeleBot):
@@ -15,25 +13,14 @@ def change_frozen_property(callback: CallbackQuery, bot: TeleBot):
             int(opportunities_for_change_factory.parse(callback.data)["num_habit"]) - 1
         )
         is_frozen_now = data[HABITS_KEY][number]["is_frozen"]
-        text = get_response_and_refresh_token(
-            telegram_id=callback.from_user.id,
-            func=update_habit,
-            access_token=data[TOKEN_KEY],
-            number=number,
+        change_property_by_callback(
+            callback=callback,
+            bot=bot,
+            message=f"Привычка успешно {"разморожена" if is_frozen_now else "заморожена"}!",
             new_data={"is_frozen": not is_frozen_now},
-            cache=data,
+            data=data,
+            number=number,
         )
-    bot.answer_callback_query(
-        callback_query_id=callback.id,
-        text=f"Привычка успешно {"разморожена" if is_frozen_now else "заморожена"}!",
-        show_alert=True,
-    )
-    bot.edit_message_text(
-        message_id=callback.message.id,
-        chat_id=callback.message.chat.id,
-        text=text,
-        reply_markup=get_actions_with_habit_kb(number),
-    )
 
 
 def register_change_frozen(bot: TeleBot):

@@ -1,63 +1,42 @@
 from telebot import TeleBot
 from telebot.types import CallbackQuery
 
-from api.habits.update_habit import update_habit
 from keyboards.inline.callback.enums import HabitProperties
 from keyboards.inline.callback.factories import opportunities_for_change_factory
-from keyboards.inline.keypads.habits import get_actions_with_habit_kb
 from keyboards.inline.keypads.time import get_hour_selection_and_back_kb
-from states.habits import ChangeHabitStates, ReadHabitStates
-from utils.constants import HABITS_KEY, CONTEXT_KEY, TOKEN_KEY
-from utils.refresh_token import get_response_and_refresh_token
+from states.habits import ChangeHabitStates
+from utils.constants import HABITS_KEY, CONTEXT_KEY
+from utils.routers_assistants import request_new_property, change_property_by_callback
 
 
 def request_new_time(callback: CallbackQuery, bot: TeleBot):
-    bot.set_state(
-        user_id=callback.from_user.id,
-        chat_id=callback.from_user.id,
-        state=ChangeHabitStates.hour,
-    )
-    number = int(opportunities_for_change_factory.parse(callback.data)["num_habit"])
+    number = int(opportunities_for_change_factory.parse(callback.data)["num_habit"]) - 1
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
         last_time = (
             f"{str(data[HABITS_KEY][number - 1]['notification_hour']).zfill(2)}:00"
         )
-        data[CONTEXT_KEY] = number - 1
-    bot.edit_message_text(
-        message_id=callback.message.id,
-        chat_id=callback.message.chat.id,
-        text=f"Выберете другое время, вместо {last_time}",
-        reply_markup=get_hour_selection_and_back_kb(number),
+        data[CONTEXT_KEY] = number
+
+    request_new_property(
+        callback=callback,
+        bot=bot,
+        new_state=ChangeHabitStates.hour,
+        message=f"Выберете другое время, вместо {last_time}",
+        number=number,
+        reply_markup=get_hour_selection_and_back_kb,
     )
 
 
 def change_time(callback: CallbackQuery, bot: TeleBot):
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
-        number = data[CONTEXT_KEY]
-        text = get_response_and_refresh_token(
-            telegram_id=callback.from_user.id,
-            func=update_habit,
-            access_token=data[TOKEN_KEY],
-            number=number,
+        change_property_by_callback(
+            callback=callback,
+            bot=bot,
+            message="Привычка успешно обновлена!",
             new_data={"notification_hour": int(callback.data)},
-            cache=data,
+            data=data,
+            number=data[CONTEXT_KEY],
         )
-    bot.set_state(
-        chat_id=callback.from_user.id,
-        user_id=callback.from_user.id,
-        state=ReadHabitStates.details,
-    )
-    bot.answer_callback_query(
-        callback_query_id=callback.id,
-        text="Привычка успешно обновлена!",
-        show_alert=True,
-    )
-    bot.edit_message_text(
-        message_id=callback.message.id,
-        chat_id=callback.message.chat.id,
-        text=text,
-        reply_markup=get_actions_with_habit_kb(number),
-    )
 
 
 def register_change_time(bot: TeleBot):
