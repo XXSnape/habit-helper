@@ -4,6 +4,7 @@ from telebot.types import CallbackQuery
 from keyboards.inline.callback.enums import ActionsHabitEnum
 from keyboards.inline.callback.factories import actions_with_habit_factory
 from keyboards.inline.keypads.habits import get_properties_to_change_kb
+from utils.constants import HABITS_KEY
 from utils.output import get_habit_details_from_cache
 
 
@@ -14,11 +15,12 @@ def provide_with_choosing_to_change(callback: CallbackQuery, bot: TeleBot):
         text = get_habit_details_from_cache(
             data=data, number=number - 1, initial_text="Выберете атрибут для изменения"
         )
+        is_frozen = data[HABITS_KEY][number - 1]["is_frozen"]
     bot.edit_message_text(
         message_id=callback.message.id,
         chat_id=callback.message.chat.id,
         text=text,
-        reply_markup=get_properties_to_change_kb(number),
+        reply_markup=get_properties_to_change_kb(number, iz_frozen=is_frozen),
     )
 
 

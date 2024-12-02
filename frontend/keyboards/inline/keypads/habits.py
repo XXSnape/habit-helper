@@ -22,5 +22,7 @@ def get_actions_with_habit_kb(number: int) -> InlineKeyboardMarkup:
     )
 
 
-def get_properties_to_change_kb(number: int) -> InlineKeyboardMarkup:
-    return create_keyboard(get_habit_properties_buttons(number), get_my_habits_btn())
+def get_properties_to_change_kb(number: int, iz_frozen: bool) -> InlineKeyboardMarkup:
+    return create_keyboard(
+        get_habit_properties_buttons(number, iz_frozen), get_my_habits_btn()
+    )

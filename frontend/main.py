@@ -31,6 +31,7 @@ def register_handlers(bot: TeleBot):
     habits.register_delete_habit(bot)
     habits.register_change_name(bot)
     habits.register_change_time(bot)
+    habits.register_change_frozen(bot)
     register_unrecognized_message(bot)
 
 

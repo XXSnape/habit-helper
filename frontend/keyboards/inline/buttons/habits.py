@@ -8,6 +8,7 @@ from keyboards.inline.callback.constants import (
     DESCRIPTION_OUTPUT,
     IS_FROZEN_OUTPUT,
     DELETE_HABIT_OUTPUT,
+    IS_UNFROZEN_OUTPUT,
 )
 from keyboards.inline.callback.enums import HabitProperties, ActionsHabitEnum
 from keyboards.inline.callback.factories import (
@@ -42,8 +43,8 @@ def get_deleting_habit_btn(number: int) -> dict[str, dict[str, str]]:
     }
 
 
-def get_habit_properties_buttons(number: int):
-    return {
+def get_habit_properties_buttons(number: int, iz_frozen):
+    values = {
         NAME_OUTPUT: {
             CB: opportunities_for_change_factory.new(
                 num_habit=number, property=HabitProperties.NAME
@@ -64,9 +65,14 @@ def get_habit_properties_buttons(number: int):
                 num_habit=number, property=HabitProperties.DESCRIPTION
             )
         },
-        IS_FROZEN_OUTPUT: {
-            CB: opportunities_for_change_factory.new(
-                num_habit=number, property=HabitProperties.IS_FROZEN
-            )
-        },
     }
+    data = {
+        CB: opportunities_for_change_factory.new(
+            num_habit=number, property=HabitProperties.IS_FROZEN
+        )
+    }
+    if iz_frozen is False:
+        values[IS_FROZEN_OUTPUT] = data
+    else:
+        values[IS_UNFROZEN_OUTPUT] = data
+    return values

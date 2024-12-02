@@ -10,5 +10,6 @@ from .update import (
     register_provide_with_choosing,
     register_change_name,
     register_change_time,
+    register_change_frozen,
 )
 from .delete import register_delete_habit
