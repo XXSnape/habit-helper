@@ -2,7 +2,7 @@ from telebot import TeleBot
 from telebot.types import CallbackQuery
 
 from keyboards.inline.keypads.cancel import get_refusal_to_describe_kb
-from states.habits import HabitsStates
+from states.habits import CreateHabitStates
 from utils.constants import HOUR_KEY
 
 
@@ -18,11 +18,14 @@ def request_description(callback: CallbackQuery, bot: TeleBot):
     bot.set_state(
         user_id=callback.from_user.id,
         chat_id=callback.message.chat.id,
-        state=HabitsStates.save,
+        state=CreateHabitStates.save,
     )
 
 
 def register_get_description(bot: TeleBot):
     bot.register_callback_query_handler(
-        request_description, pass_bot=True, func=lambda c: True, state=HabitsStates.hour
+        request_description,
+        pass_bot=True,
+        func=lambda c: True,
+        state=CreateHabitStates.hour,
     )

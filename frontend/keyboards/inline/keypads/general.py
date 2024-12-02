@@ -3,13 +3,10 @@ from telebot.util import quick_markup
 
 
 def create_keyboard(
-    *buttons: InlineKeyboardButton,
-    values: dict[str, dict[str, str]] | None = None,
-    row_width=1
+    *values: dict[str, dict[str, str]], row_width=1
 ) -> InlineKeyboardMarkup:
-    if buttons:
-        markup = InlineKeyboardMarkup(row_width=row_width)
-        for btn in buttons:
-            markup.add(btn)
-        return markup
-    return quick_markup(values, row_width)
+    all_values = {}
+    for value in values:
+        all_values.update(value)
+
+    return quick_markup(all_values, row_width)

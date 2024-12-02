@@ -31,6 +31,7 @@ class HabitRepository(ManagerRepository):
                 )
             )
             .filter_by(user_id=user_id, is_frozen=is_frozen)
+            .order_by(cls.model.is_frozen.desc())
         )
         if is_complete_null:
             query = query.filter(cls.model.completed_at == null())

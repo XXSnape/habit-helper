@@ -8,6 +8,7 @@ import handlers.habits as habits
 
 from handlers.default.cancel import register_cancel
 from handlers.default.unrecognized import register_unrecognized_message
+from keyboards.inline.filters.habits import EditHabitCallbackFilter
 from loader import bot
 from handlers.default.start import register_help
 from middlewares.logging import LoggingMiddleware
@@ -25,6 +26,8 @@ def register_handlers(bot: TeleBot):
     habits.register_get_description(bot)
     habits.register_save_habit(bot)
     habits.register_get_habits(bot)
+    habits.register_get_habit_details(bot)
+    habits.register_provide_with_choosing(bot)
     register_unrecognized_message(bot)
 
 
@@ -37,5 +40,6 @@ if __name__ == "__main__":
     logger.info("start bot")
     bot.add_custom_filter(StateFilter(bot))
     bot.setup_middleware(LoggingMiddleware())
+    bot.add_custom_filter(EditHabitCallbackFilter())
     register_handlers(bot)
     bot.polling()

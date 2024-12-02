@@ -2,7 +2,7 @@ from telebot import TeleBot
 from telebot.types import Message
 
 from keyboards.inline.keypads.cancel import get_cancel_kb
-from states.habits import HabitsStates
+from states.habits import CreateHabitStates
 from utils.constants import NAME_KEY
 
 
@@ -16,7 +16,7 @@ def request_count(message: Message, bot: TeleBot):
         reply_markup=get_cancel_kb(),
     )
     bot.set_state(
-        user_id=message.chat.id, chat_id=message.chat.id, state=HabitsStates.count
+        user_id=message.chat.id, chat_id=message.chat.id, state=CreateHabitStates.count
     )
 
 
@@ -29,11 +29,13 @@ def handle_invalid_count(message: Message, bot: TeleBot):
 
 
 def register_get_count(bot: TeleBot):
-    bot.register_message_handler(request_count, pass_bot=True, state=HabitsStates.name)
+    bot.register_message_handler(
+        request_count, pass_bot=True, state=CreateHabitStates.name
+    )
     bot.register_message_handler(
         handle_invalid_count,
         func=lambda msg: (msg.text.isdigit() and int(msg.text) in range(1, 366))
         is False,
         pass_bot=True,
-        state=HabitsStates.count,
+        state=CreateHabitStates.count,
     )

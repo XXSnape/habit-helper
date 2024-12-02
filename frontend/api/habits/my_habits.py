@@ -1,10 +1,13 @@
 from api.general import make_request
+from utils.output import get_text_and_fill_in_cache
 
 
-def get_my_habits_by_token(access_token: str):
+def get_my_habits_by_token(access_token: str, data: dict) -> str | None:
     json = make_request(
         method="get",
         url="http://127.0.0.1:8000/api/habits/me/",
         headers={"Authorization": f"Bearer {access_token}"},
     )
-    return json
+    if not json:
+        return None
+    return get_text_and_fill_in_cache(json=json, data=data)

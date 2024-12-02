@@ -3,13 +3,13 @@ from telebot.types import Message
 
 from handlers.default.registration_error import check_registration
 from keyboards.inline.keypads.cancel import get_cancel_kb
-from states.habits import HabitsStates
+from states.habits import CreateHabitStates
 from utils.constants import TOKEN_KEY
 
 
 def request_name(message: Message, bot: TeleBot):
     bot.set_state(
-        user_id=message.chat.id, chat_id=message.chat.id, state=HabitsStates.name
+        user_id=message.chat.id, chat_id=message.chat.id, state=CreateHabitStates.name
     )
     token = check_registration(message.chat.id, bot)
     if token is None:

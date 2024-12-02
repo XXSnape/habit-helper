@@ -20,6 +20,7 @@ class TrackingSchema(BaseModel):
 
 class HabitOutputSchema(HabitSchema):
     id: int
+    is_frozen: bool
     created_at: datetime | None
     tracking: list[TrackingSchema]
 
