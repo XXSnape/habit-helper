@@ -24,7 +24,7 @@ def delete_habit(callback: CallbackQuery, bot: TeleBot) -> None:
     bot.edit_message_text(
         message_id=callback.message.id,
         chat_id=callback.message.chat.id,
-        text=text,
+        text="Нет ни одной привычки" if text is None else text,
     )
 
 

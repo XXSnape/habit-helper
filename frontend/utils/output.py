@@ -9,15 +9,18 @@ def present_data(data: dict, initial_text="") -> str:
     )
 
 
-def get_text_from_cache(data: dict) -> str:
+def get_text_from_cache(data: dict) -> str | None:
     text = (
         "Чтобы посмотреть детальную информацию о привычке, просто введите её номер\n\n"
     )
+    if len(data[HABITS_KEY]) == 0:
+        return None
     for ind, habit in enumerate(data[HABITS_KEY], 1):
         intermediate_text = f"{ind}) {habit['name']}"
         if habit["is_frozen"]:
             intermediate_text += " (приостановлена)"
         text += f"{intermediate_text}\n"
+
     return text
 
 

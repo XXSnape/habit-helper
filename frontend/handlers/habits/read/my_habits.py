@@ -36,6 +36,9 @@ def get_my_habits_by_command(message: Message, bot: TeleBot):
 def get_my_habits_by_callback(callback: CallbackQuery, bot: TeleBot):
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
         text = get_text_from_cache(data)
+    if text is None:
+        bot.send_message(callback.from_user.id, "Нет ни одной привычки.")
+        return
     bot.edit_message_text(
         message_id=callback.message.id, chat_id=callback.message.chat.id, text=text
     )

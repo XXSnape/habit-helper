@@ -12,3 +12,4 @@ class HabitProperties(IntEnum):
 class ActionsHabitEnum(IntEnum):
     EDIT = auto()
     DELETE = auto()
+    VIEW = auto()

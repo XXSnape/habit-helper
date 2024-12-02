@@ -9,6 +9,7 @@ from keyboards.inline.callback.constants import (
     IS_FROZEN_OUTPUT,
     DELETE_HABIT_OUTPUT,
     IS_UNFROZEN_OUTPUT,
+    STATISTIC_OUTPUT,
 )
 from keyboards.inline.callback.enums import HabitProperties, ActionsHabitEnum
 from keyboards.inline.callback.factories import (
@@ -28,6 +29,16 @@ def get_selection_to_edit_btn(
         key: {
             CB: actions_with_habit_factory.new(
                 num_habit=number, action=ActionsHabitEnum.EDIT
+            )
+        }
+    }
+
+
+def get_statistics_btn(number: int) -> dict[str, dict[str, str]]:
+    return {
+        STATISTIC_OUTPUT: {
+            CB: actions_with_habit_factory.new(
+                num_habit=number, action=ActionsHabitEnum.VIEW
             )
         }
     }
