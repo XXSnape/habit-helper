@@ -21,6 +21,5 @@ class UserRepository(ManagerRepository):
             )
             .order_by(cls.model.telegram_id)
         )
-        print(query)
         result = await session.execute(query)
         return result.all()
