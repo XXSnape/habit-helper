@@ -21,6 +21,8 @@ def register_handlers(bot: TeleBot):
     auth.register_username(bot)
     auth.register_password(bot)
     auth.register_saving_user(bot)
+    auth.register_log_in_username(bot)
+    auth.register_log_in_password(bot)
     habits.register_get_name(bot)
     habits.register_get_count(bot)
     habits.register_get_hour(bot)
