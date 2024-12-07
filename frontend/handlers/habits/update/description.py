@@ -11,7 +11,7 @@ from utils.routers_assistants import request_new_property, change_property_by_me
 
 
 def request_new_description(callback: CallbackQuery, bot: TeleBot):
-    number = int(opportunities_for_change_factory.parse(callback.data)["num_habit"]) - 1
+    number = int(opportunities_for_change_factory.parse(callback.data)["num_habit"])
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
         old_name = data[HABITS_KEY][number]["name"]
         data[CONTEXT_KEY] = number

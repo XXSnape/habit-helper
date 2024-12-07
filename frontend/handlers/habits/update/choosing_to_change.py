@@ -13,9 +13,9 @@ def provide_with_choosing_to_change(callback: CallbackQuery, bot: TeleBot):
     number = int(callback_data["num_habit"])
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
         text = get_habit_details_from_cache(
-            data=data, number=number - 1, initial_text="Выберете атрибут для изменения"
+            data=data, number=number, initial_text="Выберете атрибут для изменения"
         )
-        is_frozen = data[HABITS_KEY][number - 1]["is_frozen"]
+        is_frozen = data[HABITS_KEY][number]["is_frozen"]
     bot.edit_message_text(
         message_id=callback.message.id,
         chat_id=callback.message.chat.id,

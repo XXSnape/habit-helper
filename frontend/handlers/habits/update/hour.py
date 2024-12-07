@@ -10,11 +10,9 @@ from utils.routers_assistants import request_new_property, change_property_by_ca
 
 
 def request_new_time(callback: CallbackQuery, bot: TeleBot):
-    number = int(opportunities_for_change_factory.parse(callback.data)["num_habit"]) - 1
+    number = int(opportunities_for_change_factory.parse(callback.data)["num_habit"])
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
-        last_time = (
-            f"{str(data[HABITS_KEY][number - 1]['notification_hour']).zfill(2)}:00"
-        )
+        last_time = f"{str(data[HABITS_KEY][number]['notification_hour']).zfill(2)}:00"
         data[CONTEXT_KEY] = number
 
     request_new_property(

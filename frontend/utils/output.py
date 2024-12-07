@@ -15,7 +15,7 @@ def get_text_from_cache(data: dict) -> str | None:
     )
     if len(data[HABITS_KEY]) == 0:
         return None
-    for ind, habit in enumerate(data[HABITS_KEY], 1):
+    for ind, habit in enumerate(data[HABITS_KEY][1:], 1):
         intermediate_text = f"{ind}) {habit['name']}"
         if habit["is_frozen"]:
             intermediate_text += " (приостановлена)"

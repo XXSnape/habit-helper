@@ -9,9 +9,7 @@ from utils.routers_assistants import change_property_by_callback
 
 def change_frozen_property(callback: CallbackQuery, bot: TeleBot):
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
-        number = (
-            int(opportunities_for_change_factory.parse(callback.data)["num_habit"]) - 1
-        )
+        number = int(opportunities_for_change_factory.parse(callback.data)["num_habit"])
         is_frozen_now = data[HABITS_KEY][number]["is_frozen"]
         change_property_by_callback(
             callback=callback,

@@ -11,5 +11,7 @@ def get_my_habits_by_token(access_token: str, data: dict) -> str | None:
     )
     if not json:
         return None
+    json.insert(0, None)
+    print("j", json)
     data[HABITS_KEY] = json
     return get_text_from_cache(data=data)
