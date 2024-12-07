@@ -1,5 +1,6 @@
 import logging
 
+from apscheduler.schedulers.background import BackgroundScheduler
 from telebot import TeleBot
 from telebot.custom_filters import StateFilter
 
@@ -11,6 +12,7 @@ from keyboards.inline.filters.habits import EditHabitCallbackFilter
 from loader import bot
 from handlers.default.start import register_help
 from middlewares.logging import LoggingMiddleware
+from utils.scheduler.settings import register_tasks
 
 
 def register_handlers(bot: TeleBot):
@@ -50,4 +52,8 @@ if __name__ == "__main__":
     bot.setup_middleware(LoggingMiddleware())
     bot.add_custom_filter(EditHabitCallbackFilter())
     register_handlers(bot)
+    # scheduler = BackgroundScheduler()
+    # scheduler.configure(timezone="Europe/Moscow")
+    # register_tasks(scheduler=scheduler, bot=bot)
+    # scheduler.start()
     bot.polling()
