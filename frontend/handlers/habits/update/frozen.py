@@ -4,7 +4,7 @@ from telebot.types import CallbackQuery
 from keyboards.inline.callback.enums import HabitProperties
 from keyboards.inline.callback.factories import opportunities_for_change_factory
 from utils.constants import HABITS_KEY
-from utils.routers_assistants import change_property_by_callback
+from utils.router_assistants.update_habit import change_property_by_callback
 
 
 def change_frozen_property(callback: CallbackQuery, bot: TeleBot):

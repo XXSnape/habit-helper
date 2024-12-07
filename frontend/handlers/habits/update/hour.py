@@ -6,7 +6,10 @@ from keyboards.inline.callback.factories import opportunities_for_change_factory
 from keyboards.inline.keypads.time import get_hour_selection_and_back_kb
 from states.habits import ChangeHabitStates
 from utils.constants import HABITS_KEY, CONTEXT_KEY
-from utils.routers_assistants import request_new_property, change_property_by_callback
+from utils.router_assistants.update_habit import (
+    request_new_property,
+    change_property_by_callback,
+)
 
 
 def request_new_time(callback: CallbackQuery, bot: TeleBot):

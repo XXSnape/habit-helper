@@ -7,7 +7,10 @@ from keyboards.inline.callback.factories import opportunities_for_change_factory
 
 from states.habits import ChangeHabitStates
 from utils.constants import CONTEXT_KEY, HABITS_KEY
-from utils.routers_assistants import request_new_property, change_property_by_message
+from utils.router_assistants.update_habit import (
+    request_new_property,
+    change_property_by_message,
+)
 
 
 def request_new_description(callback: CallbackQuery, bot: TeleBot):

@@ -3,21 +3,63 @@ from calendar import monthrange
 
 from telegram_bot_calendar.base import *
 
+from keyboards.inline.callback.callbacks import CALL_OFF_CALLBACK, MY_HABITS_CALLBACK
+from keyboards.inline.callback.constants import CALL_OFF_OUTPUT
+from keyboards.inline.callback.enums import ActionsHabitEnum
+from keyboards.inline.callback.factories import actions_with_habit_factory
+from utils.constants import (
+    HABITS_KEY,
+    IS_DONE_KEY,
+    IS_NOT_DONE_KEY,
+    REASONS_KEY,
+    MIN_DATE_KEY,
+    MAX_DATE_KEY,
+)
+from datetime import date, datetime
+
+RU_LSTEP = {"y": "год", "m": "месяц", "d": "день"}
+
 
 class CustomCalendar(WMonthTelegramCalendar):
+    prev_button = "⬅️"
+    next_button = "➡️"
+    # empty_month_button = "❌"
+    # empty_year_button = "❌"
+    # empty_nav_button = "❌"
+
     def __init__(
         self,
-        completed: set[str],
-        not_completed: set[str],
+        completed: list[str],
+        not_completed: list[str],
+        number: int,
         calendar_id=0,
         current_date=None,
         additional_buttons=None,
-        locale="en",
+        locale="ru",
         min_date=None,
         max_date=None,
         telethon=False,
         **kwargs
     ):
+        if additional_buttons is None:
+            additional_buttons = [
+                {
+                    "text": "Назад",
+                    "callback_data": number,
+                },
+                {
+                    "text": "Все привычки",
+                    "callback_data": MY_HABITS_CALLBACK,
+                },
+            ]
+        if (
+            isinstance(min_date, str)
+            and isinstance(current_date, str)
+            and isinstance(max_date, str)
+        ):
+            min_date = datetime.strptime(min_date, "%Y-%m-%d").date()
+            max_date = datetime.strptime(max_date, "%Y-%m-%d").date()
+            current_date = datetime.strptime(current_date, "%Y-%m-%d").date()
         super(DetailedTelegramCalendar, self).__init__(
             calendar_id,
             current_date=current_date,
@@ -32,7 +74,7 @@ class CustomCalendar(WMonthTelegramCalendar):
         self.completed = completed
         self.not_completed = not_completed
 
-    def _get_decorated_button(self, current_date: date):
+    def _get_decorated_button(self, current_date: date) -> str:
         if str(current_date) in self.completed:
             return "🟢" + str(current_date.day)
         if str(current_date) in self.not_completed:
@@ -88,3 +130,43 @@ class CustomCalendar(WMonthTelegramCalendar):
         #         'text': text,
         #         'callback_data': self._build_callback(action, step, data, is_random=is_random)
         #     }
+
+
+def get_completed_and_unfulfilled_dates(
+    number: int, data: dict
+) -> tuple[list[str], list[str]]:
+    try:
+        return (
+            data[HABITS_KEY][number][IS_DONE_KEY],
+            data[HABITS_KEY][number][IS_NOT_DONE_KEY],
+        )
+    except KeyError:
+        reasons = {}
+        is_done_habits = []
+        is_not_done_habits = []
+        min_date = datetime.now().date()
+        max_date = None
+        for tracking in data[HABITS_KEY][number]["tracking"]:
+            current_date = tracking["date"]
+            if tracking["is_done"] is True:
+                is_done_habits.append(current_date)
+            else:
+                is_not_done_habits.append(current_date)
+                reasons[current_date] = tracking["reason"]
+            min_date = min(min_date, datetime.strptime(current_date, "%Y-%m-%d").date())
+            if max_date is None:
+                max_date = datetime.strptime(current_date, "%Y-%m-%d").date()
+            else:
+                max_date = max(
+                    max_date, datetime.strptime(current_date, "%Y-%m-%d").date()
+                )
+        data[HABITS_KEY][number].update(
+            {
+                IS_DONE_KEY: is_done_habits,
+                IS_NOT_DONE_KEY: is_not_done_habits,
+                REASONS_KEY: reasons,
+                MIN_DATE_KEY: str(min_date),
+                MAX_DATE_KEY: str(max_date),
+            }
+        )
+        return is_done_habits, is_not_done_habits

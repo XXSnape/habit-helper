@@ -8,7 +8,10 @@ from keyboards.inline.keypads.habits import (
 )
 from states.habits import ChangeHabitStates
 from utils.constants import CONTEXT_KEY, HABITS_KEY
-from utils.routers_assistants import request_new_property, change_property_by_message
+from utils.router_assistants.update_habit import (
+    request_new_property,
+    change_property_by_message,
+)
 
 
 def request_new_count(
