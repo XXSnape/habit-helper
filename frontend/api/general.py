@@ -13,7 +13,7 @@ def make_request(
     url: str,
     headers: dict[str, str] | None = None,
     json: dict[str, str | int] | None = None,
-    params: dict[str, str] | None = None,
+    params: dict[str, str | int] | None = None,
 ) -> list[dict] | dict | None:
 
     try:

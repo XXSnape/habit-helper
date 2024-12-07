@@ -8,7 +8,6 @@ from utils.constants import NAME_KEY
 
 def request_count(message: Message, bot: TeleBot):
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
-        print("data2", data)
         data[NAME_KEY] = message.text
     bot.send_message(
         message.chat.id,

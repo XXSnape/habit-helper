@@ -15,7 +15,7 @@ def delete_habit(callback: CallbackQuery, bot: TeleBot) -> None:
             telegram_id=callback.from_user.id,
             func=delete_habit_by_id,
             access_token=data[TOKEN_KEY],
-            number=number - 1,
+            number=number,
             data=data,
         )
     bot.answer_callback_query(

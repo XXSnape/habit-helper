@@ -1,4 +1,8 @@
-from keyboards.inline.callback.callbacks import MY_HABITS_CALLBACK, CB
+from keyboards.inline.callback.callbacks import (
+    MY_HABITS_CALLBACK,
+    CB,
+    REJECTION_REASON_CALLBACK,
+)
 from keyboards.inline.callback.constants import (
     MY_HABITS_OUTPUT,
     EDIT_HABIT_OUTPUT,
@@ -10,16 +14,35 @@ from keyboards.inline.callback.constants import (
     DELETE_HABIT_OUTPUT,
     IS_UNFROZEN_OUTPUT,
     STATISTIC_OUTPUT,
+    HABIT_COMPLETED_OUTPUT,
+    HABIT_NOT_COMPLETED_OUTPUT,
+    REJECTION_REASON_OUTPUT,
 )
 from keyboards.inline.callback.enums import HabitProperties, ActionsHabitEnum
 from keyboards.inline.callback.factories import (
     actions_with_habit_factory,
     opportunities_for_change_factory,
+    mark_habit_factory,
 )
 
 
 def get_my_habits_btn() -> dict[str, dict[str, str]]:
     return {MY_HABITS_OUTPUT: {CB: MY_HABITS_CALLBACK}}
+
+
+def get_tagging_buttons(habit_id: int, date: str) -> dict[str, dict[str, str]]:
+    return {
+        HABIT_COMPLETED_OUTPUT: {
+            CB: mark_habit_factory.new(habit_id=habit_id, date=date, is_done="1")
+        },
+        HABIT_NOT_COMPLETED_OUTPUT: {
+            CB: mark_habit_factory.new(habit_id=habit_id, date=date, is_done="0")
+        },
+    }
+
+
+def get_reason_waiver_btn() -> dict[str, dict[str, str]]:
+    return {REJECTION_REASON_OUTPUT: {CB: REJECTION_REASON_CALLBACK}}
 
 
 def get_selection_to_edit_btn(

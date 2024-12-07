@@ -19,3 +19,7 @@ class ChangeHabitStates(StatesGroup):
 class ReadHabitStates(StatesGroup):
     all_habits = State()
     details = State()
+
+
+class MarkHabitStates(StatesGroup):
+    reason = State()
