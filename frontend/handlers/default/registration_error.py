@@ -11,7 +11,8 @@ def check_registration(telegram_id: int, bot: TeleBot) -> str | None:
     if not token:
         bot.send_message(
             telegram_id,
-            "Пожалуйста, пройдите регистрацию",
+            "Пожалуйста, пройдите регистрацию или войдите в свой аккаунт.\n"
+            "Учтите, что после этого вы не сможете войти в другой аккаунт.",
             reply_markup=get_auth_request_kb(),
         )
         bot.delete_state(telegram_id, telegram_id)

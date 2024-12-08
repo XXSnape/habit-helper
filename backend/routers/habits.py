@@ -159,24 +159,3 @@ async def get_users_habits(
 ):
     result = await get_users_habits_by_hour(session=session, hour=notification_hour)
     return result
-
-
-@router.patch("change-reason/{habit_id}/", response_model=ResultSchema)
-async def change_reason(
-    session: Annotated[
-        AsyncSession,
-        Depends(db_helper.get_async_session),
-    ],
-    habit_id: int,
-    user_id: Annotated[int, Depends(get_user_id)],
-    reason_in: ReasonChangeSchema,
-    date: str,
-):
-    result = await change_habit_reason_by_id(
-        session=session,
-        habit_id=habit_id,
-        user_id=user_id,
-        new_reason=reason_in.reason,
-        date=date,
-    )
-    return ResultSchema(result=result)

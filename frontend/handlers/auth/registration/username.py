@@ -4,19 +4,14 @@ from telebot.types import CallbackQuery
 from keyboards.inline.callback.callbacks import REGISTRATION_CALLBACK
 from keyboards.inline.keypads.cancel import get_cancel_kb
 from states.auth import AuthStates
+from utils.router_assistants.auth import ask_for_username
 
 
 def request_username(callback: CallbackQuery, bot: TeleBot):
-    bot.set_state(
-        user_id=callback.from_user.id,
-        chat_id=callback.message.chat.id,
+    ask_for_username(
+        callback=callback,
+        bot=bot,
         state=AuthStates.username,
-    )
-    bot.edit_message_text(
-        message_id=callback.message.id,
-        chat_id=callback.message.chat.id,
-        text=f"Пожалуйста, введите никнейм для использования бота.",
-        reply_markup=get_cancel_kb(),
     )
 
 

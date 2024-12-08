@@ -13,3 +13,7 @@ class UserCreate(UserSchema):
 class UserHabitSchema(UserSchema):
     id: int
     name: str
+
+
+class UserChangeTelegramIdSchema(UserCreate):
+    telegram_id: int

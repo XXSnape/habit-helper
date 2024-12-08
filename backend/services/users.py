@@ -6,6 +6,8 @@ from schemas.users import UserCreate, UserSchema, UserHabitSchema
 from repositories.users import UserRepository
 from utils.auth import hash_password, validate_password
 
+from backend.schemas.users import UserChangeTelegramIdSchema
+
 
 async def create_user(session: AsyncSession, user_in: UserCreate) -> int:
     data = user_in.model_dump()
@@ -44,3 +46,33 @@ async def verify_username(session: AsyncSession, username: str) -> bool:
         session=session, data={"username": username}
     )
     return bool(result)
+
+
+async def change_telegram_id_by_credentials(
+    session: AsyncSession, user_in: UserChangeTelegramIdSchema
+) -> tuple[int, int]:
+    unauthed_exc = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Invalid username or password",
+    )
+    user: UserModel | None = await UserRepository.get_object_by_params(
+        session=session,
+        data={
+            "username": user_in.username,
+        },
+    )
+    if (
+        user is None
+        or validate_password(password=user_in.password, hashed_password=user.password)
+        is False
+    ):
+        print("not comp")
+        raise unauthed_exc
+    last_telegram_id = user.telegram_id
+    user_id = user.id
+    await UserRepository.update_object_by_params(
+        session=session,
+        filter_data={"id": user.id},
+        update_data={"telegram_id": user_in.telegram_id},
+    )
+    return last_telegram_id, user_id

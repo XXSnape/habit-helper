@@ -20,6 +20,7 @@ def make_request(
         response = requests.request(
             method=method, url=url, headers=headers, json=json, params=params
         )
+        print("current", response.status_code, requests.codes.unauthorized)
         if response.status_code == requests.codes.unauthorized:
             raise InvalidAccessToken()
         j = response.json()

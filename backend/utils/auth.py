@@ -4,7 +4,6 @@ import bcrypt
 import jwt
 
 from core.config import settings
-from schemas.tokens import TokenSchema
 
 
 def encode_jwt(
@@ -63,7 +62,8 @@ def validate_password(
     )
 
 
-def get_access_token(user_id: int):
+def get_access_token(user_id: int) -> str:
     payload = {"sub": str(user_id)}
     token = encode_jwt(payload=payload)
-    return TokenSchema(access_token=token)
+    return token
+    # return TokenSchema(access_token=token)

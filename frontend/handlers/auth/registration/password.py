@@ -18,15 +18,14 @@ def validate_username_and_request_password(message: Message, bot: TeleBot):
             reply_markup=get_cancel_kb(),
         )
         return
-    message = bot.send_message(
+    sent_message = bot.send_message(
         message.chat.id,
-        f"Отлично! Ваш потенциальный никнейм: {username}. Теперь нужно ввести пароль.\n"
-        f'После того, как я его приму, пожалуйста, нажмите на кнопку "удалить сообщение" и удалите пароль из переписки',
+        f"Отлично! Ваш потенциальный никнейм: {username}. Теперь нужно ввести пароль.\n",
         reply_markup=delete_password_request_kb(),
     )
-    with bot.retrieve_data(message.chat.id, message.chat.id) as data:
+    with bot.retrieve_data(sent_message.chat.id, sent_message.chat.id) as data:
         data[USERNAME_KEY] = username
-        data[MESSAGE_ID_KEY] = message.id
+        data[MESSAGE_ID_KEY] = sent_message.id
     bot.set_state(
         user_id=message.chat.id,
         chat_id=message.chat.id,
