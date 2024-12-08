@@ -3,7 +3,8 @@ from telebot.types import Message, CallbackQuery
 
 from keyboards.inline.callback.callbacks import MY_HABITS_CALLBACK
 from states.habits import ReadHabitStates
-from utils.constants import TEXT_KEY
+from utils.constants import COMPLETED_KEY
+
 from utils.output import get_text_from_cache
 from utils.refresh_token import get_response_and_refresh_token
 
@@ -12,12 +13,8 @@ from handlers.default.registration_error import check_registration
 
 
 def get_my_habits_by_command(message: Message, bot: TeleBot):
-    bot.set_state(
-        user_id=message.chat.id,
-        chat_id=message.chat.id,
-        state=ReadHabitStates.details,
-    )
-    token = check_registration(message.chat.id, bot)
+    is_complete_null = message.text == "/my_habits"
+    token = check_registration(message.chat.id, bot, state=ReadHabitStates.details)
     if token is None:
         return
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
@@ -26,7 +23,9 @@ def get_my_habits_by_command(message: Message, bot: TeleBot):
             func=get_my_habits_by_token,
             access_token=token,
             data=data,
+            is_complete_null=is_complete_null,
         )
+        data[COMPLETED_KEY] = is_complete_null
     if text is None:
         bot.send_message(message.chat.id, "Нет ни одной привычки.")
         return
@@ -46,7 +45,9 @@ def get_my_habits_by_callback(callback: CallbackQuery, bot: TeleBot):
 
 def register_get_habits(bot: TeleBot):
     bot.register_message_handler(
-        get_my_habits_by_command, pass_bot=True, commands=["my_habits"]
+        get_my_habits_by_command,
+        pass_bot=True,
+        commands=["my_habits", "completed_habits"],
     )
     bot.register_callback_query_handler(
         get_my_habits_by_callback,

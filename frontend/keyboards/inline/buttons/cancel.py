@@ -11,8 +11,8 @@ from keyboards.inline.callback.constants import (
 )
 
 
-def get_cancel_btn():
-    return {CALL_OFF_OUTPUT: {CB: CALL_OFF_CALLBACK}}
+def get_cancel_btn(output=CALL_OFF_OUTPUT):
+    return {output: {CB: CALL_OFF_CALLBACK}}
 
 
 def get_refusal_to_describe_btn():

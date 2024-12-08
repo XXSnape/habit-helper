@@ -1,0 +1,2 @@
+from .change_password import register_require_new_password
+from .save_new_password import register_save_password

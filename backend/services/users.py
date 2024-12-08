@@ -2,11 +2,19 @@ from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models import UserModel
-from schemas.users import UserCreate, UserSchema, UserHabitSchema
+from schemas.users import (
+    UserCreate,
+    UserSchema,
+    UserHabitSchema,
+    UserOutput,
+    UserActivitySchema,
+)
 from repositories.users import UserRepository
 from utils.auth import hash_password, validate_password
 
-from backend.schemas.users import UserChangeTelegramIdSchema
+from schemas.users import UserChangeTelegramIdSchema, UserChangePassword
+
+from utils.auth import get_access_token
 
 
 async def create_user(session: AsyncSession, user_in: UserCreate) -> int:
@@ -66,7 +74,6 @@ async def change_telegram_id_by_credentials(
         or validate_password(password=user_in.password, hashed_password=user.password)
         is False
     ):
-        print("not comp")
         raise unauthed_exc
     last_telegram_id = user.telegram_id
     user_id = user.id
@@ -76,3 +83,32 @@ async def change_telegram_id_by_credentials(
         update_data={"telegram_id": user_in.telegram_id},
     )
     return last_telegram_id, user_id
+
+
+async def change_password_by_user_id(
+    session: AsyncSession, user_in: UserChangePassword, user_id: int
+) -> str:
+    new_hash_password = hash_password(user_in.password)
+    result = await UserRepository.update_object_by_params(
+        session=session,
+        filter_data={"id": user_id},
+        update_data={"password": new_hash_password},
+    )
+    if result:
+        return get_access_token(user_id=user_id)
+    raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
+
+async def get_user_info_by_id(session: AsyncSession, user_id: int) -> UserOutput:
+    user_data = await UserRepository.get_user_info(session=session, user_id=user_id)
+    return UserOutput.model_validate(user_data, from_attributes=True)
+
+
+async def activate_or_deactivate_user(
+    session: AsyncSession, user_in: UserActivitySchema, user_id: int
+) -> bool:
+    return await UserRepository.update_object_by_params(
+        session=session,
+        filter_data={"id": user_id},
+        update_data={"is_active": user_in.is_active},
+    )

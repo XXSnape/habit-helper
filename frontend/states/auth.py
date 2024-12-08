@@ -10,3 +10,7 @@ class LogInStates(StatesGroup):
     confirmation = State()
     username = State()
     password = State()
+
+
+class ChangePasswordStates(StatesGroup):
+    password = State()

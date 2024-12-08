@@ -8,10 +8,10 @@ from utils.constants import TOKEN_KEY
 
 
 def request_name(message: Message, bot: TeleBot):
-    bot.set_state(
-        user_id=message.chat.id, chat_id=message.chat.id, state=CreateHabitStates.name
-    )
-    token = check_registration(message.chat.id, bot)
+    # bot.set_state(
+    #     user_id=message.chat.id, chat_id=message.chat.id, state=CreateHabitStates.name
+    # )
+    token = check_registration(message.chat.id, bot, state=CreateHabitStates.name)
     if token is None:
         return
     bot.send_message(

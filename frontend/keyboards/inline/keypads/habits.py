@@ -8,6 +8,7 @@ from keyboards.inline.buttons.habits import (
     get_statistics_btn,
     get_tagging_buttons,
     get_reason_waiver_btn,
+    get_resuming_btn,
 )
 from keyboards.inline.callback.constants import BACK_OUTPUT
 from keyboards.inline.keypads.general import create_keyboard
@@ -24,6 +25,19 @@ def get_actions_with_habit_kb(number: int) -> InlineKeyboardMarkup:
         get_selection_to_edit_btn(number),
         get_deleting_habit_btn(number),
     )
+
+
+def get_actions_with_completed_habit_kb(number: int) -> InlineKeyboardMarkup:
+    return create_keyboard(
+        get_my_habits_btn(),
+        get_statistics_btn(number),
+        get_resuming_btn(number),
+        get_deleting_habit_btn(number),
+    )
+
+
+def get_back_to_habits_kb():
+    return create_keyboard(get_my_habits_btn())
 
 
 def get_properties_to_change_kb(number: int, iz_frozen: bool) -> InlineKeyboardMarkup:

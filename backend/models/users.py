@@ -1,4 +1,6 @@
-from sqlalchemy import BigInteger, Index
+from datetime import date, datetime
+
+from sqlalchemy import BigInteger, Index, text
 from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy.testing.schema import mapped_column
 
@@ -19,4 +21,7 @@ class UserModel(BaseModel):
     password: Mapped[bytes]
     telegram_id: Mapped[int] = mapped_column(BigInteger)
     is_active: Mapped[bool] = mapped_column(default=True)
+    date_of_registration: Mapped[datetime] = mapped_column(
+        server_default=text("TIMEZONE('utc', now())")
+    )
     habits: Mapped[list["HabitModel"]] = relationship(back_populates="user")

@@ -17,6 +17,7 @@ from keyboards.inline.callback.constants import (
     HABIT_COMPLETED_OUTPUT,
     HABIT_NOT_COMPLETED_OUTPUT,
     REJECTION_REASON_OUTPUT,
+    RESUME_OUTPUT,
 )
 from keyboards.inline.callback.enums import HabitProperties, ActionsHabitEnum
 from keyboards.inline.callback.factories import (
@@ -62,6 +63,16 @@ def get_statistics_btn(number: int) -> dict[str, dict[str, str]]:
         STATISTIC_OUTPUT: {
             CB: actions_with_habit_factory.new(
                 num_habit=number, action=ActionsHabitEnum.VIEW
+            )
+        }
+    }
+
+
+def get_resuming_btn(number: int) -> dict[str, dict[str, str]]:
+    return {
+        RESUME_OUTPUT: {
+            CB: actions_with_habit_factory.new(
+                num_habit=number, action=ActionsHabitEnum.RESUME
             )
         }
     }

@@ -5,7 +5,12 @@ from telebot.types import Message
 def unrecognized_message(message: Message, bot: TeleBot):
     bot.send_message(
         message.chat.id,
-        "Доступные команды:\n\n" "/start\n" "/create_habit\n" "/my_habits\n /log_in",
+        "Доступные команды:\n\n"
+        "/start\n"
+        "/create_habit\n"
+        "/my_habits\n /log_in \n/change_password\n"
+        "/my_info\n"
+        "/completed_habits",
     )
 
 

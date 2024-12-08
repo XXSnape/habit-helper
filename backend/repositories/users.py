@@ -23,3 +23,11 @@ class UserRepository(ManagerRepository):
         )
         result = await session.execute(query)
         return result.all()
+
+    @classmethod
+    async def get_user_info(cls, session: AsyncSession, user_id: int):
+        query = select(
+            cls.model.username, cls.model.is_active, cls.model.date_of_registration
+        ).filter_by(id=user_id)
+        result = await session.execute(query)
+        return result.first()

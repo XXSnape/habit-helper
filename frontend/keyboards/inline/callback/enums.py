@@ -1,4 +1,4 @@
-from enum import StrEnum, IntEnum, auto
+from enum import IntEnum, auto
 
 
 class HabitProperties(IntEnum):
@@ -13,3 +13,4 @@ class ActionsHabitEnum(IntEnum):
     EDIT = auto()
     DELETE = auto()
     VIEW = auto()
+    RESUME = auto()

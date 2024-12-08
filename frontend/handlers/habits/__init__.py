@@ -6,7 +6,12 @@ from .create import (
     register_get_name,
     register_mark_habit,
 )
-from .read import register_get_habits, register_get_habit_details, register_calendar
+from .read import (
+    register_get_habits,
+    register_get_habit_details,
+    register_calendar,
+    register_resume_habits,
+)
 from .update import (
     register_provide_with_choosing,
     register_change_name,

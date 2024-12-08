@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from utils.constants import HABITS_KEY
 
@@ -9,11 +9,28 @@ def present_data(data: dict, initial_text="") -> str:
     )
 
 
+def get_format_datetime(date_and_time: str) -> str:
+    return (
+        datetime.strptime(date_and_time, "%Y-%m-%dT%H:%M:%S.%f") + timedelta(hours=3)
+    ).strftime("%d.%m.%Y %H:%M")
+
+
+def get_my_info_from_json(data: dict) -> str:
+    date_of_registration = get_format_datetime(data["date_of_registration"])
+    print("d", data)
+    information = {
+        "Никнейм": data["username"],
+        "Активен": "Да" if data["is_active"] else "Нет",
+        "Дата и время регистрации": date_of_registration,
+    }
+    return present_data(information, initial_text="Информация о вас:")
+
+
 def get_text_from_cache(data: dict) -> str | None:
     text = (
         "Чтобы посмотреть детальную информацию о привычке, просто введите её номер\n\n"
     )
-    if len(data[HABITS_KEY]) == 0:
+    if len(data[HABITS_KEY]) == 1:
         return None
     for ind, habit in enumerate(data[HABITS_KEY][1:], 1):
         intermediate_text = f"{ind}) {habit['name']}"
@@ -33,9 +50,7 @@ def get_habit_details_from_cache(
         habit = data.get(HABITS_KEY)[number]
     except IndexError:
         return None
-    created_at = datetime.strptime(
-        habit["created_at"], "%Y-%m-%dT%H:%M:%S.%f"
-    ).strftime("%d.%m.%Y %H:%M")
+    created_at = get_format_datetime(habit["created_at"])
     details = {
         "Название": habit["name"],
         "Время напоминания": f"{habit['notification_hour']}:00",
