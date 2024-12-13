@@ -4,7 +4,11 @@ from telebot.types import Message, CallbackQuery
 from api.habits.resume_habit import resume_completed_habit
 from keyboards.inline.callback.enums import ActionsHabitEnum
 from keyboards.inline.callback.factories import actions_with_habit_factory
-from keyboards.inline.keypads.habits import get_back_to_action_kb, get_back_to_habits_kb
+from keyboards.inline.keypads.habits import (
+    get_back_to_action_kb,
+    get_back_to_habits_kb,
+    get_back_to_habits_details_and_menu,
+)
 from states.habits import ResumeHabitStates, ReadHabitStates
 from utils.constants import HABITS_KEY, CONTEXT_KEY, TOKEN_KEY
 from utils.refresh_token import get_response_and_refresh_token
@@ -25,6 +29,7 @@ def require_new_count(callback: CallbackQuery, bot: TeleBot):
         message_id=callback.message.id,
         chat_id=callback.message.chat.id,
         text=f"Введите число напоминаний для привычки «{name}» большее {count}",
+        reply_markup=get_back_to_habits_details_and_menu(number),
     )
 
 

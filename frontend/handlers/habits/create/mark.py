@@ -7,7 +7,7 @@ from keyboards.inline.callback.callbacks import REJECTION_REASON_CALLBACK
 from keyboards.inline.callback.factories import mark_habit_factory
 from keyboards.inline.keypads.habits import get_reason_waiver_kb
 from states.habits import MarkHabitStates
-from utils.constants import MARK_KEY
+from utils.constants import MARK_KEY, MESSAGE_ID_KEY
 from utils.refresh_token import get_response_and_refresh_token
 from utils.router_assistants.mark import get_data_on_completion_habit
 from utils.texts import TASK_WAS_NOT_COMPLETED_TEXT
@@ -20,11 +20,13 @@ def successful_implementation_habit(callback: CallbackQuery, bot: TeleBot):
             callback_query_id=callback.id,
             text="Поздравляю! Вы выполнили план! Надеюсь, вы добились желаемого прогресса.\n"
             "Если хотите, вы можете возобновить данную привычку",
+            show_alert=True,
         )
     else:
         bot.answer_callback_query(
             callback_query_id=callback.id,
             text="Вы успешно выполнили задачу! Продолжайте в том же духе!",
+            show_alert=True,
         )
     bot.delete_message(chat_id=callback.from_user.id, message_id=callback.message.id)
 
@@ -37,15 +39,18 @@ def breaking_habit(callback: CallbackQuery, bot: TeleBot):
     )
     save_data = mark_habit_factory.parse(callback.data)
     save_data.pop("@")
-    with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
-        data[MARK_KEY] = save_data
-    bot.edit_message_text(
-        message_id=callback.message.id,
-        chat_id=callback.message.chat.id,
+    # with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
+    #     data[MARK_KEY] = save_data
+    bot.delete_message(chat_id=callback.from_user.id, message_id=callback.message.id)
+    sent_message = bot.send_message(
+        callback.message.chat.id,
         text="Пожалуйста, укажите причину, по которой у вас не получилось выполнить задачу."
         " Это в дальнейшем поможет для анализа ошибок.",
         reply_markup=get_reason_waiver_kb(),
     )
+    with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
+        data[MARK_KEY] = save_data
+        data[MESSAGE_ID_KEY] = sent_message.id
 
 
 def reason_is_not_specified(callback: CallbackQuery, bot: TeleBot):
@@ -70,6 +75,7 @@ def reason_is_not_specified(callback: CallbackQuery, bot: TeleBot):
 def reason_is_specified(message: Message, bot: TeleBot):
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
         habit_data = data[MARK_KEY]
+        last_message_id = data[MESSAGE_ID_KEY]
     habit_data["reason"] = message.text
     token = get_user_token(message.chat.id)
     get_response_and_refresh_token(
@@ -78,6 +84,7 @@ def reason_is_specified(message: Message, bot: TeleBot):
         access_token=token,
         **habit_data,
     )
+    bot.delete_message(chat_id=message.chat.id, message_id=last_message_id)
     bot.delete_state(message.chat.id, message.chat.id)
     bot.send_message(message.chat.id, text=TASK_WAS_NOT_COMPLETED_TEXT)
 

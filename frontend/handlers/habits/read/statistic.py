@@ -26,6 +26,14 @@ def show_calendar(callback: CallbackQuery, bot: TeleBot):
         completed, not_completed = get_completed_and_unfulfilled_dates(
             number=number, data=data
         )
+        if completed is None:
+            bot.answer_callback_query(
+                callback_query_id=callback.id,
+                text="Эта привычка пока ни разу не была отмечена",
+                show_alert=True,
+            )
+            return
+
         data[CONTEXT_KEY] = number
         min_date = data[HABITS_KEY][number][MIN_DATE_KEY]
         max_date = data[HABITS_KEY][number][MAX_DATE_KEY]

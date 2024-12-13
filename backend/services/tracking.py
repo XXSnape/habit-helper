@@ -21,7 +21,7 @@ async def is_habit_complete(
     session: AsyncSession, habit_id: int, required_count: int
 ) -> bool:
     number_completed = await TrackingRepository.count_number_objects_by_params(
-        session=session, data={"habit_id": habit_id}
+        session=session, data={"habit_id": habit_id, "is_done": True}
     )
 
     if number_completed == required_count:

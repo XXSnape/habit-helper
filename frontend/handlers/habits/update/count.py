@@ -38,7 +38,7 @@ def change_count(message: Message, bot: TeleBot):
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
         number = data[CONTEXT_KEY]
         done_count = len(data[HABITS_KEY][number]["tracking"])
-        if new_count < done_count:
+        if new_count <= done_count:
             bot.send_message(
                 message.chat.id,
                 f"Вы уже выполнили данную привычку {done_count} дней. Введите число больше",

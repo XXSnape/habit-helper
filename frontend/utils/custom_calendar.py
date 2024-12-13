@@ -6,7 +6,10 @@ from telegram_bot_calendar.base import *
 from keyboards.inline.callback.callbacks import CALL_OFF_CALLBACK, MY_HABITS_CALLBACK
 from keyboards.inline.callback.constants import CALL_OFF_OUTPUT
 from keyboards.inline.callback.enums import ActionsHabitEnum
-from keyboards.inline.callback.factories import actions_with_habit_factory
+from keyboards.inline.callback.factories import (
+    actions_with_habit_factory,
+    habit_details_factory,
+)
 from utils.constants import (
     HABITS_KEY,
     IS_DONE_KEY,
@@ -45,7 +48,7 @@ class CustomCalendar(WMonthTelegramCalendar):
             additional_buttons = [
                 {
                     "text": "Назад",
-                    "callback_data": number,
+                    "callback_data": habit_details_factory.new(num_habit=number),
                 },
                 {
                     "text": "Все привычки",
@@ -134,7 +137,7 @@ class CustomCalendar(WMonthTelegramCalendar):
 
 def get_completed_and_unfulfilled_dates(
     number: int, data: dict
-) -> tuple[list[str], list[str]]:
+) -> tuple[list[str], list[str]] | tuple[None, None]:
     try:
         return (
             data[HABITS_KEY][number][IS_DONE_KEY],
@@ -146,6 +149,8 @@ def get_completed_and_unfulfilled_dates(
         is_not_done_habits = []
         min_date = datetime.now().date()
         max_date = None
+        if len(data[HABITS_KEY][number]["tracking"]) == 0:
+            return None, None
         for tracking in data[HABITS_KEY][number]["tracking"]:
             current_date = tracking["date"]
             if tracking["is_done"] is True:

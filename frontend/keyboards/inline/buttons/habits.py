@@ -18,12 +18,14 @@ from keyboards.inline.callback.constants import (
     HABIT_NOT_COMPLETED_OUTPUT,
     REJECTION_REASON_OUTPUT,
     RESUME_OUTPUT,
+    BACK_OUTPUT,
 )
 from keyboards.inline.callback.enums import HabitProperties, ActionsHabitEnum
 from keyboards.inline.callback.factories import (
     actions_with_habit_factory,
     opportunities_for_change_factory,
     mark_habit_factory,
+    habit_details_factory,
 )
 
 
@@ -44,6 +46,10 @@ def get_tagging_buttons(habit_id: int, date: str) -> dict[str, dict[str, str]]:
 
 def get_reason_waiver_btn() -> dict[str, dict[str, str]]:
     return {REJECTION_REASON_OUTPUT: {CB: REJECTION_REASON_CALLBACK}}
+
+
+def get_habit_details_btn(number: int):
+    return {BACK_OUTPUT: {CB: habit_details_factory.new(num_habit=number)}}
 
 
 def get_selection_to_edit_btn(

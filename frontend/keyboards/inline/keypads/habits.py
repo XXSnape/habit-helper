@@ -9,6 +9,7 @@ from keyboards.inline.buttons.habits import (
     get_tagging_buttons,
     get_reason_waiver_btn,
     get_resuming_btn,
+    get_habit_details_btn,
 )
 from keyboards.inline.callback.constants import BACK_OUTPUT
 from keyboards.inline.keypads.general import create_keyboard
@@ -34,6 +35,10 @@ def get_actions_with_completed_habit_kb(number: int) -> InlineKeyboardMarkup:
         get_resuming_btn(number),
         get_deleting_habit_btn(number),
     )
+
+
+def get_back_to_habits_details_and_menu(number: int) -> InlineKeyboardMarkup:
+    return create_keyboard(get_my_habits_btn(), get_habit_details_btn(number))
 
 
 def get_back_to_habits_kb():
