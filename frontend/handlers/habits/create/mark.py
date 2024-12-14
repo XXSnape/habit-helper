@@ -15,6 +15,7 @@ from utils.texts import TASK_WAS_NOT_COMPLETED_TEXT
 
 def successful_implementation_habit(callback: CallbackQuery, bot: TeleBot):
     is_the_end = get_data_on_completion_habit(callback=callback)
+    bot.delete_state(callback.from_user.id, callback.from_user.id)
     if is_the_end:
         bot.answer_callback_query(
             callback_query_id=callback.id,
@@ -39,8 +40,6 @@ def breaking_habit(callback: CallbackQuery, bot: TeleBot):
     )
     save_data = mark_habit_factory.parse(callback.data)
     save_data.pop("@")
-    # with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
-    #     data[MARK_KEY] = save_data
     bot.delete_message(chat_id=callback.from_user.id, message_id=callback.message.id)
     sent_message = bot.send_message(
         callback.message.chat.id,

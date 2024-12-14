@@ -74,4 +74,6 @@ def register_resume_habits(bot: TeleBot):
         func=None,
         config=actions_with_habit_factory.filter(action=str(ActionsHabitEnum.RESUME)),
     )
-    bot.register_message_handler(resume_habit, pass_bot=True, regexp=r"\d+")
+    bot.register_message_handler(
+        resume_habit, pass_bot=True, regexp=r"\d+", state=ResumeHabitStates.resume
+    )

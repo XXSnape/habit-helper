@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from dependencies.auth import get_user_id
 from core.helper import db_helper
@@ -30,6 +30,8 @@ from services.tracking import (
 )
 from services.users import get_users_habits_by_hour
 
+from utils.generate_result import get_result_for_request
+
 router = APIRouter(prefix="/habits", tags=["Habits"])
 
 
@@ -43,6 +45,11 @@ async def create_new_habit(
     user_id: Annotated[int, Depends(get_user_id)],
 ):
     habit_created = await create_habit(session=session, habit_in=habit, user_id=user_id)
+    if not habit_created:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="The habit was not created",
+        )
     return ResultSchema(result=habit_created)
 
 
@@ -61,7 +68,7 @@ async def patch_habit(
     result = await patch_habit_by_id(
         session=session, habit_id=habit_id, user_id=user_id, habit_in=updated_habit
     )
-    return ResultSchema(result=result)
+    return get_result_for_request(result)
 
 
 @router.post(
@@ -82,11 +89,14 @@ async def mark_habit(
         session=session, habit_id=habit_id, user_id=user_id
     )
     tracking = await mark_habit_by_id(session=session, habit_id=habit_id, mark=mark)
-    habit_completed = False
-    if tracking:
-        habit_completed = await is_habit_complete(
-            session=session, habit_id=habit_id, required_count=number_completed
+    if tracking is False:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="The habit has already been noted",
         )
+    habit_completed = await is_habit_complete(
+        session=session, habit_id=habit_id, required_count=number_completed
+    )
     return HabitCompletedSchema(result=tracking, completed=habit_completed)
 
 
@@ -104,7 +114,7 @@ async def delete_habit(
     result = await delete_habit_by_id(
         session=session, habit_id=habit_id, user_id=user_id
     )
-    return ResultSchema(result=result)
+    return get_result_for_request(result)
 
 
 @router.patch(
@@ -125,7 +135,7 @@ async def resume_habit(
         user_id=user_id,
         new_count=habit_resume.count,
     )
-    return ResultSchema(result=result)
+    return get_result_for_request(result)
 
 
 @router.get(
@@ -137,13 +147,11 @@ async def get_my_habits(
         Depends(db_helper.get_async_session),
     ],
     user_id: Annotated[int, Depends(get_user_id)],
-    # is_frozen: bool = False,
     is_complete_null: bool = True,
 ):
     habits = await get_habits_by_id(
         session=session,
         user_id=user_id,
-        # is_frozen=is_frozen,
         is_complete_null=is_complete_null,
     )
     return habits

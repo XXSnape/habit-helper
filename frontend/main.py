@@ -8,7 +8,7 @@ import handlers.auth as auth
 import handlers.habits as habits
 import handlers.users as users
 from handlers.default.cancel import register_cancel
-from handlers.default.unrecognized import register_unrecognized_message
+from handlers.default.unrecognized import register_unrecognized_events
 from keyboards.inline.filters.habits import EditHabitCallbackFilter
 from loader import bot
 from handlers.default.start import register_help
@@ -47,7 +47,7 @@ def register_handlers(bot: TeleBot):
     habits.register_resume_habits(bot)
     habits.register_calendar(bot)
 
-    register_unrecognized_message(bot)
+    register_unrecognized_events(bot)
 
 
 if __name__ == "__main__":
@@ -58,7 +58,7 @@ if __name__ == "__main__":
     )
     logger.info("start bot")
     bot.add_custom_filter(StateFilter(bot))
-    bot.setup_middleware(LoggingMiddleware())
+    bot.setup_middleware(LoggingMiddleware(bot))
     bot.add_custom_filter(EditHabitCallbackFilter())
     register_handlers(bot)
     scheduler = BackgroundScheduler()

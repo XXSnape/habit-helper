@@ -6,10 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from repositories.habits import HabitRepository
 from schemas.habits import HabitCreateSchema, HabitPatchSchema, HabitOutputSchema
 
-habit_not_exists = HTTPException(
-    status_code=status.HTTP_404_NOT_FOUND,
-    detail="The habit was not found",
-)
+from utils.exceptions import habit_not_exists
 
 
 async def create_habit(
@@ -25,7 +22,7 @@ async def get_number_completed(
     session: AsyncSession, habit_id: int, user_id: int
 ) -> int:
     required_count = await HabitRepository.get_required_count(
-        session=session, data={"id": habit_id, "user_id": user_id}
+        session=session, data={"id": habit_id, "user_id": user_id, "completed_at": None}
     )
     if required_count is None:
         raise habit_not_exists
@@ -91,13 +88,11 @@ async def resume_habit_by_id(
 async def get_habits_by_id(
     session: AsyncSession,
     user_id: int,
-    is_frozen: bool = False,
     is_complete_null: bool = True,
 ) -> list[HabitOutputSchema]:
     habits = await HabitRepository.get_habits(
         session=session,
         user_id=user_id,
-        # is_frozen=is_frozen,
         is_complete_null=is_complete_null,
     )
     return [

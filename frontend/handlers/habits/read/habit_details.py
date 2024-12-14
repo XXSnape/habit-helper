@@ -14,6 +14,7 @@ from states.habits import ReadHabitStates
 
 
 def get_habit_details_by_text(message: Message, bot: TeleBot):
+    print("woork")
     number = int(message.text)
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
         text = get_habit_details_from_cache(data=data, number=number)

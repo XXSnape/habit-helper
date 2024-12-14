@@ -3,7 +3,7 @@ import logging
 import requests
 from requests import RequestException
 
-from utils.exceptions import InvalidAccessToken
+from utils.exceptions import InvalidAccessToken, InvalidApiResponse
 
 logger = logging.getLogger(name=__name__)
 
@@ -20,13 +20,20 @@ def make_request(
         response = requests.request(
             method=method, url=url, headers=headers, json=json, params=params
         )
-        print("current", response.status_code, requests.codes.unauthorized)
         if response.status_code == requests.codes.unauthorized:
             raise InvalidAccessToken()
-        j = response.json()
-        print(response.status_code)
-        print("json", j)
-        return j
+        if response.status_code in (
+            requests.codes.not_found,
+            requests.codes.unprocessable_entity,
+            requests.codes.internal_server_error,
+        ):
+            logger.error(
+                "Ошибка получения корректного ответа: %s",
+                response.json().get("detail", "Ошибка api"),
+            )
+            raise InvalidApiResponse()
+        json = response.json()
+        return json
     except RequestException as e:
-        logger.error(str(e))
-        return None
+        logger.error("Ошибка соединения с сервером: %s", str(e))
+        raise InvalidApiResponse()
