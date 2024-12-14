@@ -14,6 +14,7 @@ def make_request(
     headers: dict[str, str] | None = None,
     json: dict[str, str | int] | None = None,
     params: dict[str, str | int] | None = None,
+    error_message: str | None = None,
 ) -> list[dict] | dict | None:
 
     try:
@@ -31,9 +32,9 @@ def make_request(
                 "Ошибка получения корректного ответа: %s",
                 response.json().get("detail", "Ошибка api"),
             )
-            raise InvalidApiResponse()
+            raise InvalidApiResponse(error_message)
         json = response.json()
         return json
     except RequestException as e:
         logger.error("Ошибка соединения с сервером: %s", str(e))
-        raise InvalidApiResponse()
+        raise InvalidApiResponse("Не удалось получить ответ")

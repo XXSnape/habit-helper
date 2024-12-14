@@ -5,11 +5,11 @@ from utils.output import get_text_from_cache
 
 def delete_habit_by_id(access_token: str, number: int, data: dict):
     habit_id = data[HABITS_KEY][number]["id"]
-    json = make_request(
+    make_request(
         method="delete",
         url=f"http://127.0.0.1:8000/api/habits/{habit_id}/",
         headers={"Authorization": f"Bearer {access_token}"},
+        error_message="Привычка уже удалена",
     )
-    if json["result"]:
-        data[HABITS_KEY].pop(number)
-        return get_text_from_cache(data)
+    data[HABITS_KEY].pop(number)
+    return get_text_from_cache(data)

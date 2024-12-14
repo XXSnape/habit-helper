@@ -3,6 +3,8 @@ import logging
 from telebot import BaseMiddleware, types, TeleBot
 from telebot.types import CallbackQuery
 
+from utils.exceptions import InvalidApiResponse
+
 HANDLED_STR = ["Unhandled", "Handled"]
 
 
@@ -76,10 +78,14 @@ class LoggingMiddleware(BaseMiddleware):
     ):
 
         if exception:
-            self.logger.error('%s', str(exception))
+            if isinstance(exception, InvalidApiResponse) and str(exception):
+                text = str(exception)
+            else:
+                text = 'Кнопка больше не актуальна, пожалуйста, сделайте запрос снова'
+            self.logger.error('Ошибка %s', str(exception))
             self._bot.answer_callback_query(
                 callback_query.id,
-                text='Кнопка больше не актуальна, пожалуйста, сделайте запрос снова',
+                text=text,
                 show_alert=True
             )
             self._bot.delete_state(callback_query.from_user.id, callback_query.from_user.id)

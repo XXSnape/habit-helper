@@ -11,7 +11,7 @@ from keyboards.inline.callback.constants import (
 )
 
 
-def get_cancel_btn(output=CALL_OFF_OUTPUT):
+def get_home_btn(output=CALL_OFF_OUTPUT):
     return {output: {CB: CALL_OFF_CALLBACK}}
 
 

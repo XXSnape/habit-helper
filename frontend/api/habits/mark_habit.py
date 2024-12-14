@@ -13,5 +13,6 @@ def mark_habit(
         url=f"http://127.0.0.1:8000/api/habits/mark/{habit_id}/",
         json={"is_done": bool(int(is_done)), "date": date, "reason": reason},
         headers={"Authorization": f"Bearer {access_token}"},
+        error_message="Привычка завершена или удалена",
     )
     return json["completed"]
