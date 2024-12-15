@@ -12,6 +12,7 @@ from schemas.habits import (
     HabitResumeSchema,
     HabitOutputSchema,
     ReasonChangeSchema,
+    HabitNameSchema,
 )
 from schemas.results import ResultSchema
 from schemas.users import UserHabitSchema
@@ -22,6 +23,7 @@ from services.habits import (
     patch_habit_by_id,
     resume_habit_by_id,
     get_habits_by_id,
+    get_habit_name_by_id,
 )
 from services.tracking import (
     mark_habit_by_id,
@@ -167,3 +169,17 @@ async def get_users_habits(
 ):
     result = await get_users_habits_by_hour(session=session, hour=notification_hour)
     return result
+
+
+@router.get("/{habit_id}/", response_model=HabitNameSchema)
+async def get_habit_name(
+    habit_id: int,
+    session: Annotated[
+        AsyncSession,
+        Depends(db_helper.get_async_session),
+    ],
+    user_id: Annotated[int, Depends(get_user_id)],
+):
+    return await get_habit_name_by_id(
+        session=session, habit_id=habit_id, user_id=user_id
+    )

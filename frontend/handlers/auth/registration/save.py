@@ -5,6 +5,8 @@ from api.users.create_user import get_access_token_for_new_user
 from states.auth import AuthStates
 from utils.constants import USERNAME_KEY, MESSAGE_ID_KEY
 from database.crud.add_user import add_new_user
+from utils.regexp import PASSWORD_REGEXP
+from utils.texts import COMMANDS, DELETE_PASSWORD
 
 
 def save_user(message: Message, bot: TeleBot):
@@ -20,10 +22,15 @@ def save_user(message: Message, bot: TeleBot):
     bot.delete_message(message.chat.id, message_id)
     bot.send_message(
         message.chat.id,
-        "Регистрация прошла успешно!\n"
-        "Пожалуйста, запомните свой пароль и удалите его из переписки",
+        f"Регистрация прошла успешно!\n" f"{DELETE_PASSWORD}",
     )
+    bot.send_message(message.chat.id, text=COMMANDS)
 
 
 def register_saving_user(bot: TeleBot):
-    bot.register_message_handler(save_user, pass_bot=True, state=AuthStates.password)
+    bot.register_message_handler(
+        save_user,
+        pass_bot=True,
+        state=AuthStates.password,
+        regexp=PASSWORD_REGEXP,
+    )

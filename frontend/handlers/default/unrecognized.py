@@ -1,17 +1,14 @@
 from telebot import TeleBot
 from telebot.types import Message, CallbackQuery
 
+from utils.texts import COMMANDS
+
 
 def unrecognized_message(message: Message, bot: TeleBot):
     bot.delete_state(message.chat.id, message.chat.id)
     bot.send_message(
         message.chat.id,
-        "Доступные команды:\n\n"
-        "/start\n"
-        "/create_habit\n"
-        "/my_habits\n /log_in \n/change_password\n"
-        "/my_info\n"
-        "/completed_habits",
+        text=COMMANDS,
     )
 
 
@@ -22,6 +19,7 @@ def unrecognized_callback(callback: CallbackQuery, bot: TeleBot):
         show_alert=True,
     )
     bot.delete_message(chat_id=callback.from_user.id, message_id=callback.message.id)
+    bot.send_message(callback.from_user.id, text=COMMANDS)
 
 
 def register_unrecognized_events(bot: TeleBot):

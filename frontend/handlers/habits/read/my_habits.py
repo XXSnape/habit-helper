@@ -2,6 +2,8 @@ from telebot import TeleBot
 from telebot.types import Message, CallbackQuery
 
 from keyboards.inline.callback.callbacks import MY_HABITS_CALLBACK
+from keyboards.inline.callback.constants import MENU_OUTPUT
+from keyboards.inline.keypads.cancel import get_cancel_kb
 from states.habits import ReadHabitStates
 from utils.constants import COMPLETED_KEY
 
@@ -27,9 +29,13 @@ def get_my_habits_by_command(message: Message, bot: TeleBot):
         )
         data[COMPLETED_KEY] = is_complete_null
     if text is None:
-        bot.send_message(message.chat.id, "Нет ни одной привычки.")
+        bot.send_message(
+            message.chat.id,
+            "Нет ни одной привычки.",
+            reply_markup=get_cancel_kb(MENU_OUTPUT),
+        )
         return
-    bot.send_message(message.chat.id, text)
+    bot.send_message(message.chat.id, text, reply_markup=get_cancel_kb(MENU_OUTPUT))
 
 
 def get_my_habits_by_callback(callback: CallbackQuery, bot: TeleBot):
@@ -45,10 +51,14 @@ def get_my_habits_by_callback(callback: CallbackQuery, bot: TeleBot):
             message_id=callback.message.id,
             chat_id=callback.message.chat.id,
             text="Нет ни одной привычки.",
+            reply_markup=get_cancel_kb(MENU_OUTPUT),
         )
         return
     bot.edit_message_text(
-        message_id=callback.message.id, chat_id=callback.message.chat.id, text=text
+        message_id=callback.message.id,
+        chat_id=callback.message.chat.id,
+        text=text,
+        reply_markup=get_cancel_kb(MENU_OUTPUT),
     )
 
 

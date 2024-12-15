@@ -1,5 +1,6 @@
 REGISTER_OUTPUT = "Зарегистрироваться"
 LOG_IN_OUTPUT = "Войти"
+MENU_OUTPUT = "Меню"
 CALL_OFF_OUTPUT = "Отменить"
 BACK_OUTPUT = "Назад"
 DELETE_MSG_OUTPUT = "Удалить сообщение"

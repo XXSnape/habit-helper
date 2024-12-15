@@ -1,6 +1,8 @@
 from telebot.types import Message, CallbackQuery
 
+from keyboards.inline.callback.constants import MENU_OUTPUT
 from keyboards.inline.callback.factories import habit_details_factory
+from keyboards.inline.keypads.cancel import get_cancel_kb
 from keyboards.inline.keypads.habits import (
     get_actions_with_habit_kb,
     get_actions_with_completed_habit_kb,
@@ -20,7 +22,9 @@ def get_habit_details_by_text(message: Message, bot: TeleBot):
         is_complete_null = data[COMPLETED_KEY]
     if text is None:
         bot.send_message(
-            message.chat.id, "Не нашлось номера с такой привычкой, попробуйте снова"
+            message.chat.id,
+            "Не нашлось номера с такой привычкой, попробуйте снова",
+            reply_markup=get_cancel_kb(MENU_OUTPUT),
         )
         return
     reply_markup = (
@@ -58,7 +62,6 @@ def register_get_habit_details(bot: TeleBot):
     )
     bot.register_callback_query_handler(
         get_habit_details_by_callback,
-        # state=ReadHabitStates.details,
         func=None,
         config=habit_details_factory.filter(),
         pass_bot=True,

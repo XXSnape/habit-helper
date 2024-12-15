@@ -1,6 +1,7 @@
 from telebot import TeleBot
 from telebot.types import CallbackQuery, Message
 
+from api.habits.habit_name import get_habit_name
 from api.habits.mark_habit import mark_habit
 from database.crud.check_user import get_user_token
 from keyboards.inline.callback.callbacks import REJECTION_REASON_CALLBACK
@@ -10,7 +11,7 @@ from states.habits import MarkHabitStates
 from utils.constants import MARK_KEY, MESSAGE_ID_KEY
 from utils.refresh_token import get_response_and_refresh_token
 from utils.router_assistants.mark import get_data_on_completion_habit
-from utils.texts import TASK_WAS_NOT_COMPLETED_TEXT
+from utils.texts import TASK_WAS_NOT_COMPLETED_TEXT, COMMANDS
 
 
 def successful_implementation_habit(callback: CallbackQuery, bot: TeleBot):
@@ -40,16 +41,21 @@ def breaking_habit(callback: CallbackQuery, bot: TeleBot):
     )
     save_data = mark_habit_factory.parse(callback.data)
     save_data.pop("@")
-    bot.delete_message(chat_id=callback.from_user.id, message_id=callback.message.id)
+
+    token = get_user_token(
+        telegram_id=callback.from_user.id,
+    )
+    habit_name = get_habit_name(access_token=token, habit_id=save_data["habit_id"])
     sent_message = bot.send_message(
         callback.message.chat.id,
-        text="Пожалуйста, укажите причину, по которой у вас не получилось выполнить задачу."
+        text=f"Пожалуйста, укажите причину, по которой у вас не получилось выполнить задание «{habit_name}»."
         " Это в дальнейшем поможет для анализа ошибок.",
         reply_markup=get_reason_waiver_kb(),
     )
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
         data[MARK_KEY] = save_data
         data[MESSAGE_ID_KEY] = sent_message.id
+    bot.delete_message(chat_id=callback.from_user.id, message_id=callback.message.id)
 
 
 def reason_is_not_specified(callback: CallbackQuery, bot: TeleBot):
@@ -86,6 +92,7 @@ def reason_is_specified(message: Message, bot: TeleBot):
     bot.delete_message(chat_id=message.chat.id, message_id=last_message_id)
     bot.delete_state(message.chat.id, message.chat.id)
     bot.send_message(message.chat.id, text=TASK_WAS_NOT_COMPLETED_TEXT)
+    bot.send_message(message.chat.id, text=COMMANDS)
 
 
 def reason_text_is_too_large(message: Message, bot: TeleBot):

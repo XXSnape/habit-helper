@@ -8,11 +8,6 @@ from utils.constants import MESSAGE_ID_KEY
 
 
 def require_new_password(message: Message, bot: TeleBot):
-    # bot.set_state(
-    #     user_id=message.chat.id,
-    #     chat_id=message.chat.id,
-    #     state=ChangePasswordStates.password,
-    # )
     token = check_registration(
         message.chat.id, bot, state=ChangePasswordStates.password
     )

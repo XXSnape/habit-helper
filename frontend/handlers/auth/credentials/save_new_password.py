@@ -5,6 +5,8 @@ from api.users.change_password import change_password_by_token
 from states.auth import ChangePasswordStates
 from utils.constants import TOKEN_KEY, MESSAGE_ID_KEY
 from utils.refresh_token import get_response_and_refresh_token
+from utils.regexp import PASSWORD_REGEXP
+from utils.texts import COMMANDS, DELETE_PASSWORD
 
 
 def save_password(message: Message, bot: TeleBot):
@@ -21,11 +23,15 @@ def save_password(message: Message, bot: TeleBot):
     bot.delete_message(message.chat.id, last_message_id)
     bot.send_message(
         message.chat.id,
-        "Вы успешно сменили пароль!\nПожалуйста, запомните его и удалите его из переписки",
+        f"Вы успешно сменили пароль!\n{DELETE_PASSWORD}",
     )
+    bot.send_message(message.chat.id, text=COMMANDS)
 
 
 def register_save_password(bot: TeleBot):
     bot.register_message_handler(
-        save_password, pass_bot=True, state=ChangePasswordStates.password
+        save_password,
+        pass_bot=True,
+        state=ChangePasswordStates.password,
+        regexp=PASSWORD_REGEXP,
     )

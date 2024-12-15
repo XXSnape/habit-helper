@@ -44,7 +44,7 @@ def resume_habit(message: Message, bot: TeleBot):
             bot.send_message(
                 message.chat.id,
                 f"Вы уже выполнили данную привычку {done_count} дней. Введите число больше",
-                reply_markup=get_back_to_action_kb(number),
+                reply_markup=get_back_to_habits_details_and_menu(number),
             )
             return
         data[HABITS_KEY].pop(number)

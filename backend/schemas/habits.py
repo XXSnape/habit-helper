@@ -12,6 +12,10 @@ class HabitSchema(BaseModel):
     description: str = "Пока нет описания"
 
 
+class HabitNameSchema(BaseModel):
+    name: str
+
+
 class TrackingSchema(BaseModel):
     is_done: bool
     date: datetime_date

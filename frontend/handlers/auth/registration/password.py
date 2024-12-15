@@ -35,5 +35,7 @@ def validate_username_and_request_password(message: Message, bot: TeleBot):
 
 def register_password(bot: TeleBot):
     bot.register_message_handler(
-        validate_username_and_request_password, pass_bot=True, state=AuthStates.username
+        validate_username_and_request_password,
+        pass_bot=True,
+        state=AuthStates.username,
     )

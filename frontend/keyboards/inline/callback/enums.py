@@ -14,3 +14,4 @@ class ActionsHabitEnum(IntEnum):
     DELETE = auto()
     VIEW = auto()
     RESUME = auto()
+    FREEZE = auto()

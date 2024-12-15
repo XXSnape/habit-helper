@@ -4,6 +4,7 @@ from telebot.types import Message
 from keyboards.inline.keypads.cancel import get_cancel_kb
 from states.auth import LogInStates
 from utils.constants import USERNAME_KEY, MESSAGE_ID_KEY
+from utils.regexp import PASSWORD_REGEXP
 
 
 def get_password_to_login_to_another_account(message: Message, bot: TeleBot):

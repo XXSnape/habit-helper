@@ -26,6 +26,7 @@ from keyboards.inline.callback.factories import (
     opportunities_for_change_factory,
     mark_habit_factory,
     habit_details_factory,
+    freeze_habit_factory,
 )
 
 
@@ -41,6 +42,7 @@ def get_tagging_buttons(habit_id: int, date: str) -> dict[str, dict[str, str]]:
         HABIT_NOT_COMPLETED_OUTPUT: {
             CB: mark_habit_factory.new(habit_id=habit_id, date=date, is_done="0")
         },
+        IS_FROZEN_OUTPUT: {CB: freeze_habit_factory.new(habit_id=habit_id)},
     }
 
 

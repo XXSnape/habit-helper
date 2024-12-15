@@ -16,11 +16,16 @@ class HabitRepository(ManagerRepository):
         return result.scalar_one_or_none()
 
     @classmethod
+    async def get_habit_name(cls, session: AsyncSession, data: dict) -> str | None:
+        query = select(cls.model.name).filter_by(**data)
+        result = await session.execute(query)
+        return result.scalar_one_or_none()
+
+    @classmethod
     async def get_habits(
         cls,
         session: AsyncSession,
         user_id: int,
-        # is_frozen: bool,
         is_complete_null: bool,
     ) -> Sequence[HabitModel]:
         query = (

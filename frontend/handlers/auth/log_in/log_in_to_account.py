@@ -4,6 +4,8 @@ from telebot.types import Message
 from api.users.change_telegram_id import change_telegram_id_by_credentials
 from states.auth import LogInStates
 from utils.constants import USERNAME_KEY, MESSAGE_ID_KEY
+from utils.regexp import PASSWORD_REGEXP
+from utils.texts import COMMANDS, DELETE_PASSWORD
 
 
 def log_in(message: Message, bot: TeleBot):
@@ -21,9 +23,15 @@ def log_in(message: Message, bot: TeleBot):
         return
     bot.send_message(
         message.chat.id,
-        "Успешная авторизация!\nПожалуйста, запомните свой пароль и удалите его из переписки",
+        f"Успешная авторизация!\n{DELETE_PASSWORD}",
     )
+    bot.send_message(message.chat.id, text=COMMANDS)
 
 
 def register_log_in(bot: TeleBot):
-    bot.register_message_handler(log_in, pass_bot=True, state=LogInStates.password)
+    bot.register_message_handler(
+        log_in,
+        pass_bot=True,
+        state=LogInStates.password,
+        regexp=PASSWORD_REGEXP,
+    )

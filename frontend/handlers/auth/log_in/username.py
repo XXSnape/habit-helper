@@ -12,17 +12,6 @@ def log_in_to_another_account(callback: CallbackQuery, bot: TeleBot):
         bot=bot,
         state=LogInStates.username,
     )
-    # bot.set_state(
-    #     user_id=callback.from_user.id,
-    #     chat_id=callback.from_user.id,
-    #     state=LogInStates.username,
-    # )
-    # bot.edit_message_text(
-    #     message_id=callback.message.id,
-    #     chat_id=callback.message.chat.id,
-    #     text=f"Пожалуйста, введите никнейм для использования бота.",
-    #     reply_markup=get_cancel_kb(),
-    # )
 
 
 def register_log_in_username(bot: TeleBot):

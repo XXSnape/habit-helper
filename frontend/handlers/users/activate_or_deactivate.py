@@ -5,6 +5,7 @@ from api.users.activity_user import activate_or_deactivate_user_by_flag
 from handlers.default.registration_error import check_registration
 from keyboards.inline.callback.factories import activity_user_factory
 from utils.refresh_token import get_response_and_refresh_token
+from utils.texts import COMMANDS
 
 
 def activate_or_deactivate_user(callback: CallbackQuery, bot: TeleBot):
@@ -27,6 +28,7 @@ def activate_or_deactivate_user(callback: CallbackQuery, bot: TeleBot):
     bot.edit_message_text(
         message_id=callback.message.id, chat_id=callback.message.chat.id, text=message
     )
+    bot.send_message(callback.from_user.id, text=COMMANDS)
 
 
 def register_activate_or_deactivate(bot: TeleBot):

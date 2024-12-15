@@ -1,10 +1,27 @@
 from telebot import TeleBot
 from telebot.types import CallbackQuery
 
+from api.habits.freeze_habit import freeze_habit_by_id
+from database.crud.check_user import get_user_token
 from keyboards.inline.callback.enums import HabitProperties
-from keyboards.inline.callback.factories import opportunities_for_change_factory
+from keyboards.inline.callback.factories import (
+    opportunities_for_change_factory,
+    freeze_habit_factory,
+)
 from utils.constants import HABITS_KEY
 from utils.router_assistants.update_habit import change_property_by_callback
+
+
+def frozen_habit_on_notification(callback: CallbackQuery, bot: TeleBot):
+    habit_id = int(freeze_habit_factory.parse(callback.data)["habit_id"])
+    token = get_user_token(telegram_id=callback.from_user.id)
+    freeze_habit_by_id(access_token=token, habit_id=habit_id)
+    bot.answer_callback_query(
+        callback_query_id=callback.id,
+        text="Привычка успешно приостановлена. Бот пока не будет отправлять о ней напоминания.",
+        show_alert=True,
+    )
+    bot.delete_message(chat_id=callback.from_user.id, message_id=callback.message.id)
 
 
 def change_frozen_property(callback: CallbackQuery, bot: TeleBot):
@@ -29,4 +46,10 @@ def register_change_frozen(bot: TeleBot):
         config=opportunities_for_change_factory.filter(
             property=str(HabitProperties.IS_FROZEN)
         ),
+    )
+    bot.register_callback_query_handler(
+        frozen_habit_on_notification,
+        pass_bot=True,
+        func=None,
+        config=freeze_habit_factory.filter(),
     )

@@ -1,5 +1,6 @@
 from telebot.types import InlineKeyboardMarkup
 
+from keyboards.inline.buttons.cancel import get_home_btn
 from keyboards.inline.buttons.habits import (
     get_my_habits_btn,
     get_selection_to_edit_btn,
@@ -11,7 +12,7 @@ from keyboards.inline.buttons.habits import (
     get_resuming_btn,
     get_habit_details_btn,
 )
-from keyboards.inline.callback.constants import BACK_OUTPUT
+from keyboards.inline.callback.constants import BACK_OUTPUT, MENU_OUTPUT
 from keyboards.inline.keypads.general import create_keyboard
 
 
@@ -21,10 +22,11 @@ def get_back_to_action_kb(number: int) -> InlineKeyboardMarkup:
 
 def get_actions_with_habit_kb(number: int) -> InlineKeyboardMarkup:
     return create_keyboard(
-        get_my_habits_btn(),
         get_statistics_btn(number),
         get_selection_to_edit_btn(number),
         get_deleting_habit_btn(number),
+        get_my_habits_btn(),
+        get_home_btn(MENU_OUTPUT),
     )
 
 
@@ -34,6 +36,7 @@ def get_actions_with_completed_habit_kb(number: int) -> InlineKeyboardMarkup:
         get_statistics_btn(number),
         get_resuming_btn(number),
         get_deleting_habit_btn(number),
+        get_home_btn(MENU_OUTPUT),
     )
 
 
@@ -47,7 +50,10 @@ def get_back_to_habits_kb():
 
 def get_properties_to_change_kb(number: int, iz_frozen: bool) -> InlineKeyboardMarkup:
     return create_keyboard(
-        get_habit_properties_buttons(number, iz_frozen), get_my_habits_btn()
+        get_habit_properties_buttons(number, iz_frozen),
+        get_habit_details_btn(number),
+        get_my_habits_btn(),
+        get_home_btn(MENU_OUTPUT),
     )
 
 

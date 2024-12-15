@@ -4,7 +4,12 @@ from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from repositories.habits import HabitRepository
-from schemas.habits import HabitCreateSchema, HabitPatchSchema, HabitOutputSchema
+from schemas.habits import (
+    HabitCreateSchema,
+    HabitPatchSchema,
+    HabitOutputSchema,
+    HabitNameSchema,
+)
 
 from utils.exceptions import habit_not_exists
 
@@ -99,3 +104,14 @@ async def get_habits_by_id(
         HabitOutputSchema.model_validate(habit, from_attributes=True)
         for habit in habits
     ]
+
+
+async def get_habit_name_by_id(
+    session: AsyncSession, user_id: int, habit_id: int
+) -> HabitNameSchema:
+    name = await HabitRepository.get_habit_name(
+        session=session, data={"id": habit_id, "user_id": user_id}
+    )
+    if not name:
+        raise habit_not_exists
+    return HabitNameSchema(name=name)
