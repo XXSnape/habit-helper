@@ -1,4 +1,9 @@
 services:
+  redis:
+    image: redis:7.4-alpine
+    ports:
+      - "6379:6379"
+
   postgres:
     container_name: postgres
     image: postgres:14.8-alpine3.18
@@ -9,3 +14,12 @@ services:
     env_file:
       - ./backend/.env
     restart: on-failure
+
+  frontend:
+    container_name: bot
+    build: ./frontend
+    depends_on:
+      - redis
+    volumes:
+      - ./frontend:/bot
+

@@ -20,12 +20,17 @@ class BotSettings(BaseSettings):
     token: str
 
 
+class RedisSettings(BaseSettings):
+    host: str
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         case_sensitive=False,
     )
     db: DBSettings = DBSettings()
     bot: BotSettings = BotSettings()
+    redis: RedisSettings = RedisSettings()
 
 
 settings = Settings()

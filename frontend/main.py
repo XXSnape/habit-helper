@@ -3,6 +3,7 @@ import logging
 from apscheduler.schedulers.background import BackgroundScheduler
 from telebot import TeleBot
 from telebot.custom_filters import StateFilter
+from telebot.storage import StateRedisStorage
 
 import handlers.auth as auth
 import handlers.habits as habits
@@ -12,7 +13,7 @@ from handlers.default.cancel import register_cancel
 from handlers.default.unrecognized import register_unrecognized_events
 from inline.filters.habits import EditHabitCallbackFilter
 from handlers.default.start import register_help
-from middlewares.logging import LoggingMiddleware
+from middlewares.handle_errors import HandleErrorsMiddleware
 from utils.scheduler.settings import register_tasks
 
 
@@ -51,16 +52,24 @@ def register_handlers(bot: TeleBot):
     register_unrecognized_events(bot)
 
 
-if __name__ == "__main__":
+def main():
     logger = logging.getLogger(__name__)
     logging.basicConfig(
-        level=logging.INFO,
-        format="%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s",
+        level=logging.DEBUG,
+        datefmt="%Y-%m-%d %H:%M:%S",
+        format="[%(asctime)s.%(msecs)03d] %(module)10s:%(lineno)-3d %(levelname)-7s - %(message)s",
     )
+
     logger.info("start bot")
-    bot = TeleBot(settings.bot.token, use_class_middlewares=True, parse_mode="HTML")
+    redis_storage = StateRedisStorage(host=settings.redis.host)
+    bot = TeleBot(
+        settings.bot.token,
+        state_storage=redis_storage,
+        use_class_middlewares=True,
+        parse_mode="HTML",
+    )
     bot.add_custom_filter(StateFilter(bot))
-    bot.setup_middleware(LoggingMiddleware(bot))
+    bot.setup_middleware(HandleErrorsMiddleware(bot))
     bot.add_custom_filter(EditHabitCallbackFilter())
     register_handlers(bot)
     scheduler = BackgroundScheduler()
@@ -68,3 +77,7 @@ if __name__ == "__main__":
     register_tasks(scheduler=scheduler, bot=bot)
     scheduler.start()
     bot.polling()
+
+
+if __name__ == "__main__":
+    main()

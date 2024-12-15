@@ -48,10 +48,10 @@ def save_habit_without_description(callback: CallbackQuery, bot: TeleBot):
     bot.delete_state(user_id=callback.from_user.id, chat_id=callback.from_user.id)
     bot.edit_message_text(
         message_id=callback.message.id,
-        chat_id=callback.message.chat.id,
+        chat_id=callback.from_user.id,
         text=HABIT_WAS_CREATED,
     )
-    bot.send_message(callback.message.id, text=COMMANDS)
+    bot.send_message(callback.from_user.id, text=COMMANDS)
 
 
 def register_save_habit(bot: TeleBot):

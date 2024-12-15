@@ -1,1 +1,1 @@
-from frontend.handlers.default import start
+from handlers.default import start
