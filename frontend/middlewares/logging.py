@@ -3,6 +3,7 @@ import logging
 from telebot import BaseMiddleware, types, TeleBot
 from telebot.types import CallbackQuery
 
+from utils.delete_message import try_delete_message
 from utils.exceptions import InvalidApiResponse
 
 HANDLED_STR = ["Unhandled", "Handled"]
@@ -89,8 +90,7 @@ class LoggingMiddleware(BaseMiddleware):
                 show_alert=True
             )
             self._bot.delete_state(callback_query.from_user.id, callback_query.from_user.id)
-            self._bot.delete_message(chat_id=callback_query.from_user.id, message_id=callback_query.message.id)
-            return
+            try_delete_message(bot=self._bot, callback=callback_query)
 
         if callback_query.message:
             message = callback_query.message
