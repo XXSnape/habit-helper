@@ -1,4 +1,5 @@
 from api.general import make_request
+from config import settings
 
 
 def create_new_habit(
@@ -6,7 +7,7 @@ def create_new_habit(
 ) -> bool:
     json = make_request(
         method="post",
-        url="http://127.0.0.1:8000/api/habits/",
+        url=f"http://{settings.api.url}/api/habits/",
         headers={"Authorization": f"Bearer {access_token}"},
         json={
             "name": name,

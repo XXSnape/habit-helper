@@ -1,4 +1,5 @@
 from api.general import make_request
+from config import settings
 
 
 def get_access_token_for_new_user(
@@ -6,7 +7,7 @@ def get_access_token_for_new_user(
 ) -> str:
     json = make_request(
         method="post",
-        url="http://127.0.0.1:8000/api/users/register/",
+        url=f"http://{settings.api.url}/api/users/register/",
         json={"username": username, "password": password, "telegram_id": telegram_id},
     )
     return json["access_token"]

@@ -21,7 +21,16 @@ class BotSettings(BaseSettings):
 
 
 class RedisSettings(BaseSettings):
-    host: str
+    redis_host: str
+
+
+class ApiSettings(BaseSettings):
+    api_host: str
+    port: int
+
+    @property
+    def url(self):
+        return f"{self.api_host}:{self.port}"
 
 
 class Settings(BaseSettings):
@@ -31,6 +40,7 @@ class Settings(BaseSettings):
     db: DBSettings = DBSettings()
     bot: BotSettings = BotSettings()
     redis: RedisSettings = RedisSettings()
+    api: ApiSettings = ApiSettings()
 
 
 settings = Settings()

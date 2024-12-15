@@ -61,7 +61,7 @@ def main():
     )
 
     logger.info("start bot")
-    redis_storage = StateRedisStorage(host=settings.redis.host)
+    redis_storage = StateRedisStorage(host=settings.redis.redis_host)
     bot = TeleBot(
         settings.bot.token,
         state_storage=redis_storage,

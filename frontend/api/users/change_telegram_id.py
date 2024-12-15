@@ -1,6 +1,7 @@
 from logging import getLogger
 
 from api.general import make_request
+from config import settings
 from database.crud.update_token import update_telegram_id_and_token
 from utils.exceptions import InvalidAccessToken
 
@@ -13,7 +14,7 @@ def change_telegram_id_by_credentials(
     try:
         json = make_request(
             method="patch",
-            url="http://127.0.0.1:8000/api/users/change_telegram_id/",
+            url=f"http://{settings.api.url}/api/users/change_telegram_id/",
             json={
                 "username": username,
                 "password": password,

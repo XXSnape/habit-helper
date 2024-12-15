@@ -15,11 +15,21 @@ services:
       - ./backend/.env
     restart: on-failure
 
+  backend:
+    container_name: app
+    build: ./backend
+    depends_on:
+      - postgres
+    ports:
+      - "8000:8000"
+
+
   frontend:
     container_name: bot
     build: ./frontend
     depends_on:
       - redis
+      - backend
     volumes:
       - ./frontend:/bot
 
