@@ -3,7 +3,7 @@ from telebot import TeleBot
 from telebot.types import Message
 
 from database.crud.check_user import get_user_token
-from keyboards.inline.keypads.auth import get_auth_request_kb
+from inline.keypads.auth import get_auth_request_kb
 from utils.texts import COMMANDS
 
 

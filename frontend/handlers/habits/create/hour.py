@@ -1,9 +1,9 @@
 from telebot import TeleBot
 from telebot.types import Message
 
-from keyboards.inline.keypads.time import get_hour_selection_kb
+from inline.keypads.time import get_hour_selection_kb
 from states.habits import CreateHabitStates
-from utils.constants import COUNT_KEY
+from utils.cache_keys import COUNT_KEY
 
 
 def request_hour(message: Message, bot: TeleBot):

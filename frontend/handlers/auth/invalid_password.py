@@ -1,7 +1,7 @@
 from telebot import TeleBot
 from telebot.types import Message
 
-from keyboards.inline.keypads.cancel import get_cancel_kb
+from inline.keypads.cancel import get_cancel_kb
 from states.auth import AuthStates, LogInStates, ChangePasswordStates
 
 

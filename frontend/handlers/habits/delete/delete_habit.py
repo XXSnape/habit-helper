@@ -2,9 +2,11 @@ from telebot import TeleBot
 from telebot.types import CallbackQuery
 
 from api.habits.delete_habit import delete_habit_by_id
-from keyboards.inline.callback.enums import ActionsHabitEnum
-from keyboards.inline.callback.factories import actions_with_habit_factory
-from utils.constants import TOKEN_KEY
+from inline.callback.constants import MENU_OUTPUT
+from inline.callback.enums import ActionsHabitEnum
+from inline.callback.factories import actions_with_habit_factory
+from inline.keypads.cancel import get_cancel_kb
+from utils.cache_keys import TOKEN_KEY
 from utils.refresh_token import get_response_and_refresh_token
 
 
@@ -25,6 +27,7 @@ def delete_habit(callback: CallbackQuery, bot: TeleBot) -> None:
         message_id=callback.message.id,
         chat_id=callback.message.chat.id,
         text="Нет ни одной привычки" if text is None else text,
+        reply_markup=get_cancel_kb(MENU_OUTPUT),
     )
 
 

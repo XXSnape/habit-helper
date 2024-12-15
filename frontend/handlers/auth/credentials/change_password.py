@@ -2,9 +2,9 @@ from telebot import TeleBot
 from telebot.types import Message
 
 from handlers.default.registration_error import check_registration
-from keyboards.inline.keypads.cancel import get_cancel_kb
+from inline.keypads.cancel import get_cancel_kb
 from states.auth import ChangePasswordStates
-from utils.constants import MESSAGE_ID_KEY
+from utils.cache_keys import MESSAGE_ID_KEY
 
 
 def require_new_password(message: Message, bot: TeleBot):

@@ -1,7 +1,7 @@
 from telebot import TeleBot
 from telebot.types import CallbackQuery
 
-from keyboards.inline.callback.callbacks import CALL_OFF_CALLBACK
+from inline.callback.callbacks import CALL_OFF_CALLBACK
 from utils.texts import COMMANDS
 
 

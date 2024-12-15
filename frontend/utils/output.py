@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from utils.constants import HABITS_KEY
+from utils.cache_keys import HABITS_KEY
 
 
 def present_data(data: dict, initial_text="") -> str:

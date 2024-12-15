@@ -10,7 +10,6 @@ from .read import (
     register_get_habits,
     register_get_habit_details,
     register_calendar,
-    register_resume_habits,
 )
 from .update import (
     register_provide_with_choosing,
@@ -19,5 +18,6 @@ from .update import (
     register_change_frozen,
     register_change_count,
     register_change_description,
+    register_resume_habits,
 )
 from .delete import register_delete_habit

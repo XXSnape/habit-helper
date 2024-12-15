@@ -7,10 +7,10 @@ from telebot.custom_filters import StateFilter
 import handlers.auth as auth
 import handlers.habits as habits
 import handlers.users as users
+from config import settings
 from handlers.default.cancel import register_cancel
 from handlers.default.unrecognized import register_unrecognized_events
-from keyboards.inline.filters.habits import EditHabitCallbackFilter
-from loader import bot
+from inline.filters.habits import EditHabitCallbackFilter
 from handlers.default.start import register_help
 from middlewares.logging import LoggingMiddleware
 from utils.scheduler.settings import register_tasks
@@ -58,6 +58,7 @@ if __name__ == "__main__":
         format="%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s",
     )
     logger.info("start bot")
+    bot = TeleBot(settings.bot.token, use_class_middlewares=True, parse_mode="HTML")
     bot.add_custom_filter(StateFilter(bot))
     bot.setup_middleware(LoggingMiddleware(bot))
     bot.add_custom_filter(EditHabitCallbackFilter())

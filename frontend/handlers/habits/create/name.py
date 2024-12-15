@@ -2,9 +2,8 @@ from telebot import TeleBot
 from telebot.types import Message
 
 from handlers.default.registration_error import check_registration
-from keyboards.inline.keypads.cancel import get_cancel_kb
+from inline.keypads.cancel import get_cancel_kb
 from states.habits import CreateHabitStates
-from utils.constants import TOKEN_KEY
 
 
 def request_name(message: Message, bot: TeleBot):

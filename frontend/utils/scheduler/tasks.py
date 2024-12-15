@@ -1,6 +1,5 @@
 import logging
 from concurrent.futures import ThreadPoolExecutor
-from pprint import pprint
 
 from telebot import TeleBot
 from telebot.apihelper import ApiTelegramException
@@ -8,7 +7,7 @@ from telebot.apihelper import ApiTelegramException
 from api.habits.all_habits import get_habits_all_users_by_hour
 from api.users.activity_user import activate_or_deactivate_user_by_flag
 from database.crud.check_user import get_user_token
-from keyboards.inline.keypads.habits import get_opportunity_to_mark_habit_kb
+from inline.keypads.habits import get_opportunity_to_mark_habit_kb
 from utils.exceptions import InvalidApiResponse
 from utils.refresh_token import get_response_and_refresh_token
 
@@ -59,19 +58,5 @@ def send_reminders_to_all_users(bot: TeleBot, hour: int) -> None:
             ]
             for task in tasks:
                 task.result()
-        # for habit in habits:
-        #     send_user_notification()
-        #     try:
-        #         bot.send_message(
-        #             chat_id=habit["telegram_id"],
-        #             text=f"Пришло время отчета о привычке: «{habit['name']}».\nПожалуйста, нажмите на кнопку ниже",
-        #             reply_markup=get_opportunity_to_mark_habit_kb(
-        #                 habit_id=habit["id"], date=current_date
-        #             ),
-        #         )
-        #     except ApiTelegramException as e:
-        #         logger.error("%s", e.description)
-        #         deactivate_user(habit["telegram_id"])
-
     except InvalidApiResponse as e:
         logger.error("Не удалось получить привычки: %s", str(e))

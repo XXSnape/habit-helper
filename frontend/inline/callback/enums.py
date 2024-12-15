@@ -1,7 +1,7 @@
 from enum import IntEnum, auto
 
 
-class HabitProperties(IntEnum):
+class HabitPropertiesEnum(IntEnum):
     NAME = auto()
     HOUR = auto()
     COUNT = auto()

@@ -1,10 +1,10 @@
 from telebot import TeleBot
 from telebot.types import CallbackQuery
 
-from keyboards.inline.callback.enums import ActionsHabitEnum
-from keyboards.inline.callback.factories import actions_with_habit_factory
-from keyboards.inline.keypads.habits import get_properties_to_change_kb
-from utils.constants import HABITS_KEY
+from inline.callback.enums import ActionsHabitEnum
+from inline.callback.factories import actions_with_habit_factory
+from inline.keypads.habits import get_properties_to_change_kb
+from utils.cache_keys import HABITS_KEY
 from utils.output import get_habit_details_from_cache
 
 

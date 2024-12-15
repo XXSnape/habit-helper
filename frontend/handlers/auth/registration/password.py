@@ -2,10 +2,10 @@ from telebot import TeleBot
 from telebot.types import Message
 
 from api.users.check_user import check_user_existence
-from keyboards.inline.keypads.auth import delete_password_request_kb
-from keyboards.inline.keypads.cancel import get_cancel_kb
+from inline.keypads.auth import delete_password_request_kb
+from inline.keypads.cancel import get_cancel_kb
 from states.auth import AuthStates
-from utils.constants import USERNAME_KEY, MESSAGE_ID_KEY
+from utils.cache_keys import USERNAME_KEY, MESSAGE_ID_KEY
 
 
 def validate_username_and_request_password(message: Message, bot: TeleBot):

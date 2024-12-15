@@ -1,11 +1,11 @@
 from telebot import TeleBot
 from telebot.types import CallbackQuery, Message
 
-from keyboards.inline.callback.enums import HabitProperties
-from keyboards.inline.callback.factories import opportunities_for_change_factory
+from inline.callback.enums import HabitPropertiesEnum
+from inline.callback.factories import opportunities_for_change_factory
 
 from states.habits import ChangeHabitStates
-from utils.constants import CONTEXT_KEY, HABITS_KEY
+from utils.cache_keys import CONTEXT_KEY, HABITS_KEY
 from utils.router_assistants.update_habit import (
     request_new_property,
     change_property_by_message,
@@ -36,7 +36,7 @@ def register_change_name(bot: TeleBot):
         pass_bot=True,
         func=None,
         config=opportunities_for_change_factory.filter(
-            property=str(HabitProperties.NAME)
+            property=str(HabitPropertiesEnum.NAME)
         ),
     )
     bot.register_message_handler(

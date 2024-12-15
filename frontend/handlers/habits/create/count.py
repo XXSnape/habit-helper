@@ -1,9 +1,9 @@
 from telebot import TeleBot
 from telebot.types import Message
 
-from keyboards.inline.keypads.cancel import get_cancel_kb
+from inline.keypads.cancel import get_cancel_kb
 from states.habits import CreateHabitStates
-from utils.constants import NAME_KEY
+from utils.cache_keys import NAME_KEY
 
 
 def request_count(message: Message, bot: TeleBot):

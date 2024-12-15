@@ -1,13 +1,13 @@
 from telebot.types import Message, CallbackQuery
 
-from keyboards.inline.callback.constants import MENU_OUTPUT
-from keyboards.inline.callback.factories import habit_details_factory
-from keyboards.inline.keypads.cancel import get_cancel_kb
-from keyboards.inline.keypads.habits import (
+from inline.callback.constants import MENU_OUTPUT
+from inline.callback.factories import habit_details_factory
+from inline.keypads.cancel import get_cancel_kb
+from inline.keypads.habits import (
     get_actions_with_habit_kb,
     get_actions_with_completed_habit_kb,
 )
-from utils.constants import COMPLETED_KEY
+from utils.cache_keys import COMPLETED_KEY
 from utils.output import get_habit_details_from_cache
 
 from telebot import TeleBot

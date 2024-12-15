@@ -1,10 +1,10 @@
 from telebot.types import InlineKeyboardMarkup
 
-from keyboards.inline.buttons.cancel import get_home_btn
-from keyboards.inline.buttons.habits import get_selection_to_edit_btn
-from keyboards.inline.buttons.time import get_hours_buttons
-from keyboards.inline.callback.constants import BACK_OUTPUT
-from keyboards.inline.keypads.general import create_keyboard
+from inline.buttons.cancel import get_home_btn
+from inline.buttons.habits import get_selection_to_edit_btn
+from inline.buttons.time import get_hours_buttons
+from inline.callback.constants import BACK_OUTPUT
+from inline.keypads.general import create_keyboard
 
 
 def get_hour_selection_kb() -> InlineKeyboardMarkup:

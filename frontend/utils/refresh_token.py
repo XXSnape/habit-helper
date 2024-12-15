@@ -5,27 +5,38 @@ from charset_normalizer.md import getLogger
 from api.users.get_token import get_new_access_token_by_id
 from database.crud.update_token import update_token_by_id
 from .exceptions import InvalidAccessToken
+from typing import TypedDict, Unpack, Required
 
 logger = getLogger(__name__)
 
 
-def get_response_and_refresh_token(telegram_id: int, func: Callable, **kwargs):
+class ApiOptions(TypedDict, total=False):
+    access_token: Required[str]
+    is_active: bool
+    password: str
+    tg_id: int
+    name: str
+    count: int
+    hour: int
+    description: str
+    number: int
+    cache: dict
+    habit_id: int
+    is_done: str
+    date: str
+    reason: str | None
+    is_complete_null: bool
+    new_data: dict
+
+
+def get_response_and_refresh_token(
+    telegram_id: int, func: Callable, **kwargs: Unpack[ApiOptions]
+):
     try:
         return func(**kwargs)
     except InvalidAccessToken:
-        logger.info("Просроченный токен")
+        logger.info("Просроченный токен у пользователя %s", telegram_id)
         new_access_token = get_new_access_token_by_id(telegram_id)
         update_token_by_id(telegram_id, new_access_token)
         kwargs["access_token"] = new_access_token
         return func(**kwargs)
-
-
-# class RefreshToken:
-#     def __init__(self, func: Callable):
-#         self.func = func
-#
-#     def __call__(self, *args, **kwargs):
-#         try:
-#             return self.func(*args, **kwargs)
-#         except InvalidAccessToken:
-#             logger.info('Просроченный токен')

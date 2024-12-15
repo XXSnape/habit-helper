@@ -3,12 +3,12 @@ from telebot.types import CallbackQuery
 
 from api.habits.freeze_habit import freeze_habit_by_id
 from database.crud.check_user import get_user_token
-from keyboards.inline.callback.enums import HabitProperties
-from keyboards.inline.callback.factories import (
+from inline.callback.enums import HabitPropertiesEnum
+from inline.callback.factories import (
     opportunities_for_change_factory,
     freeze_habit_factory,
 )
-from utils.constants import HABITS_KEY
+from utils.cache_keys import HABITS_KEY
 from utils.router_assistants.update_habit import change_property_by_callback
 
 
@@ -44,7 +44,7 @@ def register_change_frozen(bot: TeleBot):
         pass_bot=True,
         func=None,
         config=opportunities_for_change_factory.filter(
-            property=str(HabitProperties.IS_FROZEN)
+            property=str(HabitPropertiesEnum.IS_FROZEN)
         ),
     )
     bot.register_callback_query_handler(

@@ -3,7 +3,7 @@ from telebot.types import Message
 
 from api.users.create_user import get_access_token_for_new_user
 from states.auth import AuthStates
-from utils.constants import USERNAME_KEY, MESSAGE_ID_KEY
+from utils.cache_keys import USERNAME_KEY, MESSAGE_ID_KEY
 from database.crud.add_user import add_new_user
 from utils.regexp import PASSWORD_REGEXP
 from utils.texts import COMMANDS, DELETE_PASSWORD

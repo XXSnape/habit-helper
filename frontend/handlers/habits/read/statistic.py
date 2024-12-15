@@ -1,11 +1,11 @@
 from telebot import TeleBot
 from telebot.types import CallbackQuery
 
-from keyboards.inline.callback.enums import ActionsHabitEnum
-from keyboards.inline.callback.factories import (
+from inline.callback.enums import ActionsHabitEnum
+from inline.callback.factories import (
     actions_with_habit_factory,
 )
-from utils.constants import (
+from utils.cache_keys import (
     HABITS_KEY,
     CONTEXT_KEY,
     REASONS_KEY,
@@ -18,6 +18,7 @@ from utils.custom_calendar import (
     RU_LSTEP,
 )
 from utils.router_assistants.calendar import checking_habit_for_completion_by_date
+from utils.texts import DATE_DESIGNATIONS
 
 
 def show_calendar(callback: CallbackQuery, bot: TeleBot):
@@ -48,7 +49,7 @@ def show_calendar(callback: CallbackQuery, bot: TeleBot):
     bot.edit_message_text(
         message_id=callback.message.id,
         chat_id=callback.message.chat.id,
-        text=f"Выберите {RU_LSTEP[step]}",
+        text=f"{DATE_DESIGNATIONS}\n\nВыберите {RU_LSTEP[step]}:",
         reply_markup=calendar,
     )
 
@@ -72,7 +73,7 @@ def process_date_selection(callback: CallbackQuery, bot: TeleBot):
     ).process(callback.data)
     if not result and key:
         bot.edit_message_text(
-            f"Выберите {RU_LSTEP[step]}",
+            f"{DATE_DESIGNATIONS}\n\nВыберите {RU_LSTEP[step]}:",
             callback.message.chat.id,
             callback.message.message_id,
             reply_markup=key,

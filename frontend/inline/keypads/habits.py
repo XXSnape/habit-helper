@@ -1,7 +1,7 @@
 from telebot.types import InlineKeyboardMarkup
 
-from keyboards.inline.buttons.cancel import get_home_btn
-from keyboards.inline.buttons.habits import (
+from inline.buttons.cancel import get_home_btn
+from inline.buttons.habits import (
     get_my_habits_btn,
     get_selection_to_edit_btn,
     get_habit_properties_buttons,
@@ -12,8 +12,8 @@ from keyboards.inline.buttons.habits import (
     get_resuming_btn,
     get_habit_details_btn,
 )
-from keyboards.inline.callback.constants import BACK_OUTPUT, MENU_OUTPUT
-from keyboards.inline.keypads.general import create_keyboard
+from inline.callback.constants import BACK_OUTPUT, MENU_OUTPUT
+from inline.keypads.general import create_keyboard
 
 
 def get_back_to_action_kb(number: int) -> InlineKeyboardMarkup:

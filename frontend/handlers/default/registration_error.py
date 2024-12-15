@@ -1,8 +1,8 @@
 from telebot import TeleBot, State
 
 from database.crud.check_user import get_user_token
-from keyboards.inline.keypads.auth import get_auth_request_kb
-from utils.constants import TOKEN_KEY
+from inline.keypads.auth import get_auth_request_kb
+from utils.cache_keys import TOKEN_KEY
 
 
 def check_registration(

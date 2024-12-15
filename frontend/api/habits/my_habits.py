@@ -1,5 +1,5 @@
 from api.general import make_request
-from utils.constants import HABITS_KEY
+from utils.cache_keys import HABITS_KEY
 from utils.output import get_text_from_cache
 
 

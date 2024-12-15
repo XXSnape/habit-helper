@@ -3,6 +3,8 @@ import logging
 from telebot import BaseMiddleware, types, TeleBot
 from telebot.types import CallbackQuery
 
+from inline.callback.constants import MENU_OUTPUT
+from inline.keypads.cancel import get_cancel_kb
 from utils.delete_message import try_delete_message
 from utils.exceptions import InvalidApiResponse
 
@@ -13,7 +15,7 @@ class LoggingMiddleware(BaseMiddleware):
 
     def __init__(self, bot: TeleBot, logger=__name__):
         self._bot = bot
-        self.update_types = ["message", "edited_message", "callback_query"]
+        self.update_types = ["message", "callback_query"]
         self.update_sensitive = True
         if not isinstance(logger, logging.Logger):
             logger = logging.getLogger(logger)
@@ -27,26 +29,19 @@ class LoggingMiddleware(BaseMiddleware):
 
     def post_process_message(self, message: types.Message, data: dict, exception=None):
         if exception:
-            self.logger.error('Ошибка обрабатывается в post_process_message: %s', str(exception))
-            self._bot.send_message(message.chat.id, text='Произошла ошибка. Пожалуйста, попробуйте позже.')
+            self.logger.error(
+                "Ошибка обрабатывается в post_process_message: %s", str(exception)
+            )
+            self._bot.send_message(
+                message.chat.id,
+                text="Произошла ошибка. Пожалуйста, попробуйте позже.",
+                reply_markup=get_cancel_kb(MENU_OUTPUT),
+            )
             self._bot.delete_state(message.chat.id, message.chat.id)
             return
         self.logger.debug(
             f"{HANDLED_STR[bool(len(data))]} "
             f"message [ID:{message.message_id}] in chat [{message.chat.type}:{message.chat.id}]"
-        )
-
-    def pre_process_edited_message(self, edited_message, data: dict):
-        self.logger.info(
-            f"Received edited message [ID:{edited_message.message_id}] "
-            f"in chat [{edited_message.chat.type}:{edited_message.chat.id}]"
-        )
-
-    def post_process_edited_message(self, edited_message, results, data: dict):
-        self.logger.debug(
-            f"{HANDLED_STR[bool(len(results))]} "
-            f"edited message [ID:{edited_message.message_id}] "
-            f"in chat [{edited_message.chat.type}:{edited_message.chat.id}]"
         )
 
     def pre_process_callback_query(
@@ -82,14 +77,14 @@ class LoggingMiddleware(BaseMiddleware):
             if isinstance(exception, InvalidApiResponse) and str(exception):
                 text = str(exception)
             else:
-                text = 'Кнопка больше не актуальна, пожалуйста, сделайте запрос снова'
-            self.logger.error('Ошибка %s', str(exception))
+                text = "Кнопка больше не актуальна, пожалуйста, сделайте запрос снова"
+            self.logger.error("Ошибка %s", str(exception))
             self._bot.answer_callback_query(
-                callback_query.id,
-                text=text,
-                show_alert=True
+                callback_query.id, text=text, show_alert=True
             )
-            self._bot.delete_state(callback_query.from_user.id, callback_query.from_user.id)
+            self._bot.delete_state(
+                callback_query.from_user.id, callback_query.from_user.id
+            )
             try_delete_message(bot=self._bot, callback=callback_query)
 
         if callback_query.message:

@@ -3,7 +3,7 @@ from telebot.types import Message
 
 from api.users.change_telegram_id import change_telegram_id_by_credentials
 from states.auth import LogInStates
-from utils.constants import USERNAME_KEY, MESSAGE_ID_KEY
+from utils.cache_keys import USERNAME_KEY, MESSAGE_ID_KEY
 from utils.regexp import PASSWORD_REGEXP
 from utils.texts import COMMANDS, DELETE_PASSWORD
 

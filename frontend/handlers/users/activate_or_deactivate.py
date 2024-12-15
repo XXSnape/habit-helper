@@ -3,7 +3,7 @@ from telebot.types import CallbackQuery
 
 from api.users.activity_user import activate_or_deactivate_user_by_flag
 from handlers.default.registration_error import check_registration
-from keyboards.inline.callback.factories import activity_user_factory
+from inline.callback.factories import activity_user_factory
 from utils.refresh_token import get_response_and_refresh_token
 from utils.texts import COMMANDS
 

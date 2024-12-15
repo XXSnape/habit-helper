@@ -1,11 +1,9 @@
-from pyexpat.errors import messages
-
 from telebot import TeleBot
 from telebot.types import Message
 
 from api.users.info import get_my_info_by_token
 from handlers.default.registration_error import check_registration
-from keyboards.inline.keypads.users import get_control_bot_kb
+from inline.keypads.users import get_control_bot_kb
 from utils.refresh_token import get_response_and_refresh_token
 
 

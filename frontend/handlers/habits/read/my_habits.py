@@ -1,11 +1,11 @@
 from telebot import TeleBot
 from telebot.types import Message, CallbackQuery
 
-from keyboards.inline.callback.callbacks import MY_HABITS_CALLBACK
-from keyboards.inline.callback.constants import MENU_OUTPUT
-from keyboards.inline.keypads.cancel import get_cancel_kb
+from inline.callback.callbacks import MY_HABITS_CALLBACK
+from inline.callback.constants import MENU_OUTPUT
+from inline.keypads.cancel import get_cancel_kb
 from states.habits import ReadHabitStates
-from utils.constants import COMPLETED_KEY
+from utils.cache_keys import COMPLETED_KEY
 
 from utils.output import get_text_from_cache
 from utils.refresh_token import get_response_and_refresh_token

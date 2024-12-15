@@ -13,7 +13,7 @@ def try_delete_message(
 ):
     try:
         bot.delete_message(
-            chat_id=callback.from_user.id, message_id=callback.from_user.id
+            chat_id=callback.from_user.id, message_id=callback.message.id
         )
     except ApiTelegramException:
         logger.error(

@@ -1,9 +1,9 @@
 from telebot import TeleBot
 from telebot.types import CallbackQuery
 
-from keyboards.inline.keypads.cancel import get_refusal_to_describe_kb
+from inline.keypads.cancel import get_refusal_to_describe_kb
 from states.habits import CreateHabitStates
-from utils.constants import HOUR_KEY
+from utils.cache_keys import HOUR_KEY
 
 
 def request_description(callback: CallbackQuery, bot: TeleBot):

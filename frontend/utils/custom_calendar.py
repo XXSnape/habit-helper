@@ -3,14 +3,11 @@ from calendar import monthrange
 
 from telegram_bot_calendar.base import *
 
-from keyboards.inline.callback.callbacks import CALL_OFF_CALLBACK, MY_HABITS_CALLBACK
-from keyboards.inline.callback.constants import CALL_OFF_OUTPUT
-from keyboards.inline.callback.enums import ActionsHabitEnum
-from keyboards.inline.callback.factories import (
-    actions_with_habit_factory,
+from inline.callback.callbacks import MY_HABITS_CALLBACK
+from inline.callback.factories import (
     habit_details_factory,
 )
-from utils.constants import (
+from utils.cache_keys import (
     HABITS_KEY,
     IS_DONE_KEY,
     IS_NOT_DONE_KEY,
@@ -20,16 +17,17 @@ from utils.constants import (
 )
 from datetime import date, datetime
 
+from utils.texts import UNMARKED_DATE, MARKED_DATE
+from typing import override
+
 RU_LSTEP = {"y": "год", "m": "месяц", "d": "день"}
 
 
 class CustomCalendar(WMonthTelegramCalendar):
     prev_button = "⬅️"
     next_button = "➡️"
-    # empty_month_button = "❌"
-    # empty_year_button = "❌"
-    # empty_nav_button = "❌"
 
+    @override
     def __init__(
         self,
         completed: list[str],
@@ -74,18 +72,20 @@ class CustomCalendar(WMonthTelegramCalendar):
             telethon=telethon,
             **kwargs
         )
+        self.days_of_week["ru"] = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
         self.completed = completed
         self.not_completed = not_completed
 
     def _get_decorated_button(self, current_date: date) -> str:
         if str(current_date) in self.completed:
-            return "🟢" + str(current_date.day)
+            return MARKED_DATE + str(current_date.day)
         if str(current_date) in self.not_completed:
-            return "🔴" + str(current_date.day)
+            return UNMARKED_DATE + str(current_date.day)
         if current_date:
             return str(current_date.day)
         return self.empty_day_button
 
+    @override
     def _build_days(self, *args, **kwargs):
         days_num = monthrange(self.current_date.year, self.current_date.month)[1]
 
