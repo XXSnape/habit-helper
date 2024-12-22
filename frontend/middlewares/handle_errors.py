@@ -90,7 +90,7 @@ class HandleErrorsMiddleware(BaseMiddleware):
 
         if callback.message:
             self.logger.info(
-                "Получено"
+                "Получено "
                 "callback с id %s "
                 "от пользователя %s с id %s "
                 "на сообщение с id %s "

@@ -36,8 +36,9 @@ def send_user_notification(bot: TeleBot, habit: dict, current_date: str):
             ),
         )
     except ApiTelegramException as e:
+        if "bot was blocked by the user" in e.description:
+            deactivate_user(habit["telegram_id"])
         logger.error("%s", e.description)
-        deactivate_user(habit["telegram_id"])
 
 
 def send_reminders_to_all_users(bot: TeleBot, hour: int) -> None:
