@@ -22,5 +22,5 @@ def start(message: Message, bot: TeleBot):
     bot.send_message(message.chat.id, text=COMMANDS)
 
 
-def register_help(bot: TeleBot) -> None:
+def register_start(bot: TeleBot) -> None:
     bot.register_message_handler(start, commands=["start"], pass_bot=True)

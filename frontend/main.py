@@ -5,21 +5,21 @@ from telebot import TeleBot
 from telebot.custom_filters import StateFilter
 from telebot.storage import StateRedisStorage
 
+import handlers.default as default
 import handlers.auth as auth
 import handlers.habits as habits
 import handlers.users as users
+
 from config import settings
-from handlers.default.cancel import register_cancel
-from handlers.default.unrecognized import register_unrecognized_events
 from inline.filters.habits import EditHabitCallbackFilter
-from handlers.default.start import register_help
 from middlewares.handle_errors import HandleErrorsMiddleware
 from utils.scheduler.settings import register_tasks
 
 
 def register_handlers(bot: TeleBot):
-    register_cancel(bot)
-    register_help(bot)
+    default.register_cancel(bot)
+    default.register_start(bot)
+    default.register_help(bot)
     auth.register_username(bot)
     auth.register_password(bot)
     auth.register_saving_user(bot)
@@ -49,13 +49,13 @@ def register_handlers(bot: TeleBot):
     habits.register_resume_habits(bot)
     habits.register_calendar(bot)
 
-    register_unrecognized_events(bot)
+    default.register_unrecognized_events(bot)
 
 
 def main():
     logger = logging.getLogger(__name__)
     logging.basicConfig(
-        level=logging.DEBUG,
+        level=logging.INFO,
         datefmt="%Y-%m-%d %H:%M:%S",
         format="[%(asctime)s.%(msecs)03d] %(module)10s:%(lineno)-3d %(levelname)-7s - %(message)s",
     )
