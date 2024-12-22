@@ -46,12 +46,14 @@ def save_habit_without_description(callback: CallbackQuery, bot: TeleBot):
         description="Пока нет описания",
     )
     bot.delete_state(user_id=callback.from_user.id, chat_id=callback.from_user.id)
+    bot.answer_callback_query(
+        callback_query_id=callback.id, text=HABIT_WAS_CREATED, show_alert=True
+    )
     bot.edit_message_text(
         message_id=callback.message.id,
         chat_id=callback.from_user.id,
-        text=HABIT_WAS_CREATED,
+        text=COMMANDS,
     )
-    bot.send_message(callback.from_user.id, text=COMMANDS)
 
 
 def register_save_habit(bot: TeleBot):

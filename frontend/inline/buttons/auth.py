@@ -9,10 +9,10 @@ from inline.callback.constants import (
     LOG_IN_OUTPUT,
     MENU_OUTPUT,
 )
-from .types import Button
+from .types import Buttons
 
 
-def get_check_in_buttons() -> Button:
+def get_check_in_buttons() -> Buttons:
     return {
         REGISTER_OUTPUT: {CB: REGISTRATION_CALLBACK},
         LOG_IN_OUTPUT: {CB: LOG_IN_CALLBACK},

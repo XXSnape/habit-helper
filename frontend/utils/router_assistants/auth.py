@@ -14,7 +14,9 @@ def ask_for_username(callback: CallbackQuery, bot: TeleBot, state: State):
             text="Вы уже зарегистрированы",
             show_alert=True,
         )
-        try_delete_message(bot=bot, callback=callback)
+        bot.delete_message(
+            chat_id=callback.from_user.id, message_id=callback.message.id
+        )
         return
     bot.set_state(
         user_id=callback.from_user.id,

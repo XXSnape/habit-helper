@@ -28,14 +28,14 @@ from inline.callback.factories import (
     habit_details_factory,
     freeze_habit_factory,
 )
-from .types import Button
+from .types import Buttons
 
 
-def get_my_habits_btn() -> Button:
+def get_my_habits_btn() -> Buttons:
     return {MY_HABITS_OUTPUT: {CB: MY_HABITS_CALLBACK}}
 
 
-def get_tagging_buttons(habit_id: int, date: str) -> Button:
+def get_tagging_buttons(habit_id: int, date: str) -> Buttons:
     return {
         HABIT_COMPLETED_OUTPUT: {
             CB: mark_habit_factory.new(habit_id=habit_id, date=date, is_done="1")
@@ -47,15 +47,15 @@ def get_tagging_buttons(habit_id: int, date: str) -> Button:
     }
 
 
-def get_reason_waiver_btn() -> Button:
+def get_reason_waiver_btn() -> Buttons:
     return {REJECTION_REASON_OUTPUT: {CB: REJECTION_REASON_CALLBACK}}
 
 
-def get_habit_details_btn(number: int) -> Button:
+def get_habit_details_btn(number: int) -> Buttons:
     return {BACK_OUTPUT: {CB: habit_details_factory.new(num_habit=number)}}
 
 
-def get_selection_to_edit_btn(number: int, key: str = EDIT_HABIT_OUTPUT) -> Button:
+def get_selection_to_edit_btn(number: int, key: str = EDIT_HABIT_OUTPUT) -> Buttons:
     return {
         key: {
             CB: actions_with_habit_factory.new(
@@ -65,7 +65,7 @@ def get_selection_to_edit_btn(number: int, key: str = EDIT_HABIT_OUTPUT) -> Butt
     }
 
 
-def get_statistics_btn(number: int) -> Button:
+def get_statistics_btn(number: int) -> Buttons:
     return {
         STATISTIC_OUTPUT: {
             CB: actions_with_habit_factory.new(
@@ -75,7 +75,7 @@ def get_statistics_btn(number: int) -> Button:
     }
 
 
-def get_resuming_btn(number: int) -> Button:
+def get_resuming_btn(number: int) -> Buttons:
     return {
         RESUME_OUTPUT: {
             CB: actions_with_habit_factory.new(
@@ -85,7 +85,7 @@ def get_resuming_btn(number: int) -> Button:
     }
 
 
-def get_deleting_habit_btn(number: int) -> Button:
+def get_deleting_habit_btn(number: int) -> Buttons:
     return {
         DELETE_HABIT_OUTPUT: {
             CB: actions_with_habit_factory.new(
@@ -95,7 +95,7 @@ def get_deleting_habit_btn(number: int) -> Button:
     }
 
 
-def get_habit_properties_buttons(number: int, iz_frozen) -> Button:
+def get_habit_properties_buttons(number: int, iz_frozen) -> Buttons:
     values = {
         NAME_OUTPUT: {
             CB: opportunities_for_change_factory.new(

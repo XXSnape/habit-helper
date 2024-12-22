@@ -52,7 +52,7 @@ class HandleErrorsMiddleware(BaseMiddleware):
             self._bot.delete_state(message.chat.id, message.chat.id)
             return
         self.logger.info(
-            "Получено сообщение с id %s от пользователя %s c id %s",
+            "Обработано сообщение с id %s от пользователя %s c id %s",
             message.id,
             message.from_user.first_name,
             message.from_user.id,
@@ -90,7 +90,7 @@ class HandleErrorsMiddleware(BaseMiddleware):
 
         if callback.message:
             self.logger.info(
-                "Получено "
+                "Обработано "
                 "callback с id %s "
                 "от пользователя %s с id %s "
                 "на сообщение с id %s "
