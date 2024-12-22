@@ -9,7 +9,12 @@ from utils.regexp import PASSWORD_REGEXP
 from utils.texts import COMMANDS, DELETE_PASSWORD
 
 
-def save_password(message: Message, bot: TeleBot):
+def save_password(message: Message, bot: TeleBot) -> None:
+    """
+    Сохраняет новый пароль
+    :param message: Message
+    :param bot: TeleBot
+    """
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
         get_response_and_refresh_token(
             telegram_id=message.chat.id,
@@ -28,7 +33,11 @@ def save_password(message: Message, bot: TeleBot):
     bot.send_message(message.chat.id, text=COMMANDS)
 
 
-def register_save_password(bot: TeleBot):
+def register_save_password(bot: TeleBot) -> None:
+    """
+    Регистрирует save_password
+    :param bot: TeleBot
+    """
     bot.register_message_handler(
         save_password,
         pass_bot=True,

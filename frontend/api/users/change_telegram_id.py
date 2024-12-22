@@ -11,6 +11,13 @@ logger = getLogger(__name__)
 def change_telegram_id_by_credentials(
     username: str, password: str, new_telegram_id: int
 ) -> bool:
+    """
+    Меняет telegram id по никнейму и паролю на бэкэнде и в базе данных
+    :param username: имя пользователя
+    :param password: пароль пользователя
+    :param new_telegram_id: новый telegram id
+    :return: False при безуспешной авторизации на сервисе или True
+    """
     try:
         json = make_request(
             method="patch",

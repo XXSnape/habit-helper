@@ -7,6 +7,16 @@ from utils.output import get_text_from_cache
 def get_my_habits_by_token(
     access_token: str, cache: dict, is_complete_null: bool
 ) -> str | None:
+    """
+    Получает полную информацию о привычках пользователя по его access_token.
+    Кэширует полученную информацию, кладя ее в список с первым элементом None,
+    чтобы номер привычки от пользователя совпадал с её фактическим индексом в кэше
+
+    :param access_token: токен пользователя
+    :param cache: кэш
+    :param is_complete_null: True или False, должны привычки быть действующими или завершёнными
+    :return: информация о привычках или None, если их нет
+    """
     json = make_request(
         method="get",
         url=f"http://{settings.api.url}/api/habits/me/",

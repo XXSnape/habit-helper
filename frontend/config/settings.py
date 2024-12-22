@@ -5,6 +5,11 @@ load_dotenv()
 
 
 class DBSettings(BaseSettings):
+    """
+    db_name - название базы данных
+    echo - True, если нужно выводить запросы в консоль или False
+    """
+
     db_name: str
     echo: bool = False
 
@@ -17,14 +22,27 @@ class DBSettings(BaseSettings):
 
 
 class BotSettings(BaseSettings):
+    """
+    token - токен бота
+    """
+
     token: str
 
 
 class RedisSettings(BaseSettings):
+    """
+    redis_host - хост редиса
+    """
+
     redis_host: str
 
 
 class ApiSettings(BaseSettings):
+    """
+    api_host - хост бэкэнда
+    port - порт бэкэнда
+    """
+
     api_host: str
     port: int
 
@@ -34,6 +52,13 @@ class ApiSettings(BaseSettings):
 
 
 class Settings(BaseSettings):
+    """
+    db - настройки базы данных
+    bot - настройки бота
+    redis - настройки redis
+    api - настройки бэкэнда
+    """
+
     model_config = SettingsConfigDict(
         case_sensitive=False,
     )

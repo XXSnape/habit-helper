@@ -8,7 +8,13 @@ from states.auth import AuthStates
 from utils.cache_keys import USERNAME_KEY, MESSAGE_ID_KEY
 
 
-def validate_username_and_request_password(message: Message, bot: TeleBot):
+def validate_username_and_request_password(message: Message, bot: TeleBot) -> None:
+    """
+    Проверяет, существует ли уже пользователь с таким username.
+    Запрашивает пароль для продолжения регистрации
+    :param message: Message
+    :param bot: TeleBot
+    """
     username = message.text
     is_existing = check_user_existence(username)
     if is_existing:
@@ -33,7 +39,11 @@ def validate_username_and_request_password(message: Message, bot: TeleBot):
     )
 
 
-def register_password(bot: TeleBot):
+def register_password(bot: TeleBot) -> None:
+    """
+    Регистрирует validate_username_and_request_password
+    :param bot: TeleBot
+    """
     bot.register_message_handler(
         validate_username_and_request_password,
         pass_bot=True,

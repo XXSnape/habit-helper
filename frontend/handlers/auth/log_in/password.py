@@ -6,7 +6,12 @@ from states.auth import LogInStates
 from utils.cache_keys import USERNAME_KEY, MESSAGE_ID_KEY
 
 
-def get_password_to_login_to_another_account(message: Message, bot: TeleBot):
+def get_password_to_login_to_another_account(message: Message, bot: TeleBot) -> None:
+    """
+    Запрашивает пароль для входа в другой аккаунт
+    :param message: Message
+    :param bot: TeleBot
+    """
     username = message.text
     bot.set_state(
         user_id=message.chat.id,
@@ -23,7 +28,11 @@ def get_password_to_login_to_another_account(message: Message, bot: TeleBot):
         data[MESSAGE_ID_KEY] = sent_message.id
 
 
-def register_log_in_password(bot: TeleBot):
+def register_log_in_password(bot: TeleBot) -> None:
+    """
+    Регистрирует get_password_to_login_to_another_account
+    :param bot: TeleBot
+    """
     bot.register_message_handler(
         get_password_to_login_to_another_account,
         state=LogInStates.username,

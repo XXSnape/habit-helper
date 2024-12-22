@@ -1,7 +1,7 @@
 from telebot import TeleBot
 from telebot.types import CallbackQuery
 
-from api.habits.delete_habit import delete_habit_by_id
+from api.habits.delete_habit import delete_habit
 from inline.callback.constants import MENU_OUTPUT
 from inline.callback.enums import ActionsHabitEnum
 from inline.callback.factories import actions_with_habit_factory
@@ -15,7 +15,7 @@ def delete_habit(callback: CallbackQuery, bot: TeleBot) -> None:
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
         text = get_response_and_refresh_token(
             telegram_id=callback.from_user.id,
-            func=delete_habit_by_id,
+            func=delete_habit,
             access_token=data[TOKEN_KEY],
             number=number,
             data=data,

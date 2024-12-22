@@ -10,10 +10,24 @@ session_factory = sessionmaker(bind=engine)
 
 
 class GetSession:
-    def __init__(self, func: Callable):
+    """
+    Декорирует функцию, добавляя в ее аргументы сессию для работы с базой данных
+    """
+
+    def __init__(self, func: Callable) -> None:
+        """
+        Инициализация
+
+        :param func: функция, работающая с базой данных
+        """
         self.func = func
 
     def __call__(self, *args, **kwargs):
+        """
+        Подставляет в аргументы функции self.func
+        аргумент session с открытой сессией для работы с базой данных
+        :return: результат декорируемой функции
+        """
         with session_factory() as session:
             result = self.func(*args, **kwargs, session=session)
         return result

@@ -16,6 +16,19 @@ def make_request(
     params: dict[str, str | int] | None = None,
     error_message: str | None = None,
 ) -> list[dict] | dict | None:
+    """
+    Универсальная функция для отправки запроса с различными данными на бэкэнд.
+    Вызывает исключение InvalidAccessToken, если бэкэнд вернет ошибку авторизации.
+    Вызывает исключение InvalidApiResponse, если бэкэнд вернет ошибку сервера или клиента
+
+    :param method: метод запроса
+    :param url: url, на который нужно отправить запрос
+    :param headers: заголовки запроса (авторизация)
+    :param json: тело запроса
+    :param params: параметры запроса
+    :param error_message: сообщение будет передано пользователю, если произойдет ошибка
+    :return: данные из бэкэнда
+    """
 
     try:
         response = requests.request(

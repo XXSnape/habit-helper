@@ -5,6 +5,14 @@ from utils.output import get_habit_details_from_cache
 
 
 def update_habit(access_token: str, number: int, new_data: dict, cache: dict) -> str:
+    """
+    Обновляет информацию о привычке и обновляет кэш
+    :param access_token: токен пользователя
+    :param number: номер в кэше
+    :param new_data: новые данные о привычке
+    :param cache: кэш
+    :return: обновлённая информация о привычке
+    """
     habit_id = cache[HABITS_KEY][number]["id"]
     make_request(
         method="patch",

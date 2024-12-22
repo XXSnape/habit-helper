@@ -9,6 +9,15 @@ def mark_habit(
     date: str,
     reason: str | None = None,
 ) -> bool:
+    """
+    Помечает привычку, как выполненную или невыполненную по её id
+    :param access_token: токен пользователя
+    :param habit_id: id привычки
+    :param is_done: 1 или 0, выполнена или нет
+    :param date: дата, за которую нужно отметить привычку
+    :param reason: причина невыполнения
+    :return: результат действия
+    """
     json = make_request(
         method="post",
         url=f"http://{settings.api.url}/api/habits/mark/{habit_id}/",

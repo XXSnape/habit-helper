@@ -8,7 +8,12 @@ from utils.regexp import PASSWORD_REGEXP
 from utils.texts import COMMANDS, DELETE_PASSWORD
 
 
-def log_in(message: Message, bot: TeleBot):
+def log_in(message: Message, bot: TeleBot) -> None:
+    """
+    Логинит пользователя в существующий аккаунт.
+    :param message: Message
+    :param bot: TeleBot
+    """
     password = message.text
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
         username = data[USERNAME_KEY]
@@ -29,7 +34,11 @@ def log_in(message: Message, bot: TeleBot):
     bot.send_message(message.chat.id, text=COMMANDS)
 
 
-def register_log_in(bot: TeleBot):
+def register_log_in(bot: TeleBot) -> None:
+    """
+    Регистрирует log_in
+    :param bot: TeleBot
+    """
     bot.register_message_handler(
         log_in,
         pass_bot=True,

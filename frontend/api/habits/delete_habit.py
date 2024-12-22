@@ -4,7 +4,14 @@ from utils.cache_keys import HABITS_KEY
 from utils.output import get_text_from_cache
 
 
-def delete_habit_by_id(access_token: str, number: int, cache: dict):
+def delete_habit(access_token: str, number: int, cache: dict) -> str | None:
+    """
+    Удаляет привычку по id, получая его из кэша по номеру, обновляет кэш
+    :param access_token: токен пользователя
+    :param number: номер в кэше
+    :param cache: кэш
+    :return: информация об оставшихся привычках или None
+    """
     habit_id = cache[HABITS_KEY][number]["id"]
     make_request(
         method="delete",

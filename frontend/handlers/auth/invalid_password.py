@@ -5,7 +5,12 @@ from inline.keypads.cancel import get_cancel_kb
 from states.auth import AuthStates, LogInStates, ChangePasswordStates
 
 
-def handle_invalid_password(message: Message, bot: TeleBot):
+def handle_invalid_password(message: Message, bot: TeleBot) -> None:
+    """
+    Обрабатывает случай, если пользователь присылает невалидный пароль
+    :param message: Message
+    :param bot: TeleBot
+    """
     bot.send_message(
         message.chat.id,
         "Пароль может состоять только из английских букв в любом регистре, цифр и символов нижнего подчеркивания (_).\n"
@@ -14,7 +19,12 @@ def handle_invalid_password(message: Message, bot: TeleBot):
     )
 
 
-def register_invalid_password(bot: TeleBot):
+def register_invalid_password(bot: TeleBot) -> None:
+    """
+    Регистрирует handle_invalid_password при вводе пароля во время регистрации,
+    входе в другой аккаунт и смене пароля
+    :param bot: TeleBot
+    """
     bot.register_message_handler(
         handle_invalid_password, pass_bot=True, state=AuthStates.password
     )

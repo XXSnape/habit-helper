@@ -7,10 +7,13 @@ from states.auth import ChangePasswordStates
 from utils.cache_keys import MESSAGE_ID_KEY
 
 
-def require_new_password(message: Message, bot: TeleBot):
+def require_new_password(message: Message, bot: TeleBot) -> None:
+    """
+    Запрашивает новый пароль
+    :param message: Message
+    :param bot: TeleBot
+    """
     check_registration(message.chat.id, bot, state=ChangePasswordStates.password)
-    # if token is None:
-    #     return
     sent_message = bot.send_message(
         message.chat.id, "Введите новый пароль", reply_markup=get_cancel_kb()
     )
@@ -18,7 +21,12 @@ def require_new_password(message: Message, bot: TeleBot):
         data[MESSAGE_ID_KEY] = sent_message.id
 
 
-def register_require_new_password(bot: TeleBot):
+def register_require_new_password(bot: TeleBot) -> None:
+    """
+    Регистрирует require_new_password
+    :param bot: TeleBot
+
+    """
     bot.register_message_handler(
         require_new_password, pass_bot=True, commands=["change_password"]
     )
