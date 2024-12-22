@@ -23,9 +23,7 @@ def activate_or_deactivate_user(callback: CallbackQuery, bot: TeleBot):
         else "Бот больше не будет присылать уведомления"
     )
     bot.answer_callback_query(
-        callback_query_id=callback.id,
-        text=message,
-        show_alert=True
+        callback_query_id=callback.id, text=message, show_alert=True
     )
     bot.delete_message(chat_id=callback.from_user.id, message_id=callback.message.id)
     bot.send_message(callback.from_user.id, text=COMMANDS)
