@@ -26,13 +26,13 @@ def get_my_info_from_json(data: dict) -> str:
     return present_data(information, initial_text="Информация о вас:")
 
 
-def get_text_from_cache(data: dict) -> str | None:
+def get_text_from_cache(cache: dict) -> str | None:
     text = (
         "Чтобы посмотреть детальную информацию о привычке, просто введите её номер\n\n"
     )
-    if len(data[HABITS_KEY]) == 1:
+    if len(cache[HABITS_KEY]) == 1:
         return None
-    for ind, habit in enumerate(data[HABITS_KEY][1:], 1):
+    for ind, habit in enumerate(cache[HABITS_KEY][1:], 1):
         intermediate_text = f"{ind}) {habit['name']}"
         if habit["is_frozen"]:
             intermediate_text += " (приостановлена)"
@@ -42,12 +42,12 @@ def get_text_from_cache(data: dict) -> str | None:
 
 
 def get_habit_details_from_cache(
-    data: dict,
+    cache: dict,
     number: int,
     initial_text: str = "",
 ) -> str | None:
     try:
-        habit = data.get(HABITS_KEY)[number]
+        habit = cache.get(HABITS_KEY)[number]
     except IndexError:
         return None
     created_at = get_format_datetime(habit["created_at"])

@@ -15,5 +15,5 @@ def update_habit(access_token: str, number: int, new_data: dict, cache: dict) ->
     )
     cache[HABITS_KEY][number].update(new_data)
     return get_habit_details_from_cache(
-        data=cache, number=number, initial_text="Привычка успешно обновлена!"
+        cache=cache, number=number, initial_text="Привычка успешно обновлена!"
     )

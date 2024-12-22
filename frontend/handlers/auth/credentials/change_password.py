@@ -8,11 +8,9 @@ from utils.cache_keys import MESSAGE_ID_KEY
 
 
 def require_new_password(message: Message, bot: TeleBot):
-    token = check_registration(
-        message.chat.id, bot, state=ChangePasswordStates.password
-    )
-    if token is None:
-        return
+    check_registration(message.chat.id, bot, state=ChangePasswordStates.password)
+    # if token is None:
+    #     return
     sent_message = bot.send_message(
         message.chat.id, "Введите новый пароль", reply_markup=get_cancel_kb()
     )

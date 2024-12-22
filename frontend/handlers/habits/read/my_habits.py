@@ -15,16 +15,14 @@ from handlers.default.registration_error import check_registration
 
 
 def get_my_habits_by_command(message: Message, bot: TeleBot):
-    is_complete_null = message.text == "/my_habits"
     token = check_registration(message.chat.id, bot, state=ReadHabitStates.details)
-    if token is None:
-        return
+    is_complete_null = message.text == "/my_habits"
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
         text = get_response_and_refresh_token(
             telegram_id=message.chat.id,
             func=get_my_habits_by_token,
             access_token=token,
-            data=data,
+            cache=data,
             is_complete_null=is_complete_null,
         )
         data[COMPLETED_KEY] = is_complete_null

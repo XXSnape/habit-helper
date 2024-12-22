@@ -7,9 +7,9 @@ from states.habits import CreateHabitStates
 
 
 def request_name(message: Message, bot: TeleBot):
-    token = check_registration(message.chat.id, bot, state=CreateHabitStates.name)
-    if token is None:
-        return
+    check_registration(message.chat.id, bot, state=CreateHabitStates.name)
+    # if token is None:
+    #     return
     bot.send_message(
         message.chat.id, "Введите название для привычки", reply_markup=get_cancel_kb()
     )

@@ -18,7 +18,7 @@ from states.habits import ReadHabitStates
 def get_habit_details_by_text(message: Message, bot: TeleBot):
     number = int(message.text)
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
-        text = get_habit_details_from_cache(data=data, number=number)
+        text = get_habit_details_from_cache(cache=data, number=number)
         is_complete_null = data[COMPLETED_KEY]
     if text is None:
         bot.send_message(
@@ -38,7 +38,7 @@ def get_habit_details_by_text(message: Message, bot: TeleBot):
 def get_habit_details_by_callback(callback: CallbackQuery, bot: TeleBot):
     number = int(habit_details_factory.parse(callback.data)["num_habit"])
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
-        text = get_habit_details_from_cache(data=data, number=number)
+        text = get_habit_details_from_cache(cache=data, number=number)
         is_complete_null = data[COMPLETED_KEY]
     reply_markup = (
         get_actions_with_habit_kb(number)

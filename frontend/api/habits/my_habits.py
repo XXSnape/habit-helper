@@ -5,7 +5,7 @@ from utils.output import get_text_from_cache
 
 
 def get_my_habits_by_token(
-    access_token: str, data: dict, is_complete_null: bool
+    access_token: str, cache: dict, is_complete_null: bool
 ) -> str | None:
     json = make_request(
         method="get",
@@ -16,5 +16,5 @@ def get_my_habits_by_token(
     if not json:
         return None
     json.insert(0, None)
-    data[HABITS_KEY] = json
-    return get_text_from_cache(data=data)
+    cache[HABITS_KEY] = json
+    return get_text_from_cache(cache=cache)

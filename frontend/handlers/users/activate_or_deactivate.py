@@ -10,9 +10,6 @@ from utils.texts import COMMANDS
 
 def activate_or_deactivate_user(callback: CallbackQuery, bot: TeleBot):
     token = check_registration(callback.from_user.id, bot)
-    if token is None:
-        bot.delete_message(callback.from_user.id, callback.message.id)
-        return
     is_active = bool(int(activity_user_factory.parse(callback.data)["is_active"]))
     get_response_and_refresh_token(
         telegram_id=callback.from_user.id,

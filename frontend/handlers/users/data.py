@@ -9,8 +9,6 @@ from utils.refresh_token import get_response_and_refresh_token
 
 def get_my_info(message: Message, bot: TeleBot):
     token = check_registration(message.chat.id, bot)
-    if token is None:
-        return
     text, is_active = get_response_and_refresh_token(
         telegram_id=message.chat.id, func=get_my_info_by_token, access_token=token
     )

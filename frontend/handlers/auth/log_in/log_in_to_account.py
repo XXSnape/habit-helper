@@ -20,6 +20,7 @@ def log_in(message: Message, bot: TeleBot):
     bot.delete_message(message.chat.id, message_id)
     if result is False:
         bot.send_message(message.chat.id, "Неверный никнейм или пароль")
+        bot.send_message(message.chat.id, text=COMMANDS)
         return
     bot.send_message(
         message.chat.id,
