@@ -5,7 +5,15 @@ from inline.callback.callbacks import CALL_OFF_CALLBACK
 from utils.texts import COMMANDS
 
 
-def cancel_and_get_menu(callback: CallbackQuery, bot: TeleBot):
+def cancel_and_get_menu(callback: CallbackQuery, bot: TeleBot) -> None:
+    """
+    Обрабатывает нажатие на кнопку отмены действия.
+    Сбрасывает состояние и выводит возможности бота
+
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+
+    """
     bot.delete_state(user_id=callback.from_user.id)
     bot.edit_message_text(
         text=COMMANDS,
@@ -14,7 +22,11 @@ def cancel_and_get_menu(callback: CallbackQuery, bot: TeleBot):
     )
 
 
-def register_cancel(bot: TeleBot):
+def register_cancel(bot: TeleBot) -> None:
+    """
+    Регистрирует cancel_and_get_menu
+    :param bot: TeleBot
+    """
     bot.register_callback_query_handler(
         cancel_and_get_menu,
         pass_bot=True,

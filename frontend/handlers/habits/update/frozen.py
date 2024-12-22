@@ -12,7 +12,12 @@ from utils.cache_keys import HABITS_KEY
 from utils.router_assistants.update_habit import change_property_by_callback
 
 
-def frozen_habit_on_notification(callback: CallbackQuery, bot: TeleBot):
+def frozen_habit_on_notification(callback: CallbackQuery, bot: TeleBot) -> None:
+    """
+    Обрабатывает приостановку привычки после нажатия на соответсвующую кнопку после ежедневного напоминания
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    """
     habit_id = int(freeze_habit_factory.parse(callback.data)["habit_id"])
     token = get_user_token(telegram_id=callback.from_user.id)
     freeze_habit_by_id(access_token=token, habit_id=habit_id)
@@ -24,21 +29,30 @@ def frozen_habit_on_notification(callback: CallbackQuery, bot: TeleBot):
     bot.delete_message(chat_id=callback.from_user.id, message_id=callback.message.id)
 
 
-def change_frozen_property(callback: CallbackQuery, bot: TeleBot):
+def change_frozen_property(callback: CallbackQuery, bot: TeleBot) -> None:
+    """
+    Приостанавливает или возобновляет привычку
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    """
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
         number = int(opportunities_for_change_factory.parse(callback.data)["num_habit"])
         is_frozen_now = data[HABITS_KEY][number]["is_frozen"]
         change_property_by_callback(
             callback=callback,
             bot=bot,
-            message=f"Привычка успешно {"разморожена" if is_frozen_now else "заморожена"}!",
+            message=f"Привычка успешно {"возобновлена" if is_frozen_now else "приостановлена"}!",
             new_data={"is_frozen": not is_frozen_now},
             data=data,
             number=number,
         )
 
 
-def register_change_frozen(bot: TeleBot):
+def register_change_frozen(bot: TeleBot) -> None:
+    """
+    Регистрирует change_frozen_property,frozen_habit_on_notification
+    :param bot: TeleBot
+    """
     bot.register_callback_query_handler(
         change_frozen_property,
         pass_bot=True,

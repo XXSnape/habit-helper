@@ -14,7 +14,12 @@ from utils.router_assistants.mark import get_data_on_completion_habit
 from utils.texts import TASK_WAS_NOT_COMPLETED_TEXT, COMMANDS
 
 
-def successful_implementation_habit(callback: CallbackQuery, bot: TeleBot):
+def successful_implementation_habit(callback: CallbackQuery, bot: TeleBot) -> None:
+    """
+    Обрабатывает нажатие на кнопку, подтверждающее успешное выполнение привычки
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    """
     is_the_end = get_data_on_completion_habit(callback=callback)
     bot.delete_state(callback.from_user.id, callback.from_user.id)
     if is_the_end:
@@ -33,7 +38,14 @@ def successful_implementation_habit(callback: CallbackQuery, bot: TeleBot):
     bot.delete_message(chat_id=callback.from_user.id, message_id=callback.message.id)
 
 
-def breaking_habit(callback: CallbackQuery, bot: TeleBot):
+def breaking_habit(callback: CallbackQuery, bot: TeleBot) -> None:
+    """
+    Обрабатывает нажатие на кнопку, подтверждающее невыполнение привычки.
+    Запрашивает причину невыполнения
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+
+    """
     bot.set_state(
         user_id=callback.from_user.id,
         chat_id=callback.message.chat.id,
@@ -58,7 +70,12 @@ def breaking_habit(callback: CallbackQuery, bot: TeleBot):
     bot.delete_message(chat_id=callback.from_user.id, message_id=callback.message.id)
 
 
-def reason_is_not_specified(callback: CallbackQuery, bot: TeleBot):
+def reason_is_not_specified(callback: CallbackQuery, bot: TeleBot) -> None:
+    """
+    Обрабатывает нажатие на кнопку, когда пользователь не указывает причину невыполнения привычки
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    """
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
         habit_data = data[MARK_KEY]
     token = get_user_token(callback.from_user.id)
@@ -77,7 +94,12 @@ def reason_is_not_specified(callback: CallbackQuery, bot: TeleBot):
     bot.delete_message(chat_id=callback.from_user.id, message_id=callback.message.id)
 
 
-def reason_is_specified(message: Message, bot: TeleBot):
+def reason_is_specified(message: Message, bot: TeleBot) -> None:
+    """
+    Обрабатывает случай, когда пользователь указывает причину невыполнения привычки
+    :param message: Message
+    :param bot: TeleBot
+    """
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
         habit_data = data[MARK_KEY]
         last_message_id = data[MESSAGE_ID_KEY]
@@ -95,7 +117,12 @@ def reason_is_specified(message: Message, bot: TeleBot):
     bot.send_message(message.chat.id, text=COMMANDS)
 
 
-def reason_text_is_too_large(message: Message, bot: TeleBot):
+def reason_text_is_too_large(message: Message, bot: TeleBot) -> None:
+    """
+    Если текст причины слишком большой, запрашивает более короткую причину
+    :param message: Message
+    :param bot: TeleBot
+    """
     bot.send_message(
         message.chat.id,
         "Слишком длинный текст. Попробуйте снова",
@@ -103,7 +130,12 @@ def reason_text_is_too_large(message: Message, bot: TeleBot):
     )
 
 
-def register_mark_habit(bot: TeleBot):
+def register_mark_habit(bot: TeleBot) -> None:
+    """
+    Регистрирует successful_implementation_habit, breaking_habit,
+    reason_is_not_specified, reason_is_specified, reason_text_is_too_large,
+    :param bot: TeleBot
+    """
     bot.register_callback_query_handler(
         successful_implementation_habit,
         pass_bot=True,

@@ -12,7 +12,12 @@ from utils.router_assistants.update_habit import (
 )
 
 
-def request_new_time(callback: CallbackQuery, bot: TeleBot):
+def request_new_time(callback: CallbackQuery, bot: TeleBot) -> None:
+    """
+    Запрашивает новое время для уведомления
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    """
     number = int(opportunities_for_change_factory.parse(callback.data)["num_habit"])
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
         last_time = f"{str(data[HABITS_KEY][number]['notification_hour']).zfill(2)}:00"
@@ -28,7 +33,12 @@ def request_new_time(callback: CallbackQuery, bot: TeleBot):
     )
 
 
-def change_time(callback: CallbackQuery, bot: TeleBot):
+def change_time(callback: CallbackQuery, bot: TeleBot) -> None:
+    """
+    Обновляет время напоминания привычки на бэкэнде
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    """
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
         change_property_by_callback(
             callback=callback,
@@ -40,7 +50,11 @@ def change_time(callback: CallbackQuery, bot: TeleBot):
         )
 
 
-def register_change_time(bot: TeleBot):
+def register_change_time(bot: TeleBot) -> None:
+    """
+    Регистрирует request_new_time, change_time
+    :param bot: TeleBot
+    """
     bot.register_callback_query_handler(
         request_new_time,
         pass_bot=True,

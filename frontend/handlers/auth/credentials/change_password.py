@@ -1,7 +1,7 @@
 from telebot import TeleBot
 from telebot.types import Message
 
-from handlers.default.registration_error import check_registration
+from utils.login_required import check_registration
 from inline.keypads.cancel import get_cancel_kb
 from states.auth import ChangePasswordStates
 from utils.cache_keys import MESSAGE_ID_KEY

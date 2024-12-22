@@ -12,7 +12,12 @@ from utils.router_assistants.update_habit import (
 )
 
 
-def request_new_name(callback: CallbackQuery, bot: TeleBot):
+def request_new_name(callback: CallbackQuery, bot: TeleBot) -> None:
+    """
+    Запрашивает новое название привычки
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    """
     number = int(opportunities_for_change_factory.parse(callback.data)["num_habit"])
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
         data[CONTEXT_KEY] = number
@@ -26,11 +31,21 @@ def request_new_name(callback: CallbackQuery, bot: TeleBot):
     )
 
 
-def change_name(message: Message, bot: TeleBot):
+def change_name(message: Message, bot: TeleBot) -> None:
+    """
+    Меняет название привычки на бэкэнде
+    :param message: Message
+    :param bot: TeleBot
+    """
     change_property_by_message(message=message, bot=bot, key="name")
 
 
-def register_change_name(bot: TeleBot):
+def register_change_name(bot: TeleBot) -> None:
+    """
+    Регистрирует request_new_name, change_name
+    :param bot:
+    :return:
+    """
     bot.register_callback_query_handler(
         request_new_name,
         pass_bot=True,

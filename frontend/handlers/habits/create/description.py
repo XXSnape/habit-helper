@@ -6,7 +6,12 @@ from states.habits import CreateHabitStates
 from utils.cache_keys import HOUR_KEY
 
 
-def request_description(callback: CallbackQuery, bot: TeleBot):
+def request_description(callback: CallbackQuery, bot: TeleBot) -> None:
+    """
+    Запрашивает описание привычки
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    """
     with bot.retrieve_data(callback.message.chat.id, callback.message.chat.id) as data:
         data[HOUR_KEY] = int(callback.data)
     bot.edit_message_text(
@@ -22,7 +27,11 @@ def request_description(callback: CallbackQuery, bot: TeleBot):
     )
 
 
-def register_get_description(bot: TeleBot):
+def register_get_description(bot: TeleBot) -> None:
+    """
+    Регистрирует request_description
+    :param bot: TeleBot
+    """
     bot.register_callback_query_handler(
         request_description,
         pass_bot=True,

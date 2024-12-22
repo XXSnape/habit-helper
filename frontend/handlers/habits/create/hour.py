@@ -6,7 +6,12 @@ from states.habits import CreateHabitStates
 from utils.cache_keys import COUNT_KEY
 
 
-def request_hour(message: Message, bot: TeleBot):
+def request_hour(message: Message, bot: TeleBot) -> None:
+    """
+    Запрашивает час для отправки
+    :param message: Message
+    :param bot: TeleBot
+    """
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
         data[COUNT_KEY] = int(message.text)
     bot.send_message(
@@ -19,7 +24,11 @@ def request_hour(message: Message, bot: TeleBot):
     )
 
 
-def register_get_hour(bot: TeleBot):
+def register_get_hour(bot: TeleBot) -> None:
+    """
+    Регистрирует request_hour
+    :param bot: TeleBot
+    """
     bot.register_message_handler(
         request_hour, pass_bot=True, state=CreateHabitStates.count
     )

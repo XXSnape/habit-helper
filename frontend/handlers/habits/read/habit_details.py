@@ -15,7 +15,12 @@ from telebot import TeleBot
 from states.habits import ReadHabitStates
 
 
-def get_habit_details_by_text(message: Message, bot: TeleBot):
+def get_habit_details_by_text(message: Message, bot: TeleBot) -> None:
+    """
+    Выводит информацию о деталях привычке после ввода её номера в кэше
+    :param message: Message
+    :param bot: TeleBot
+    """
     number = int(message.text)
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
         text = get_habit_details_from_cache(cache=data, number=number)
@@ -35,7 +40,12 @@ def get_habit_details_by_text(message: Message, bot: TeleBot):
     bot.send_message(message.chat.id, text, reply_markup=reply_markup)
 
 
-def get_habit_details_by_callback(callback: CallbackQuery, bot: TeleBot):
+def get_habit_details_by_callback(callback: CallbackQuery, bot: TeleBot) -> None:
+    """
+    Выводит информацию о деталях привычки после нажатия на кнопку с данными о её номере в кэше
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    """
     number = int(habit_details_factory.parse(callback.data)["num_habit"])
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
         text = get_habit_details_from_cache(cache=data, number=number)
@@ -53,7 +63,12 @@ def get_habit_details_by_callback(callback: CallbackQuery, bot: TeleBot):
     )
 
 
-def register_get_habit_details(bot: TeleBot):
+def register_get_habit_details(bot: TeleBot) -> None:
+    """
+    Регистрирует get_habit_details_by_text, get_habit_details_by_callback
+    :param bot:
+    :return:
+    """
     bot.register_message_handler(
         get_habit_details_by_text,
         regexp=r"\d+",

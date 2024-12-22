@@ -7,7 +7,12 @@ from inline.keypads.auth import get_auth_request_kb
 from utils.texts import COMMANDS
 
 
-def start(message: Message, bot: TeleBot):
+def start(message: Message, bot: TeleBot) -> None:
+    """
+    Обрабатывает команду /start
+    :param message: Message
+    :param bot: TeleBot
+    """
     token = get_user_token(telegram_id=message.chat.id)
     if token is None:
         bot.send_message(
@@ -23,4 +28,8 @@ def start(message: Message, bot: TeleBot):
 
 
 def register_start(bot: TeleBot) -> None:
+    """
+    Регистрирует start
+    :param bot: TeleBot
+    """
     bot.register_message_handler(start, commands=["start"], pass_bot=True)

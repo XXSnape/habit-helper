@@ -8,7 +8,12 @@ from utils.cache_keys import HABITS_KEY
 from utils.output import get_habit_details_from_cache
 
 
-def provide_with_choosing_to_change(callback: CallbackQuery, bot: TeleBot):
+def provide_with_choosing_to_change(callback: CallbackQuery, bot: TeleBot) -> None:
+    """
+    Предоставляет выбор атрибута для изменения привычки
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    """
     callback_data: dict = actions_with_habit_factory.parse(callback_data=callback.data)
     number = int(callback_data["num_habit"])
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
@@ -24,7 +29,11 @@ def provide_with_choosing_to_change(callback: CallbackQuery, bot: TeleBot):
     )
 
 
-def register_provide_with_choosing(bot: TeleBot):
+def register_provide_with_choosing(bot: TeleBot) -> None:
+    """
+    Регистрирует provide_with_choosing_to_change
+    :param bot: TeleBot
+    """
     bot.register_callback_query_handler(
         provide_with_choosing_to_change,
         pass_bot=True,

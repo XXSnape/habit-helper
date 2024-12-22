@@ -11,10 +11,16 @@ from utils.output import get_text_from_cache
 from utils.refresh_token import get_response_and_refresh_token
 
 from api.habits.my_habits import get_my_habits_by_token
-from handlers.default.registration_error import check_registration
+from utils.login_required import check_registration
 
 
-def get_my_habits_by_command(message: Message, bot: TeleBot):
+def get_my_habits_by_command(message: Message, bot: TeleBot) -> None:
+    """
+    Выводит номера в кэше и названия привычек пользователя по командам /my_habits, /completed_habits
+    при вводе /my_habits выводятся действующие привычки, иначе завершённые
+    :param message: Message
+    :param bot: TeleBot
+    """
     token = check_registration(message.chat.id, bot, state=ReadHabitStates.details)
     is_complete_null = message.text == "/my_habits"
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
@@ -36,7 +42,12 @@ def get_my_habits_by_command(message: Message, bot: TeleBot):
     bot.send_message(message.chat.id, text, reply_markup=get_cancel_kb(MENU_OUTPUT))
 
 
-def get_my_habits_by_callback(callback: CallbackQuery, bot: TeleBot):
+def get_my_habits_by_callback(callback: CallbackQuery, bot: TeleBot) -> None:
+    """
+    Выводит номера в кэше и названия привычек пользователя по нажатию на кнопку
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    """
     bot.set_state(
         user_id=callback.from_user.id,
         chat_id=callback.from_user.id,
@@ -60,7 +71,11 @@ def get_my_habits_by_callback(callback: CallbackQuery, bot: TeleBot):
     )
 
 
-def register_get_habits(bot: TeleBot):
+def register_get_habits(bot: TeleBot) -> None:
+    """
+    Регистрирует get_my_habits_by_command
+    :param bot: TeleBot
+    """
     bot.register_message_handler(
         get_my_habits_by_command,
         pass_bot=True,

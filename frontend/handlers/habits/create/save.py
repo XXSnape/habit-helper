@@ -9,7 +9,12 @@ from utils.refresh_token import get_response_and_refresh_token
 from utils.texts import COMMANDS, HABIT_WAS_CREATED
 
 
-def save_habit_with_description(message: Message, bot: TeleBot):
+def save_habit_with_description(message: Message, bot: TeleBot) -> None:
+    """
+    Сохраняет привычку на бэкэнде с описанием от пользователя
+    :param message: Message
+    :param bot: TeleBot
+    """
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
         name = data[NAME_KEY]
         count = data[COUNT_KEY]
@@ -29,7 +34,12 @@ def save_habit_with_description(message: Message, bot: TeleBot):
     bot.send_message(message.chat.id, text=COMMANDS)
 
 
-def save_habit_without_description(callback: CallbackQuery, bot: TeleBot):
+def save_habit_without_description(callback: CallbackQuery, bot: TeleBot) -> None:
+    """
+    Сохраняет привычку на бэкэнде без описания
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    """
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
         name = data[NAME_KEY]
         count = data[COUNT_KEY]
@@ -56,7 +66,11 @@ def save_habit_without_description(callback: CallbackQuery, bot: TeleBot):
     )
 
 
-def register_save_habit(bot: TeleBot):
+def register_save_habit(bot: TeleBot) -> None:
+    """
+    Регистрирует save_habit_with_description, save_habit_without_description
+    :param bot: TeleBot
+    """
     bot.register_message_handler(
         save_habit_with_description, pass_bot=True, state=CreateHabitStates.save
     )

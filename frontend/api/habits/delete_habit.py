@@ -4,7 +4,7 @@ from utils.cache_keys import HABITS_KEY
 from utils.output import get_text_from_cache
 
 
-def delete_habit(access_token: str, number: int, cache: dict) -> str | None:
+def delete_habit_by_number(access_token: str, number: int, cache: dict) -> str | None:
     """
     Удаляет привычку по id, получая его из кэша по номеру, обновляет кэш
     :param access_token: токен пользователя

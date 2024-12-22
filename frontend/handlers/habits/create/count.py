@@ -6,7 +6,12 @@ from states.habits import CreateHabitStates
 from utils.cache_keys import NAME_KEY
 
 
-def request_count(message: Message, bot: TeleBot):
+def request_count(message: Message, bot: TeleBot) -> None:
+    """
+    Запрашивает количество дней отслеживания привычки
+    :param message: Message
+    :param bot: TeleBot
+    """
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
         data[NAME_KEY] = message.text
     bot.send_message(
@@ -19,7 +24,12 @@ def request_count(message: Message, bot: TeleBot):
     )
 
 
-def handle_invalid_count(message: Message, bot: TeleBot):
+def handle_invalid_count(message: Message, bot: TeleBot) -> None:
+    """
+    Обрабатывает невалидный ввод: если число за рамками от 1 до 365
+    :param message: Message
+    :param bot: TeleBot
+    """
     bot.send_message(
         message.chat.id,
         "Количество дней для отправки должно быть от 1 до 365. Введите число снова.",
@@ -27,7 +37,11 @@ def handle_invalid_count(message: Message, bot: TeleBot):
     )
 
 
-def register_get_count(bot: TeleBot):
+def register_get_count(bot: TeleBot) -> None:
+    """
+    Регистрирует request_count, handle_invalid_count
+    :param bot:
+    """
     bot.register_message_handler(
         request_count, pass_bot=True, state=CreateHabitStates.name
     )

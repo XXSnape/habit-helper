@@ -17,7 +17,12 @@ from utils.router_assistants.update_habit import (
 def request_new_count(
     callback: CallbackQuery,
     bot: TeleBot,
-):
+) -> None:
+    """
+    Запрашивает новое количество дней привития для обновления действующей привычки, большее старого
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    """
     number = int(opportunities_for_change_factory.parse(callback.data)["num_habit"])
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
         data[CONTEXT_KEY] = number
@@ -33,7 +38,12 @@ def request_new_count(
     )
 
 
-def change_count(message: Message, bot: TeleBot):
+def change_count(message: Message, bot: TeleBot) -> None:
+    """
+    Если количество дней для привития больше предыдущего, обновляет привычку
+    :param message: Message
+    :param bot: TeleBot
+    """
     new_count = int(message.text)
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
         number = data[CONTEXT_KEY]
@@ -48,7 +58,11 @@ def change_count(message: Message, bot: TeleBot):
     change_property_by_message(message=message, bot=bot, key="count", is_integer=True)
 
 
-def register_change_count(bot: TeleBot):
+def register_change_count(bot: TeleBot) -> None:
+    """
+    Регистрирует request_new_count, change_count
+    :param bot: TeleBot
+    """
     bot.register_callback_query_handler(
         request_new_count,
         pass_bot=True,

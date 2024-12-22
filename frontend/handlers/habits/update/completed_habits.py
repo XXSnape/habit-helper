@@ -13,7 +13,12 @@ from utils.cache_keys import HABITS_KEY, CONTEXT_KEY, TOKEN_KEY
 from utils.refresh_token import get_response_and_refresh_token
 
 
-def require_new_count(callback: CallbackQuery, bot: TeleBot):
+def require_new_count(callback: CallbackQuery, bot: TeleBot) -> None:
+    """
+    Запрашивает новое количество дней привития для возобновления, большее старого
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    """
     number = int(actions_with_habit_factory.parse(callback.data)["num_habit"])
     bot.set_state(
         user_id=callback.from_user.id,
@@ -32,7 +37,12 @@ def require_new_count(callback: CallbackQuery, bot: TeleBot):
     )
 
 
-def resume_habit(message: Message, bot: TeleBot):
+def resume_habit(message: Message, bot: TeleBot) -> None:
+    """
+    Возобновляет привычку, если количество для привития больше старого, или выводит ошибку
+    :param message: Message
+    :param bot: TeleBot
+    """
     new_count = int(message.text)
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
         token = data[TOKEN_KEY]
@@ -66,7 +76,11 @@ def resume_habit(message: Message, bot: TeleBot):
     )
 
 
-def register_resume_habits(bot: TeleBot):
+def register_resume_habits(bot: TeleBot) -> None:
+    """
+    Регистрирует require_new_count, resume_habit
+    :param bot: TeleBot
+    """
     bot.register_callback_query_handler(
         require_new_count,
         pass_bot=True,

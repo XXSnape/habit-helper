@@ -13,7 +13,12 @@ from utils.router_assistants.update_habit import (
 )
 
 
-def request_new_description(callback: CallbackQuery, bot: TeleBot):
+def request_new_description(callback: CallbackQuery, bot: TeleBot) -> None:
+    """
+    Запрашивает новое описание для привычки для обновления
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    """
     number = int(opportunities_for_change_factory.parse(callback.data)["num_habit"])
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
         old_name = data[HABITS_KEY][number]["name"]
@@ -27,11 +32,20 @@ def request_new_description(callback: CallbackQuery, bot: TeleBot):
     )
 
 
-def change_description(message: Message, bot: TeleBot):
+def change_description(message: Message, bot: TeleBot) -> None:
+    """
+    Меняет описание привычки на бэкэнде
+    :param message: Message
+    :param bot: TeleBot
+    """
     change_property_by_message(message=message, bot=bot, key="description")
 
 
-def register_change_description(bot: TeleBot):
+def register_change_description(bot: TeleBot) -> None:
+    """
+    Регистрирует request_new_description, change_description
+    :param bot: TeleBot
+    """
     bot.register_callback_query_handler(
         request_new_description,
         pass_bot=True,

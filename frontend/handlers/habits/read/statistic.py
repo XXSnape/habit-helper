@@ -21,7 +21,13 @@ from utils.router_assistants.calendar import checking_habit_for_completion_by_da
 from utils.texts import DATE_DESIGNATIONS
 
 
-def show_calendar(callback: CallbackQuery, bot: TeleBot):
+def show_calendar(callback: CallbackQuery, bot: TeleBot) -> None:
+    """
+    Выводит календарь с датами, когда привычки были выполнены и не выполнены.
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+
+    """
     number = int(actions_with_habit_factory.parse(callback.data)["num_habit"])
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
         completed, not_completed = get_completed_and_unfulfilled_dates(
@@ -54,7 +60,15 @@ def show_calendar(callback: CallbackQuery, bot: TeleBot):
     )
 
 
-def process_date_selection(callback: CallbackQuery, bot: TeleBot):
+def process_date_selection(callback: CallbackQuery, bot: TeleBot) -> None:
+    """
+    Обрабатывает нажатие на кнопку календаря.
+    Перелистывает года, месяца, если пользователь выбирает дату.
+    Показывает причину невыполнения, если пользователь нажал на дату, когда причина не была выполнена.
+    Показывает сообщение об ошибке, если пользователь нажал на пустую кнопку
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    """
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
         number = data[CONTEXT_KEY]
         completed, not_completed = get_completed_and_unfulfilled_dates(
@@ -95,7 +109,11 @@ def process_date_selection(callback: CallbackQuery, bot: TeleBot):
         )
 
 
-def register_calendar(bot: TeleBot):
+def register_calendar(bot: TeleBot) -> None:
+    """
+    Регистрирует show_calendar, process_date_selection
+    :param bot: TeleBot
+    """
     bot.register_callback_query_handler(
         show_calendar,
         pass_bot=True,
