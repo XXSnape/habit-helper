@@ -18,7 +18,20 @@ def request_new_property(
     message: str,
     number: int,
     reply_markup=get_back_to_action_kb,
-):
+) -> None:
+    """
+    Запрашивает значение нового параметра у привычки.
+    Устанавливает новое состояние и редактирует сообщение
+    с просьбой предоставить новое значение
+
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    :param new_state: State
+    :param message: сообщение пользователю
+    :param number: номер привычки в кэше
+    :param reply_markup: клавиатура для пользователя
+    :return:
+    """
     bot.set_state(
         user_id=callback.from_user.id,
         chat_id=callback.from_user.id,
@@ -34,7 +47,15 @@ def request_new_property(
 
 def change_property_by_message(
     message: Message, bot: TeleBot, key: str, is_integer: bool = False
-):
+) -> None:
+    """
+    Делает запрос на изменение параметра привычки.
+    Новое значение берет из поступившего сообщения
+    :param message: Message
+    :param bot: TeleBot
+    :param key: ключ для отправки данных на бэкэнд
+    :param is_integer: являются ли отправляемые данные числом или нет
+    """
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
         number = data[CONTEXT_KEY]
         text = get_response_and_refresh_token(
@@ -58,17 +79,27 @@ def change_property_by_callback(
     bot: TeleBot,
     message: str,
     new_data: dict,
-    data: dict,
+    cache: dict,
     number: int,
-):
+) -> None:
+    """
+    Делает запрос на изменение параметра привычки после нажатия на кнопку
+
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    :param message: сообщение для пользователя
+    :param new_data: обновленные данные у привычки
+    :param cache: кэш с данными
+    :param number: номер привычки в кэше
+    """
 
     text = get_response_and_refresh_token(
         telegram_id=callback.from_user.id,
         func=update_habit,
-        access_token=data[TOKEN_KEY],
+        access_token=cache[TOKEN_KEY],
         number=number,
         new_data=new_data,
-        cache=data,
+        cache=cache,
     )
     bot.answer_callback_query(
         callback_query_id=callback.id,

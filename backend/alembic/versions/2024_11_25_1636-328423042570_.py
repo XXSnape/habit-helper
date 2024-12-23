@@ -56,9 +56,7 @@ def upgrade() -> None:
         sa.Column("reason", sa.String(), nullable=True),
         sa.Column("habit_id", sa.Integer(), nullable=False),
         sa.Column("id", sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(
-            ["habit_id"], ["habits.id"], ondelete="CASCADE"
-        ),
+        sa.ForeignKeyConstraint(["habit_id"], ["habits.id"], ondelete="CASCADE"),
         sa.PrimaryKeyConstraint("id"),
     )
     # ### end Alembic commands ###

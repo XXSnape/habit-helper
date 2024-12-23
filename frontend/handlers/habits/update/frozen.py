@@ -43,7 +43,7 @@ def change_frozen_property(callback: CallbackQuery, bot: TeleBot) -> None:
             bot=bot,
             message=f"Привычка успешно {"возобновлена" if is_frozen_now else "приостановлена"}!",
             new_data={"is_frozen": not is_frozen_now},
-            data=data,
+            cache=data,
             number=number,
         )
 

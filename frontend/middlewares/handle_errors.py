@@ -11,6 +11,13 @@ from utils.exceptions import InvalidApiResponse, TokenMissing
 
 
 def handle_token_missing(bot: TeleBot, telegram_id: int) -> None:
+    """
+    Обрабатывает случай, когда пользователь с id telegram_id не найден в базе.
+    В таком случае сбрасывается состояние
+    и отправляется просьба выполнить вход или зарегистрироваться
+    :param bot: TeleBot
+    :param telegram_id: телеграм id
+    """
     bot.send_message(
         telegram_id,
         "Пожалуйста, пройдите регистрацию или войдите в свой аккаунт.\n"
@@ -21,15 +28,27 @@ def handle_token_missing(bot: TeleBot, telegram_id: int) -> None:
 
 
 class HandleErrorsMiddleware(BaseMiddleware):
+    """
+    Обрабатывает возможные ошибки и логирует их
+    """
 
-    def __init__(self, bot: TeleBot, logger=__name__):
+    def __init__(self, bot: TeleBot) -> None:
+        """
+        Инициализация
+        :param bot: TeleBot
+        """
         super().__init__()
         self._bot = bot
         self.update_types = ["message", "callback_query"]
         self.update_sensitive = True
-        self.logger = logging.getLogger(logger)
+        self.logger = logging.getLogger(__name__)
 
-    def pre_process_message(self, message: Message, data: dict):
+    def pre_process_message(self, message: Message, data: dict) -> None:
+        """
+        Обрабатывает событие Message перед отправкой в хэндлеры
+        :param message: Message
+        :param data: дополнительные данные
+        """
         self.logger.info(
             f"Получено новое сообщение с id %s от пользователя %s c id %s",
             message.id,
@@ -37,7 +56,18 @@ class HandleErrorsMiddleware(BaseMiddleware):
             message.from_user.id,
         )
 
-    def post_process_message(self, message: Message, data: dict, exception=None):
+    def post_process_message(
+        self, message: Message, data: dict, exception=None
+    ) -> None:
+        """
+        Обрабатывает событие Message после отработки хэндлера.
+        В случае какого-либо исключения сбрасывает состояние пользователя
+        и выводит информацию об ошибке
+        :param message: Message
+        :param data: дополнительные данные
+        :param exception: возникшее исключение или None
+        :return:
+        """
         if exception:
             if isinstance(exception, TokenMissing):
                 handle_token_missing(bot=self._bot, telegram_id=message.chat.id)
@@ -58,7 +88,12 @@ class HandleErrorsMiddleware(BaseMiddleware):
             message.from_user.id,
         )
 
-    def pre_process_callback_query(self, callback: CallbackQuery, data: dict):
+    def pre_process_callback_query(self, callback: CallbackQuery, data: dict) -> None:
+        """
+        Обрабатывает событие CallbackQuery перед отправкой в хэндлер
+        :param callback: CallbackQuery
+        :param data: дополнительные данные
+        """
         if callback.message:
             self.logger.info(
                 "Получено callback с id %s "
@@ -74,7 +109,16 @@ class HandleErrorsMiddleware(BaseMiddleware):
 
     def post_process_callback_query(
         self, callback: CallbackQuery, data, exception=None
-    ):
+    ) -> None:
+        """
+        Обрабатывает событие CallbackQuery после отработки хэндлера.
+        В случае какого-либо исключения сбрасывает состояние пользователя
+        и выводит информацию об ошибке через всплывающее окно. Сообщение
+        пользователю может передаваться через экземпляр исключения
+        :param callback: CallbackQuery
+        :param data: дополнительные данные
+        :param exception: возникшее исключение или None
+        """
         if exception:
             if isinstance(exception, TokenMissing):
                 handle_token_missing(bot=self._bot, telegram_id=callback.from_user.id)

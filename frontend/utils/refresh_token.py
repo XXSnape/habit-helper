@@ -31,7 +31,16 @@ class ApiOptions(TypedDict, total=False):
 
 def get_response_and_refresh_token(
     telegram_id: int, func: Callable, **kwargs: Unpack[ApiOptions]
-):
+) -> any:
+    """
+    Делает запрос на бэкэнд, передавая в функцию func аргументы kwargs.
+    Если ответ приходит с ошибкой авторизации, обновляет access_token пользователя в базе
+    и делает запрос снова с обновлённым токеном
+    :param telegram_id: телеграм id
+    :param func: функция для вызова
+    :param kwargs: аргументы для func
+    :return: результат func
+    """
     try:
         return func(**kwargs)
     except InvalidAccessToken:

@@ -1,3 +1,7 @@
+"""
+Ключи для доступа к данным в кэше
+"""
+
 USERNAME_KEY = "username"
 MESSAGE_ID_KEY = "message_id"
 TOKEN_KEY = "token"

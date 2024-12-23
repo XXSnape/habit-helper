@@ -7,6 +7,12 @@ from utils.refresh_token import get_response_and_refresh_token
 
 
 def get_data_on_completion_habit(callback: CallbackQuery) -> bool:
+    """
+    Получает информацию о том, было ли выполнение задания последним
+    для его завершения
+    :param callback: CallbackQuery
+    :return: задание завершено или нет
+    """
     mark_habit_data = mark_habit_factory.parse(callback.data)
     mark_habit_data.pop("@")
     token = get_user_token(callback.from_user.id)

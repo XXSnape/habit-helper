@@ -45,7 +45,7 @@ def change_time(callback: CallbackQuery, bot: TeleBot) -> None:
             bot=bot,
             message="Привычка успешно обновлена!",
             new_data={"notification_hour": int(callback.data)},
-            data=data,
+            cache=data,
             number=data[CONTEXT_KEY],
         )
 

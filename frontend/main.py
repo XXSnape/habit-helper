@@ -16,11 +16,10 @@ from middlewares.handle_errors import HandleErrorsMiddleware
 from utils.scheduler.settings import register_tasks
 
 
-def register_handlers(bot: TeleBot):
+def register_handlers(bot: TeleBot) -> None:
     """
     Регистрирует все обработчики
-    :param bot:
-    :return:
+    :param bot: TeleBot
     """
     default.register_cancel(bot)
     default.register_start(bot)
@@ -57,7 +56,10 @@ def register_handlers(bot: TeleBot):
     default.register_unrecognized_events(bot)
 
 
-def main():
+def main() -> None:
+    """
+    Запускает все приложение
+    """
     logger = logging.getLogger(__name__)
     logging.basicConfig(
         level=logging.INFO,

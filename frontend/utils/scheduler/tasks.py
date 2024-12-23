@@ -1,5 +1,6 @@
 import logging
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime
 
 from telebot import TeleBot
 from telebot.apihelper import ApiTelegramException
@@ -16,7 +17,11 @@ d = [f"202411{str(k).zfill(2)}" for k in range(1, 30)]
 logger = logging.getLogger(__name__)
 
 
-def deactivate_user(telegram_id: int):
+def deactivate_user(telegram_id: int) -> None:
+    """
+    Деактивирует пользователя на бэкэнде
+    :param telegram_id: телеграм id
+    """
     token = get_user_token(telegram_id=telegram_id)
     get_response_and_refresh_token(
         telegram_id=telegram_id,
@@ -26,7 +31,15 @@ def deactivate_user(telegram_id: int):
     )
 
 
-def send_user_notification(bot: TeleBot, habit: dict, current_date: str):
+def send_user_notification(bot: TeleBot, habit: dict, current_date: str) -> None:
+    """
+    Отправляет пользователю напоминание о том, что необходимо пометить привычку,
+    как выполненную или нет. Если пользователь заблокировал бота, делается
+    запрос на деактивацию пользователя.
+    :param bot: TeleBot
+    :param habit: данные о привычке: id, название, телеграм id создателя
+    :param current_date: дата для пометки привычки
+    """
     try:
         bot.send_message(
             chat_id=habit["telegram_id"],
@@ -42,8 +55,14 @@ def send_user_notification(bot: TeleBot, habit: dict, current_date: str):
 
 
 def send_reminders_to_all_users(bot: TeleBot, hour: int) -> None:
-    # current_date = datetime.now().strftime("%Y%m%d")
-    current_date = d.pop(0)
+    """
+    Получает информацию о привычках, напоминание о которых нужно отправить в hour часов.
+    Создает пул потоков для скорейшей доставки сообщений
+    :param bot: TeleBot
+    :param hour: час отправки
+    """
+    current_date = datetime.now().strftime("%Y%m%d")
+    # current_date = d.pop(0)
     # current_date = "20241214"
     try:
         habits = get_habits_all_users_by_hour(hour=hour)

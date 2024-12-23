@@ -24,6 +24,11 @@ RU_LSTEP = {"y": "год", "m": "месяц", "d": "день"}
 
 
 class CustomCalendar(WMonthTelegramCalendar):
+    """
+    Кастомный календарь для отображения данных о выполнении привычек в сплывающих окнах
+    и на кнопках
+    """
+
     prev_button = "⬅️"
     next_button = "➡️"
 
@@ -41,7 +46,13 @@ class CustomCalendar(WMonthTelegramCalendar):
         max_date=None,
         telethon=False,
         **kwargs
-    ):
+    ) -> None:
+        """
+
+        :param completed: список с датами, когда задание было выполнено
+        :param not_completed: список с датами, когда задание не было выполнено
+        :param number: номер привычки в кэше
+        """
         if additional_buttons is None:
             additional_buttons = [
                 {
@@ -77,6 +88,13 @@ class CustomCalendar(WMonthTelegramCalendar):
         self.not_completed = not_completed
 
     def _get_decorated_button(self, current_date: date) -> str:
+        """
+        Изменяет отображение кнопки для пользователя.
+        Делает кнопку зелёной, если в эту дату задание было выполнено, иначе красной.
+        Если нет данных, то оставляет просто дату
+        :param current_date: текущая рассматриваемая дата
+        :return: кнопка с обновленным дизайном
+        """
         if str(current_date) in self.completed:
             return MARKED_DATE + str(current_date.day)
         if str(current_date) in self.not_completed:
@@ -138,6 +156,15 @@ class CustomCalendar(WMonthTelegramCalendar):
 def get_completed_and_unfulfilled_dates(
     number: int, data: dict
 ) -> tuple[list[str], list[str]] | tuple[None, None]:
+    """
+    Получает даты, когда задание было выполнено и не выполнено, если они есть в кэше.
+    Если данных нет, собирает их, добавляет в кэш причины, минимальные и максимальные даты
+
+    :param number: номер привычки в кэше
+    :param data: кэш
+    :return: даты, когда задание было выполнено и не выполнено
+    или None, None, если привычка ни разу не была отмечена
+    """
     try:
         return (
             data[HABITS_KEY][number][IS_DONE_KEY],

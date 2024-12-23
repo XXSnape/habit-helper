@@ -2,7 +2,6 @@ from telebot import TeleBot
 from telebot.types import Message
 
 from api.users.check_user import check_user_existence
-from inline.keypads.auth import delete_password_request_kb
 from inline.keypads.cancel import get_cancel_kb
 from states.auth import AuthStates
 from utils.cache_keys import USERNAME_KEY, MESSAGE_ID_KEY
@@ -27,7 +26,7 @@ def validate_username_and_request_password(message: Message, bot: TeleBot) -> No
     sent_message = bot.send_message(
         message.chat.id,
         f"Отлично! Ваш потенциальный никнейм: {username}. Теперь нужно ввести пароль.\n",
-        reply_markup=delete_password_request_kb(),
+        reply_markup=get_cancel_kb(),
     )
     with bot.retrieve_data(sent_message.chat.id, sent_message.chat.id) as data:
         data[USERNAME_KEY] = username

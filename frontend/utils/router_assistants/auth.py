@@ -6,7 +6,15 @@ from inline.keypads.cancel import get_cancel_kb
 from utils.delete_message import try_delete_message
 
 
-def ask_for_username(callback: CallbackQuery, bot: TeleBot, state: State):
+def ask_for_username(callback: CallbackQuery, bot: TeleBot, state: State) -> None:
+    """
+    Запрашивает имя пользователя.
+    Если пользователь нажал на кнопку после регистрации выводит информацию об ошибке.
+    Если пользователя нет в базе, устанавливает новое состояние и просит ввести имя
+    :param callback: CallbackQuery
+    :param bot: TeleBot
+    :param state: State
+    """
     token = get_user_token(telegram_id=callback.from_user.id)
     if token is not None:
         bot.answer_callback_query(
