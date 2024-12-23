@@ -17,6 +17,11 @@ from utils.scheduler.settings import register_tasks
 
 
 def register_handlers(bot: TeleBot):
+    """
+    Регистрирует все обработчики
+    :param bot:
+    :return:
+    """
     default.register_cancel(bot)
     default.register_start(bot)
     default.register_help(bot)
