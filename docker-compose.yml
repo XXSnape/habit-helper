@@ -20,6 +20,8 @@ services:
     build: ./backend
     depends_on:
       - postgres
+    volumes:
+      - ./certs:/app/certs
     ports:
       - "8000:8000"
 

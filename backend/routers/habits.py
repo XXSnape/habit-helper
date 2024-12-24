@@ -11,7 +11,6 @@ from schemas.habits import (
     HabitPatchSchema,
     HabitResumeSchema,
     HabitOutputSchema,
-    ReasonChangeSchema,
     HabitNameSchema,
 )
 from schemas.results import ResultSchema
@@ -28,7 +27,6 @@ from services.habits import (
 from services.tracking import (
     mark_habit_by_id,
     is_habit_complete,
-    change_habit_reason_by_id,
 )
 from services.users import get_users_habits_by_hour
 

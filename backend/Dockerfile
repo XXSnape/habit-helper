@@ -11,4 +11,4 @@ RUN python -m pip install --no-cache-dir poetry==1.8.3 \
 
 
 COPY . .
-CMD alembic upgrade head && python main.py
+CMD python create_certs.py && alembic upgrade head && python main.py
