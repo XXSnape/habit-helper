@@ -8,6 +8,14 @@ from .base import BaseModel
 
 
 class TrackingModel(BaseModel):
+    """
+    Модель для отслеживания выполнения привычек пользователя
+    date - дата, за которую пользователь отметил привычку, как выполненную или нет
+    is_done - True, если задание было выполнено, иначе False
+    reason - причина невыполения или None
+    habit_id - id привычки
+    """
+
     __tablename__ = "tracking"
 
     __table_args__ = (

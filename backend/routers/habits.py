@@ -45,7 +45,14 @@ async def create_new_habit(
         Depends(db_helper.get_async_session),
     ],
     user_id: Annotated[int, Depends(get_user_id)],
-):
+) -> ResultSchema:
+    """
+    Роутер для создания привычки
+    :param habit: HabitCreateSchema
+    :param session: сессия для работы с базой
+    :param user_id: id пользователя
+    :return: ResultSchema
+    """
     habit_created = await create_habit(session=session, habit_in=habit, user_id=user_id)
     if not habit_created:
         raise HTTPException(
@@ -66,7 +73,15 @@ async def patch_habit(
     ],
     updated_habit: HabitPatchSchema,
     user_id: Annotated[int, Depends(get_user_id)],
-):
+) -> ResultSchema:
+    """
+    Роутер для обновления привычки
+    :param habit_id: id привычки
+    :param session: сессия для работы с базой
+    :param updated_habit: HabitPatchSchema
+    :param user_id: id пользователя
+    :return:
+    """
     result = await patch_habit_by_id(
         session=session, habit_id=habit_id, user_id=user_id, habit_in=updated_habit
     )
@@ -86,7 +101,15 @@ async def mark_habit(
     habit_id: int,
     mark: MarkHabitSchema,
     user_id: Annotated[int, Depends(get_user_id)],
-):
+) -> HabitCompletedSchema:
+    """
+    Роутер для пометки привычки как выполненную или невыполненную.
+    :param session: Сессия для работы с базой
+    :param habit_id: id привычки
+    :param mark: MarkHabitSchema
+    :param user_id: id пользователя
+    :return: HabitCompletedSchema
+    """
     number_completed = await get_number_completed(
         session=session, habit_id=habit_id, user_id=user_id
     )
@@ -112,7 +135,14 @@ async def delete_habit(
         Depends(db_helper.get_async_session),
     ],
     user_id: Annotated[int, Depends(get_user_id)],
-):
+) -> ResultSchema:
+    """
+    Роутер для удаления привычки
+    :param habit_id: id привычки
+    :param session: сессия для работы с базой
+    :param user_id: id пользователя
+    :return: ResultSchema
+    """
     result = await delete_habit_by_id(
         session=session, habit_id=habit_id, user_id=user_id
     )
@@ -130,7 +160,15 @@ async def resume_habit(
     ],
     user_id: Annotated[int, Depends(get_user_id)],
     habit_resume: HabitResumeSchema,
-):
+) -> ResultSchema:
+    """
+    Роутер для возобновления выполненной привычки
+    :param habit_id: id привычки
+    :param session: сессия для работы с базой
+    :param user_id: id пользователя
+    :param habit_resume: HabitResumeSchema
+    :return: ResultSchema
+    """
     result = await resume_habit_by_id(
         session=session,
         habit_id=habit_id,
@@ -150,7 +188,14 @@ async def get_my_habits(
     ],
     user_id: Annotated[int, Depends(get_user_id)],
     is_complete_null: bool = True,
-):
+) -> list[HabitOutputSchema]:
+    """
+    Роутер для получения привычек пользователя
+    :param session: сессия для работы с базой
+    :param user_id: id пользователя
+    :param is_complete_null: True, если нужны действующие привычки, иначе завершенные, False
+    :return: list[HabitOutputSchema]
+    """
     habits = await get_habits_by_id(
         session=session,
         user_id=user_id,
@@ -166,7 +211,14 @@ async def get_users_habits(
         Depends(db_helper.get_async_session),
     ],
     notification_hour: int,
-):
+) -> list[UserHabitSchema]:
+    """
+    Роутер для получения привычек пользователей,
+    которые установили время напоминания о них на notification_hour часов
+    :param session: сессия для работы с базой
+    :param notification_hour: час напоминания
+    :return: list[UserHabitSchema]
+    """
     result = await get_users_habits_by_hour(session=session, hour=notification_hour)
     return result
 
@@ -179,7 +231,14 @@ async def get_habit_name(
         Depends(db_helper.get_async_session),
     ],
     user_id: Annotated[int, Depends(get_user_id)],
-):
+) -> HabitNameSchema:
+    """
+    Роутер для получения названия привычки
+    :param habit_id: id привычки
+    :param session: сессия для работы с базой
+    :param user_id: id пользователя
+    :return: HabitNameSchema
+    """
     return await get_habit_name_by_id(
         session=session, habit_id=habit_id, user_id=user_id
     )

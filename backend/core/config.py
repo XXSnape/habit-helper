@@ -9,6 +9,13 @@ BASE_DIR = Path(__file__).parent.parent
 
 
 class AuthJWTSettings(BaseSettings):
+    """
+    private_key_path - путь к закрытому ключу
+    public_key_path - путь к открытому ключу
+    access_token_expire_minutes - действие токена в минутах
+    algorithm - алгоритм шифрования
+    """
+
     private_key_path: Path = BASE_DIR / "certs" / "private.pem"
     public_key_path: Path = BASE_DIR / "certs" / "public.pem"
     access_token_expire_minutes: int = 30
@@ -17,7 +24,12 @@ class AuthJWTSettings(BaseSettings):
 
 class DBSettings(BaseSettings):
     """
-    Класс для настройки параметров подключения к базе данных.
+    db_host: хост базы
+    db_port: порт базы
+    postgres_user: логин пользователя
+    postgres_password: пароль пользователя
+    postgres_db: название базы
+    echo: bool = True, если нужно, чтобы запросы выводились в консоль, иначе False
     """
 
     db_host: str
@@ -39,6 +51,10 @@ class DBSettings(BaseSettings):
 
 
 class Settings(BaseSettings):
+    """
+    Настройки приложения
+    """
+
     model_config = SettingsConfigDict(
         case_sensitive=False,
     )

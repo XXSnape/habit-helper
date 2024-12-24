@@ -13,6 +13,20 @@ if TYPE_CHECKING:
 
 
 class HabitModel(BaseModel):
+    """
+    Модель привычки
+
+    name - название
+    description - описание
+    notification_hour - время, когда нужно отправлять напоминание о привычке
+    count - количество дней для формирования привычки
+    is_frozen - приостановлена привычка или нет
+    user_id - id создателя привычки
+    created_at - дата и время создания привычки
+    completed_at - дата завершения привычки или None, если она еще активна
+
+    """
+
     name: Mapped[str]
     description: Mapped[str] = mapped_column(TEXT)
     notification_hour: Mapped[int]

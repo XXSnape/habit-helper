@@ -1,8 +1,9 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from starlette import status
+
+# from starlette import status
 
 
 from core.helper import db_helper
@@ -39,7 +40,13 @@ async def get_my_info(
         Depends(db_helper.get_async_session),
     ],
     user_id: Annotated[int, Depends(get_user_id)],
-):
+) -> UserOutput:
+    """
+    Роутер для получения информации о пользователе
+    :param session: сессия для работы с базой
+    :param user_id: id пользователя
+    :return: UserOutput
+    """
     return await get_user_info_by_id(session=session, user_id=user_id)
 
 
@@ -47,7 +54,13 @@ async def get_my_info(
 async def check_user_by_username(
     username: str,
     session: Annotated[AsyncSession, Depends(db_helper.get_async_session)],
-):
+) -> ResultSchema:
+    """
+    Роутер для получения информации о том, есть ли пользователь с именем username в базе
+    :param username: имя пользователя
+    :param session: сессия для работы с базой
+    :return: ResultSchema
+    """
     result = await verify_username(session=session, username=username)
     return ResultSchema(result=result)
 
@@ -61,7 +74,13 @@ async def register_user(
         AsyncSession,
         Depends(db_helper.get_async_session),
     ],
-):
+) -> TokenSchema:
+    """
+    Роутер для регистрации пользователя
+    :param user: UserCreate
+    :param session: сессия для работы с базой
+    :return: TokenSchema
+    """
     user_id = await create_user(session=session, user_in=user)
     return TokenSchema(access_token=get_access_token(user_id=user_id))
 
@@ -73,7 +92,13 @@ async def create_new_access_token(
         AsyncSession,
         Depends(db_helper.get_async_session),
     ],
-):
+) -> TokenSchema:
+    """
+    Роутер для перевыпуска токена для пользователя
+    :param user: UserSchema
+    :param session: сессия для работы с базой
+    :return: TokenSchema
+    """
     user_id = await verify_existence_user(session=session, user_in=user)
     return TokenSchema(access_token=get_access_token(user_id=user_id))
 
@@ -85,7 +110,13 @@ async def change_telegram_id(
         AsyncSession,
         Depends(db_helper.get_async_session),
     ],
-):
+) -> TgIdAndTokenSchema:
+    """
+    Роутер для замены телеграм id существующему пользователю
+    :param existing_user: UserChangeTelegramIdSchema
+    :param session: сессия для работы с базой
+    :return: TgIdAndTokenSchema
+    """
     last_telegram_id, user_id = await change_telegram_id_by_credentials(
         session=session, user_in=existing_user
     )
@@ -101,7 +132,14 @@ async def change_password(
         Depends(db_helper.get_async_session),
     ],
     user_id: Annotated[int, Depends(get_user_id)],
-):
+) -> TokenSchema:
+    """
+    Роутер для смены пароля пользователя
+    :param user_password: UserChangePassword
+    :param session: сессия для работы с базой
+    :param user_id: id пользователя
+    :return: TokenSchema
+    """
     token = await change_password_by_user_id(
         session=session, user_in=user_password, user_id=user_id
     )
@@ -116,7 +154,14 @@ async def change_user_activity(
         Depends(db_helper.get_async_session),
     ],
     user_id: Annotated[int, Depends(get_user_id)],
-):
+) -> ResultSchema:
+    """
+    Роутер для смены статуса активности пользователя
+    :param user_activity: UserActivitySchema
+    :param session: сессия для работы с базой
+    :param user_id: id пользователя
+    :return: ResultSchema
+    """
     result = await activate_or_deactivate_user(
         session=session, user_in=user_activity, user_id=user_id
     )

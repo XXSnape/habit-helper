@@ -13,6 +13,16 @@ if TYPE_CHECKING:
 
 
 class UserModel(BaseModel):
+    """
+    Модель пользователя.
+
+    username - юзернейм
+    password - пароль
+    telegram_id - id пользователя в телеграме
+    is_active - True, если пользователь активен, иначе False
+    date_of_registration - дата регистрации
+    """
+
     __table_args__ = (
         Index("username_idx", "username"),
         Index("telegram_id_idx", "telegram_id"),
