@@ -4,8 +4,16 @@ import uvicorn
 
 from routers import router
 
-app = FastAPI()
-app.include_router(router, prefix="/api")
+
+def main() -> None:
+    """
+    Запускает приложение
+    """
+
+    app = FastAPI()
+    app.include_router(router, prefix="/api")
+    uvicorn.run("main:app", host="0.0.0.0", reload=True)
+
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", reload=True)
+    main()

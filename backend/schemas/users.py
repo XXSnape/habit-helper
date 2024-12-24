@@ -76,4 +76,5 @@ class UserActivitySchema(BaseModel):
     is_active - статус активности. Если True, пользователю приходят напоминания,
     если False, то не приходят
     """
+
     is_active: bool

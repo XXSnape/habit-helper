@@ -11,14 +11,18 @@ def encode_jwt(
     private_key: str = settings.auth_jwt.private_key_path.read_text(),
     algorithm: str = settings.auth_jwt.algorithm,
     expire_minutes: int = settings.auth_jwt.access_token_expire_minutes,
-    expire_timedelta: timedelta | None = None,
 ) -> str:
+    """
+    Кодирует jwt-токен
+    :param payload: полезная нагрузка в токене
+    :param private_key: закрытый ключ
+    :param algorithm: алгоритм шифрования
+    :param expire_minutes: действие токена в минутах
+    :return: токен доступа
+    """
     to_encode = payload.copy()
     now = datetime.now(UTC)
-    if expire_timedelta:
-        expire = now + expire_timedelta
-    else:
-        expire = now + timedelta(minutes=expire_minutes)
+    expire = now + timedelta(minutes=expire_minutes)
     to_encode.update(
         exp=expire,
         iat=now,
@@ -36,6 +40,13 @@ def decode_jwt(
     public_key: str = settings.auth_jwt.public_key_path.read_text(),
     algorithm: str = settings.auth_jwt.algorithm,
 ) -> dict:
+    """
+    Декодирует jwt-токен
+    :param token: токен доступа
+    :param public_key: публичный ключ
+    :param algorithm: алгоритм шифрования
+    :return: данные токена
+    """
     decoded = jwt.decode(
         token,
         public_key,
@@ -47,6 +58,11 @@ def decode_jwt(
 def hash_password(
     password: str,
 ) -> bytes:
+    """
+    Хэширует пароль
+    :param password: пароль
+    :return: хэшированный пароль
+    """
     salt = bcrypt.gensalt()
     pwd_bytes: bytes = password.encode()
     return bcrypt.hashpw(pwd_bytes, salt)
@@ -56,6 +72,12 @@ def validate_password(
     password: str,
     hashed_password: bytes,
 ) -> bool:
+    """
+    Сравнивает пароли
+    :param password: пароль
+    :param hashed_password: хэшированный пароль
+    :return: результат сравнения
+    """
     return bcrypt.checkpw(
         password=password.encode(),
         hashed_password=hashed_password,
@@ -63,7 +85,12 @@ def validate_password(
 
 
 def get_access_token(user_id: int) -> str:
+    """
+    Создает токен доступа с полезной нагрузкой в виде id пользователя,
+    которому принадлежит токен
+    :param user_id: id пользователя
+    :return: токен дсотупа
+    """
     payload = {"sub": str(user_id)}
     token = encode_jwt(payload=payload)
     return token
-    # return TokenSchema(access_token=token)

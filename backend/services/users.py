@@ -18,6 +18,12 @@ from utils.auth import get_access_token
 
 
 async def create_user(session: AsyncSession, user_in: UserCreate) -> int:
+    """
+    Создает пользователя
+    :param session: сессия для работы с базой
+    :param user_in: UserCreate
+    :return: id созданного пользователя
+    """
     data = user_in.model_dump()
     hash_psw = hash_password(user_in.password)
     data["password"] = hash_psw
@@ -25,6 +31,12 @@ async def create_user(session: AsyncSession, user_in: UserCreate) -> int:
 
 
 async def verify_existence_user(session: AsyncSession, user_in: UserSchema) -> int:
+    """
+    Проверяет, существует ли пользователь в базе
+    :param session: сессия для работы с базой
+    :param user_in: UserSchema
+    :return: True, если пользователь существует, иначе False
+    """
     unauthed_exc = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid telegram_id",
@@ -40,6 +52,12 @@ async def verify_existence_user(session: AsyncSession, user_in: UserSchema) -> i
 async def get_users_habits_by_hour(
     session: AsyncSession, hour: int
 ) -> list[UserHabitSchema]:
+    """
+    Получает привычки, о которых нужно напомнить в hour часов
+    :param session: сессия для работы с базой
+    :param hour: час напоминания
+    :return: list[UserHabitSchema]
+    """
     users_and_habits = await UserRepository.get_users_habits_by_hour(
         session=session, hour=hour
     )
@@ -59,6 +77,13 @@ async def verify_username(session: AsyncSession, username: str) -> bool:
 async def change_telegram_id_by_credentials(
     session: AsyncSession, user_in: UserChangeTelegramIdSchema
 ) -> tuple[int, int]:
+    """
+    Меняет телеграм id пользователю, если он пройдет авторизацию, иначе вызывает исключение
+
+    :param session: сессия для работы с базой
+    :param user_in: UserChangeTelegramIdSchema
+    :return: телеграм id до обновления и id пользователя в базе данных
+    """
     unauthed_exc = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid username or password",
@@ -88,6 +113,13 @@ async def change_telegram_id_by_credentials(
 async def change_password_by_user_id(
     session: AsyncSession, user_in: UserChangePassword, user_id: int
 ) -> str:
+    """
+    Меняет пароль пользователю
+    :param session: сессия для работы с базой
+    :param user_in: UserChangePassword
+    :param user_id: id пользователя в базе
+    :return: новый токен доступа
+    """
     new_hash_password = hash_password(user_in.password)
     result = await UserRepository.update_object_by_params(
         session=session,
@@ -100,6 +132,12 @@ async def change_password_by_user_id(
 
 
 async def get_user_info_by_id(session: AsyncSession, user_id: int) -> UserOutput:
+    """
+    Получает информацию о пользователе по его id
+    :param session: сессия для работы с базой
+    :param user_id: id пользователя в базе
+    :return: UserOutput
+    """
     user_data = await UserRepository.get_user_info(session=session, user_id=user_id)
     return UserOutput.model_validate(user_data, from_attributes=True)
 
@@ -107,6 +145,13 @@ async def get_user_info_by_id(session: AsyncSession, user_id: int) -> UserOutput
 async def activate_or_deactivate_user(
     session: AsyncSession, user_in: UserActivitySchema, user_id: int
 ) -> bool:
+    """
+    Переводит пользователя из статуса активный в неактивный и наоборот
+    :param session: сессия для работы с базой
+    :param user_in: UserActivitySchema
+    :param user_id: id пользователя в базе
+    :return: результат операции
+    """
     return await UserRepository.update_object_by_params(
         session=session,
         filter_data={"id": user_id},

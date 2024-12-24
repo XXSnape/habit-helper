@@ -58,7 +58,7 @@ def register_handlers(bot: TeleBot) -> None:
 
 def main() -> None:
     """
-    Запускает все приложение
+    Запускает бота
     """
     logger = logging.getLogger(__name__)
     logging.basicConfig(
