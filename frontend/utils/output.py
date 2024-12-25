@@ -26,6 +26,15 @@ def get_format_datetime(date_and_time: str) -> str:
     ).strftime("%d.%m.%Y %H:%M")
 
 
+def get_format_hour(hour: int) -> str:
+    """
+    Создает строку вида HH:00
+    :param hour: час
+    :return: строка вида HH:00
+    """
+    return f"{str(hour).zfill(2)}:00"
+
+
 def get_my_info_from_json(data: dict) -> str:
     """
     Формирует информацию о пользователе из кэша
@@ -54,7 +63,9 @@ def get_text_from_cache(cache: dict) -> str | None:
     if len(cache[HABITS_KEY]) == 1:
         return None
     for ind, habit in enumerate(cache[HABITS_KEY][1:], 1):
-        intermediate_text = f"{ind}) {habit['name']}"
+        intermediate_text = (
+            f"{ind}) {habit['name']} [{get_format_hour(habit['notification_hour'])}]"
+        )
         if habit["is_frozen"]:
             intermediate_text += " (приостановлена)"
         text += f"{intermediate_text}\n"
@@ -81,8 +92,8 @@ def get_habit_details_from_cache(
     created_at = get_format_datetime(habit["created_at"])
     details = {
         "Название": habit["name"],
-        "Время напоминания": f"{habit['notification_hour']}:00",
-        "Количество дней привития": str(habit["count"]),
+        "Время напоминания": get_format_hour(habit["notification_hour"]),
+        "Количество дней для формирования привычки": str(habit["count"]),
         "Осталось дней до конца": str(
             (habit["count"] - sum(track["is_done"] for track in habit["tracking"]))
         ),
@@ -92,3 +103,12 @@ def get_habit_details_from_cache(
     }
     output = present_data(details, initial_text=initial_text)
     return output
+
+
+def habit_has_already_been_completed(days: int) -> str:
+    """
+    Сообщает о том, что действия для формирования привычки были выполнены days дней
+    :param days: количество дней
+    :return: сообщение пользователю
+    """
+    return f"Вы уже выполнили действия для формирования привычки {days} дней. Введите число больше"

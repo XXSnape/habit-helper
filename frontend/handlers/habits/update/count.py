@@ -5,6 +5,7 @@ from states.habits import ChangeHabitStates
 from telebot import TeleBot
 from telebot.types import CallbackQuery, Message
 from utils.cache_keys import CONTEXT_KEY, HABITS_KEY
+from utils.output import habit_has_already_been_completed
 from utils.router_assistants.update_habit import (
     change_property_by_message,
     request_new_property,
@@ -16,7 +17,7 @@ def request_new_count(
     bot: TeleBot,
 ) -> None:
     """
-    Запрашивает новое количество дней привития для обновления действующей привычки, большее старого
+    Запрашивает новое количество дней формирования привычки для обновления действующей, большее старого
     :param callback: CallbackQuery
     :param bot: TeleBot
     """
@@ -30,14 +31,14 @@ def request_new_count(
         callback=callback,
         bot=bot,
         new_state=ChangeHabitStates.count,
-        message=f"Введите новое количество дней для отправления напоминаний (не меньше {done_count}) вместо {old_count}",
+        message=f"Введите новое количество дней для формирования привычки (не меньше {done_count}) вместо {old_count}",
         number=number,
     )
 
 
 def change_count(message: Message, bot: TeleBot) -> None:
     """
-    Если количество дней для привития больше предыдущего, обновляет привычку
+    Если количество дней для формирования привычки больше предыдущего, обновляет привычку
     :param message: Message
     :param bot: TeleBot
     """
@@ -48,7 +49,7 @@ def change_count(message: Message, bot: TeleBot) -> None:
         if new_count <= done_count:
             bot.send_message(
                 message.chat.id,
-                f"Вы уже выполнили данную привычку {done_count} дней. Введите число больше",
+                text=habit_has_already_been_completed(done_count),
                 reply_markup=get_back_to_action_kb(number),
             )
             return

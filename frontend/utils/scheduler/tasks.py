@@ -60,8 +60,8 @@ def send_reminders_to_all_users(bot: TeleBot, hour: int) -> None:
     :param bot: TeleBot
     :param hour: час отправки
     """
-    current_date = datetime.now().strftime("%Y%m%d")
-    # current_date = d.pop(0)
+    # current_date = datetime.now().strftime("%Y%m%d")
+    current_date = d.pop(0)
     # current_date = "20241214"
     try:
         habits = get_habits_all_users_by_hour(hour=hour)

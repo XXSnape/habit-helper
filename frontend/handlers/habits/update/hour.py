@@ -5,6 +5,7 @@ from states.habits import ChangeHabitStates
 from telebot import TeleBot
 from telebot.types import CallbackQuery
 from utils.cache_keys import CONTEXT_KEY, HABITS_KEY
+from utils.output import get_format_hour
 from utils.router_assistants.update_habit import (
     change_property_by_callback,
     request_new_property,
@@ -19,7 +20,7 @@ def request_new_time(callback: CallbackQuery, bot: TeleBot) -> None:
     """
     number = int(opportunities_for_change_factory.parse(callback.data)["num_habit"])
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
-        last_time = f"{str(data[HABITS_KEY][number]['notification_hour']).zfill(2)}:00"
+        last_time = get_format_hour(data[HABITS_KEY][number]["notification_hour"])
         data[CONTEXT_KEY] = number
 
     request_new_property(

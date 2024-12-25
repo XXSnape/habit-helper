@@ -3,6 +3,7 @@ from datetime import date, datetime
 from typing import override
 
 from inline.callback.callbacks import MY_HABITS_CALLBACK
+from inline.callback.constants import BACK_OUTPUT, MY_HABITS_OUTPUT
 from inline.callback.factories import habit_details_factory
 from telegram_bot_calendar import DetailedTelegramCalendar, WMonthTelegramCalendar
 from telegram_bot_calendar.base import *
@@ -52,11 +53,11 @@ class CustomCalendar(WMonthTelegramCalendar):
         if additional_buttons is None:
             additional_buttons = [
                 {
-                    "text": "Назад",
+                    "text": BACK_OUTPUT,
                     "callback_data": habit_details_factory.new(num_habit=number),
                 },
                 {
-                    "text": "Все привычки",
+                    "text": MY_HABITS_OUTPUT,
                     "callback_data": MY_HABITS_CALLBACK,
                 },
             ]

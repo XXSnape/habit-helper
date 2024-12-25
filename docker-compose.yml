@@ -24,6 +24,7 @@ services:
       - ./certs:/app/certs
     ports:
       - "8000:8000"
+    restart: on-failure
 
 
   frontend:
@@ -34,4 +35,5 @@ services:
       - backend
     volumes:
       - ./frontend:/bot
+    restart: on-failure
 

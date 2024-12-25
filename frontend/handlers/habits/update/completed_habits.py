@@ -9,12 +9,13 @@ from states.habits import ReadHabitStates, ResumeHabitStates
 from telebot import TeleBot
 from telebot.types import CallbackQuery, Message
 from utils.cache_keys import CONTEXT_KEY, HABITS_KEY, TOKEN_KEY
+from utils.output import habit_has_already_been_completed
 from utils.refresh_token import get_response_and_refresh_token
 
 
 def require_new_count(callback: CallbackQuery, bot: TeleBot) -> None:
     """
-    Запрашивает новое количество дней привития для возобновления, большее старого
+    Запрашивает новое количество дней для формирования привычки для возобновления, большее старого
     :param callback: CallbackQuery
     :param bot: TeleBot
     """
@@ -31,14 +32,14 @@ def require_new_count(callback: CallbackQuery, bot: TeleBot) -> None:
     bot.edit_message_text(
         message_id=callback.message.id,
         chat_id=callback.message.chat.id,
-        text=f"Введите число напоминаний для привычки «{name}» большее {count}",
+        text=f"Введите количество дней для формирования привычки «{name}» большее {count}",
         reply_markup=get_back_to_habits_details_and_menu(number),
     )
 
 
 def resume_habit(message: Message, bot: TeleBot) -> None:
     """
-    Возобновляет привычку, если количество для привития больше старого, или выводит ошибку
+    Возобновляет привычку, если количество для ее формирования больше старого, или выводит ошибку
     :param message: Message
     :param bot: TeleBot
     """
@@ -51,7 +52,7 @@ def resume_habit(message: Message, bot: TeleBot) -> None:
         if new_count <= done_count:
             bot.send_message(
                 message.chat.id,
-                f"Вы уже выполнили данную привычку {done_count} дней. Введите число больше",
+                text=habit_has_already_been_completed(done_count),
                 reply_markup=get_back_to_habits_details_and_menu(number),
             )
             return

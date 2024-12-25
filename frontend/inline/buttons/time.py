@@ -1,3 +1,5 @@
+from utils.output import get_format_hour
+
 from .types import Buttons
 
 
@@ -7,6 +9,4 @@ def get_hours_buttons() -> Buttons:
     :return: Buttons
     """
 
-    return {
-        f"{str(hour).zfill(2)}:00": {"callback_data": str(hour)} for hour in range(24)
-    }
+    return {get_format_hour(hour): {"callback_data": str(hour)} for hour in range(24)}
