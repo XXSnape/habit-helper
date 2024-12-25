@@ -1,8 +1,7 @@
-from telebot import TeleBot
-from telebot.types import CallbackQuery
-
 from inline.callback.callbacks import REGISTRATION_CALLBACK
 from states.auth import AuthStates
+from telebot import TeleBot
+from telebot.types import CallbackQuery
 from utils.router_assistants.auth import ask_for_username
 
 

@@ -1,9 +1,8 @@
-from telebot import TeleBot
-from telebot.types import CallbackQuery
-
 from inline.callback.enums import ActionsHabitEnum
 from inline.callback.factories import actions_with_habit_factory
 from inline.keypads.habits import get_properties_to_change_kb
+from telebot import TeleBot
+from telebot.types import CallbackQuery
 from utils.cache_keys import HABITS_KEY
 from utils.output import get_habit_details_from_cache
 

@@ -1,9 +1,8 @@
-from telebot import TeleBot
-from telebot.types import Message
-
 from api.users.change_password import change_password_by_token
 from states.auth import ChangePasswordStates
-from utils.cache_keys import TOKEN_KEY, MESSAGE_ID_KEY
+from telebot import TeleBot
+from telebot.types import Message
+from utils.cache_keys import MESSAGE_ID_KEY, TOKEN_KEY
 from utils.refresh_token import get_response_and_refresh_token
 from utils.regexp import PASSWORD_REGEXP
 from utils.texts import COMMANDS, DELETE_PASSWORD

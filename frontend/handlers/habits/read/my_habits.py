@@ -1,17 +1,14 @@
-from telebot import TeleBot
-from telebot.types import Message, CallbackQuery
-
+from api.habits.my_habits import get_my_habits_by_token
 from inline.callback.callbacks import MY_HABITS_CALLBACK
 from inline.callback.constants import MENU_OUTPUT
 from inline.keypads.cancel import get_cancel_kb
 from states.habits import ReadHabitStates
+from telebot import TeleBot
+from telebot.types import CallbackQuery, Message
 from utils.cache_keys import COMPLETED_KEY
-
+from utils.login_required import check_registration
 from utils.output import get_text_from_cache
 from utils.refresh_token import get_response_and_refresh_token
-
-from api.habits.my_habits import get_my_habits_by_token
-from utils.login_required import check_registration
 
 
 def get_my_habits_by_command(message: Message, bot: TeleBot) -> None:

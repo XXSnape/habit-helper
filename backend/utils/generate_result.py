@@ -1,5 +1,6 @@
-from .exceptions import habit_not_exists
 from schemas.results import ResultSchema
+
+from .exceptions import habit_not_exists
 
 
 def get_result_for_request(result: bool) -> ResultSchema:

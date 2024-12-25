@@ -1,7 +1,6 @@
-from sqlalchemy.orm import Session
-
 from database.core.db import GetSession
 from database.models import User
+from sqlalchemy.orm import Session
 
 
 @GetSession

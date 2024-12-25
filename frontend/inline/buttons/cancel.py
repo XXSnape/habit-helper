@@ -1,12 +1,10 @@
 from inline.callback.callbacks import (
     CALL_OFF_CALLBACK,
-    REFUSAL_TO_DESCRIBE_CALLBACK,
     CB,
+    REFUSAL_TO_DESCRIBE_CALLBACK,
 )
-from inline.callback.constants import (
-    CALL_OFF_OUTPUT,
-    REFUSAL_TO_DESCRIBE_OUTPUT,
-)
+from inline.callback.constants import CALL_OFF_OUTPUT, REFUSAL_TO_DESCRIBE_OUTPUT
+
 from .types import Buttons
 
 

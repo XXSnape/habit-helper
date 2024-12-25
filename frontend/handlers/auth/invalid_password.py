@@ -1,8 +1,7 @@
+from inline.keypads.cancel import get_cancel_kb
+from states.auth import AuthStates, ChangePasswordStates, LogInStates
 from telebot import TeleBot
 from telebot.types import Message
-
-from inline.keypads.cancel import get_cancel_kb
-from states.auth import AuthStates, LogInStates, ChangePasswordStates
 
 
 def handle_invalid_password(message: Message, bot: TeleBot) -> None:

@@ -1,6 +1,5 @@
 from telebot import TeleBot
-from telebot.types import Message, CallbackQuery
-
+from telebot.types import CallbackQuery, Message
 from utils.texts import COMMANDS
 
 

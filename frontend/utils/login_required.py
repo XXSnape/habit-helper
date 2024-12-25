@@ -1,6 +1,5 @@
-from telebot import TeleBot, State
-
 from database.crud.check_user import get_user_token
+from telebot import State, TeleBot
 from utils.cache_keys import TOKEN_KEY
 from utils.exceptions import TokenMissing
 

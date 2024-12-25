@@ -1,33 +1,30 @@
-from inline.callback.callbacks import (
-    MY_HABITS_CALLBACK,
-    CB,
-    REJECTION_REASON_CALLBACK,
-)
+from inline.callback.callbacks import CB, MY_HABITS_CALLBACK, REJECTION_REASON_CALLBACK
 from inline.callback.constants import (
-    MY_HABITS_OUTPUT,
-    EDIT_HABIT_OUTPUT,
-    NAME_OUTPUT,
-    HOUR_OUTPUT,
+    BACK_OUTPUT,
     COUNT_OUTPUT,
-    DESCRIPTION_OUTPUT,
-    IS_FROZEN_OUTPUT,
     DELETE_HABIT_OUTPUT,
-    IS_UNFROZEN_OUTPUT,
-    STATISTIC_OUTPUT,
+    DESCRIPTION_OUTPUT,
+    EDIT_HABIT_OUTPUT,
     HABIT_COMPLETED_OUTPUT,
     HABIT_NOT_COMPLETED_OUTPUT,
+    HOUR_OUTPUT,
+    IS_FROZEN_OUTPUT,
+    IS_UNFROZEN_OUTPUT,
+    MY_HABITS_OUTPUT,
+    NAME_OUTPUT,
     REJECTION_REASON_OUTPUT,
     RESUME_OUTPUT,
-    BACK_OUTPUT,
+    STATISTIC_OUTPUT,
 )
-from inline.callback.enums import HabitPropertiesEnum, ActionsHabitEnum
+from inline.callback.enums import ActionsHabitEnum, HabitPropertiesEnum
 from inline.callback.factories import (
     actions_with_habit_factory,
-    opportunities_for_change_factory,
-    mark_habit_factory,
-    habit_details_factory,
     freeze_habit_factory,
+    habit_details_factory,
+    mark_habit_factory,
+    opportunities_for_change_factory,
 )
+
 from .types import Buttons
 
 

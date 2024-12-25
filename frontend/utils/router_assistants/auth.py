@@ -1,8 +1,7 @@
-from telebot import State, TeleBot
-from telebot.types import CallbackQuery
-
 from database.crud.check_user import get_user_token
 from inline.keypads.cancel import get_cancel_kb
+from telebot import State, TeleBot
+from telebot.types import CallbackQuery
 from utils.delete_message import try_delete_message
 
 

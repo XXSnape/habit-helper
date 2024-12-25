@@ -1,10 +1,9 @@
+from api.users.create_user import get_access_token_for_new_user
+from database.crud.add_user import add_new_user
+from states.auth import AuthStates
 from telebot import TeleBot
 from telebot.types import Message
-
-from api.users.create_user import get_access_token_for_new_user
-from states.auth import AuthStates
-from utils.cache_keys import USERNAME_KEY, MESSAGE_ID_KEY
-from database.crud.add_user import add_new_user
+from utils.cache_keys import MESSAGE_ID_KEY, USERNAME_KEY
 from utils.regexp import PASSWORD_REGEXP
 from utils.texts import COMMANDS, DELETE_PASSWORD
 

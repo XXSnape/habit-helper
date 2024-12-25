@@ -1,11 +1,11 @@
 import logging
 
-from telebot import BaseMiddleware, TeleBot
-from telebot.types import CallbackQuery, Message
-
 from inline.callback.constants import MENU_OUTPUT
 from inline.keypads.auth import get_auth_request_kb
 from inline.keypads.cancel import get_cancel_kb
+from telebot import BaseMiddleware, TeleBot
+from telebot.apihelper import ApiTelegramException
+from telebot.types import CallbackQuery, Message
 from utils.delete_message import try_delete_message
 from utils.exceptions import InvalidApiResponse, TokenMissing
 
@@ -130,7 +130,8 @@ class HandleErrorsMiddleware(BaseMiddleware):
             self.logger.error("Ошибка %s", str(exception))
             self._bot.answer_callback_query(callback.id, text=text, show_alert=True)
             self._bot.delete_state(callback.from_user.id, callback.from_user.id)
-            try_delete_message(bot=self._bot, callback=callback)
+            if isinstance(exception, ApiTelegramException) is False:
+                try_delete_message(bot=self._bot, callback=callback)
 
         if callback.message:
             self.logger.info(

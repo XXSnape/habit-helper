@@ -1,8 +1,8 @@
-from .types import Buttons
-
 from inline.callback.callbacks import CB
-from inline.callback.constants import FREEZE_OUTPUT, DEFROST_OUTPUT
+from inline.callback.constants import DEFROST_OUTPUT, FREEZE_OUTPUT
 from inline.callback.factories import activity_user_factory
+
+from .types import Buttons
 
 
 def get_freezing_or_defrosting_btn(is_active: bool) -> Buttons:

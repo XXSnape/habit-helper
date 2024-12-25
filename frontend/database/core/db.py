@@ -1,9 +1,8 @@
 from typing import Callable
 
+from config import settings
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
-from config import settings
 
 engine = create_engine(settings.db.url, echo=settings.db.echo)
 session_factory = sessionmaker(bind=engine)

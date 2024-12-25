@@ -1,11 +1,11 @@
 from collections.abc import Callable
-
-from charset_normalizer.md import getLogger
+from typing import Any, Required, TypedDict, Unpack
 
 from api.users.get_token import get_new_access_token_by_id
+from charset_normalizer.md import getLogger
 from database.crud.update_token import update_token_by_id
+
 from .exceptions import InvalidAccessToken
-from typing import TypedDict, Unpack, Required
 
 logger = getLogger(__name__)
 
@@ -31,7 +31,7 @@ class ApiOptions(TypedDict, total=False):
 
 def get_response_and_refresh_token(
     telegram_id: int, func: Callable, **kwargs: Unpack[ApiOptions]
-) -> any:
+) -> Any:
     """
     Делает запрос на бэкэнд, передавая в функцию func аргументы kwargs.
     Если ответ приходит с ошибкой авторизации, обновляет access_token пользователя в базе

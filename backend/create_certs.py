@@ -1,6 +1,6 @@
+import os
 import subprocess
 from pathlib import Path
-import os
 
 
 def create_private_and_public_keys() -> None:

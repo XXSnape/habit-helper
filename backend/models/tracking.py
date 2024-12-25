@@ -1,9 +1,10 @@
-from sqlalchemy import Date, func, ForeignKey, UniqueConstraint
-from sqlalchemy.orm import Mapped, relationship
-from sqlalchemy.testing.schema import mapped_column
 from datetime import date
 
 from models import HabitModel
+from sqlalchemy import Date, ForeignKey, UniqueConstraint, func
+from sqlalchemy.orm import Mapped, relationship
+from sqlalchemy.testing.schema import mapped_column
+
 from .base import BaseModel
 
 

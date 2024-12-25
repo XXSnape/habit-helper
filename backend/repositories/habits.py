@@ -1,9 +1,10 @@
-from sqlalchemy import select, null
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
 from collections.abc import Sequence
+
 from models import HabitModel, TrackingModel
 from repositories.repository import ManagerRepository
+from sqlalchemy import null, select
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 
 class HabitRepository(ManagerRepository):

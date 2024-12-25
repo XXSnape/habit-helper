@@ -1,15 +1,14 @@
-from telebot import TeleBot
-from telebot.types import Message, CallbackQuery
-
 from api.habits.resume_habit import resume_completed_habit
 from inline.callback.enums import ActionsHabitEnum
 from inline.callback.factories import actions_with_habit_factory
 from inline.keypads.habits import (
-    get_back_to_habits_kb,
     get_back_to_habits_details_and_menu,
+    get_back_to_habits_kb,
 )
-from states.habits import ResumeHabitStates, ReadHabitStates
-from utils.cache_keys import HABITS_KEY, CONTEXT_KEY, TOKEN_KEY
+from states.habits import ReadHabitStates, ResumeHabitStates
+from telebot import TeleBot
+from telebot.types import CallbackQuery, Message
+from utils.cache_keys import CONTEXT_KEY, HABITS_KEY, TOKEN_KEY
 from utils.refresh_token import get_response_and_refresh_token
 
 

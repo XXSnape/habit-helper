@@ -1,35 +1,31 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, status, HTTPException
-from sqlalchemy.ext.asyncio import AsyncSession
-from dependencies.auth import get_user_id
 from core.helper import db_helper
+from dependencies.auth import get_user_id
+from fastapi import APIRouter, Depends, HTTPException, status
 from schemas.habits import (
-    HabitCreateSchema,
-    MarkHabitSchema,
     HabitCompletedSchema,
+    HabitCreateSchema,
+    HabitNameSchema,
+    HabitOutputSchema,
     HabitPatchSchema,
     HabitResumeSchema,
-    HabitOutputSchema,
-    HabitNameSchema,
+    MarkHabitSchema,
 )
 from schemas.results import ResultSchema
 from schemas.users import UserHabitSchema
 from services.habits import (
     create_habit,
-    get_number_completed,
     delete_habit_by_id,
+    get_habit_name_by_id,
+    get_habits_by_id,
+    get_number_completed,
     patch_habit_by_id,
     resume_habit_by_id,
-    get_habits_by_id,
-    get_habit_name_by_id,
 )
-from services.tracking import (
-    mark_habit_by_id,
-    is_habit_complete,
-)
+from services.tracking import is_habit_complete, mark_habit_by_id
 from services.users import get_users_habits_by_hour
-
+from sqlalchemy.ext.asyncio import AsyncSession
 from utils.generate_result import get_result_for_request
 
 router = APIRouter(prefix="/habits", tags=["Habits"])

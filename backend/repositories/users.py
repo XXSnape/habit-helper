@@ -1,10 +1,9 @@
-from typing import Tuple, Any, Sequence
+from typing import Any, Sequence, Tuple
 
-from sqlalchemy import select, null, Row
-from sqlalchemy.ext.asyncio import AsyncSession
-
-from models import UserModel, HabitModel
+from models import HabitModel, UserModel
 from repositories.repository import ManagerRepository
+from sqlalchemy import Row, null, select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class UserRepository(ManagerRepository):

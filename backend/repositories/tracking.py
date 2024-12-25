@@ -1,12 +1,9 @@
 from datetime import date
 
-from sqlalchemy import select
-
-from sqlalchemy import func
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from models import TrackingModel
 from repositories.repository import ManagerRepository
+from sqlalchemy import func, select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class TrackingRepository(ManagerRepository):

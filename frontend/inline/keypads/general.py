@@ -1,7 +1,6 @@
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
-from telebot.util import quick_markup
-
 from inline.buttons.types import Buttons
+from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
+from telebot.util import quick_markup
 
 
 def create_keyboard(*values: Buttons, row_width=1) -> InlineKeyboardMarkup:

@@ -1,18 +1,15 @@
-from telebot.types import Message, CallbackQuery
-
 from inline.callback.constants import MENU_OUTPUT
 from inline.callback.factories import habit_details_factory
 from inline.keypads.cancel import get_cancel_kb
 from inline.keypads.habits import (
-    get_actions_with_habit_kb,
     get_actions_with_completed_habit_kb,
+    get_actions_with_habit_kb,
 )
+from states.habits import ReadHabitStates
+from telebot import TeleBot
+from telebot.types import CallbackQuery, Message
 from utils.cache_keys import COMPLETED_KEY
 from utils.output import get_habit_details_from_cache
-
-from telebot import TeleBot
-
-from states.habits import ReadHabitStates
 
 
 def get_habit_details_by_text(message: Message, bot: TeleBot) -> None:

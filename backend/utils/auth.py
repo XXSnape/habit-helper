@@ -1,8 +1,7 @@
-from datetime import datetime, timedelta, UTC
+from datetime import UTC, datetime, timedelta
 
 import bcrypt
 import jwt
-
 from core.config import settings
 
 

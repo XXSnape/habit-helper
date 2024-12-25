@@ -1,7 +1,5 @@
 from telebot import TeleBot
-
 from telebot.types import Message
-
 from utils.texts import ABOUT_BOT
 
 

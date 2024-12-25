@@ -1,9 +1,8 @@
-from telebot import TeleBot
-from telebot.types import Message
-
 from inline.keypads.cancel import get_cancel_kb
 from states.auth import LogInStates
-from utils.cache_keys import USERNAME_KEY, MESSAGE_ID_KEY
+from telebot import TeleBot
+from telebot.types import Message
+from utils.cache_keys import MESSAGE_ID_KEY, USERNAME_KEY
 
 
 def get_password_to_login_to_another_account(message: Message, bot: TeleBot) -> None:

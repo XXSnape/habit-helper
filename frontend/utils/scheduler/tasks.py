@@ -2,13 +2,12 @@ import logging
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 
-from telebot import TeleBot
-from telebot.apihelper import ApiTelegramException
-
 from api.habits.all_habits import get_habits_all_users_by_hour
 from api.users.activity_user import activate_or_deactivate_user_by_flag
 from database.crud.check_user import get_user_token
 from inline.keypads.habits import get_opportunity_to_mark_habit_kb
+from telebot import TeleBot
+from telebot.apihelper import ApiTelegramException
 from utils.exceptions import InvalidApiResponse
 from utils.refresh_token import get_response_and_refresh_token
 

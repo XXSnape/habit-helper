@@ -1,12 +1,11 @@
 from datetime import date, datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import BigInteger, Index, text
 from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy.testing.schema import mapped_column
 
-
 from .base import BaseModel
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from .habits import HabitModel

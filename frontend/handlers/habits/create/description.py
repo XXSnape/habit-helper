@@ -1,8 +1,7 @@
-from telebot import TeleBot
-from telebot.types import CallbackQuery
-
 from inline.keypads.cancel import get_refusal_to_describe_kb
 from states.habits import CreateHabitStates
+from telebot import TeleBot
+from telebot.types import CallbackQuery
 from utils.cache_keys import HOUR_KEY
 
 

@@ -1,8 +1,7 @@
-from telebot.types import CallbackQuery
-
 from api.habits.mark_habit import mark_habit
 from database.crud.check_user import get_user_token
 from inline.callback.factories import mark_habit_factory
+from telebot.types import CallbackQuery
 from utils.refresh_token import get_response_and_refresh_token
 
 

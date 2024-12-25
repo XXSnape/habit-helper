@@ -1,9 +1,8 @@
+from api.users.info import get_my_info_by_token
+from inline.keypads.users import get_control_bot_kb
 from telebot import TeleBot
 from telebot.types import Message
-
-from api.users.info import get_my_info_by_token
 from utils.login_required import check_registration
-from inline.keypads.users import get_control_bot_kb
 from utils.refresh_token import get_response_and_refresh_token
 
 

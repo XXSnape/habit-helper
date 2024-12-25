@@ -1,18 +1,16 @@
 import logging
 
-from apscheduler.schedulers.background import BackgroundScheduler
-from telebot import TeleBot
-from telebot.custom_filters import StateFilter
-from telebot.storage import StateRedisStorage
-
-import handlers.default as default
 import handlers.auth as auth
+import handlers.default as default
 import handlers.habits as habits
 import handlers.users as users
-
+from apscheduler.schedulers.background import BackgroundScheduler
 from config import settings
 from inline.filters.habits import EditHabitCallbackFilter
 from middlewares.handle_errors import HandleErrorsMiddleware
+from telebot import TeleBot
+from telebot.custom_filters import StateFilter
+from telebot.storage import StateRedisStorage
 from utils.scheduler.settings import register_tasks
 
 

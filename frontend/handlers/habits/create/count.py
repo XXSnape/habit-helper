@@ -1,8 +1,7 @@
-from telebot import TeleBot
-from telebot.types import Message
-
 from inline.keypads.cancel import get_cancel_kb
 from states.habits import CreateHabitStates
+from telebot import TeleBot
+from telebot.types import Message
 from utils.cache_keys import NAME_KEY
 
 

@@ -1,24 +1,20 @@
-from telegram_bot_calendar import WMonthTelegramCalendar, DetailedTelegramCalendar
 from calendar import monthrange
-
-from telegram_bot_calendar.base import *
+from datetime import date, datetime
+from typing import override
 
 from inline.callback.callbacks import MY_HABITS_CALLBACK
-from inline.callback.factories import (
-    habit_details_factory,
-)
+from inline.callback.factories import habit_details_factory
+from telegram_bot_calendar import DetailedTelegramCalendar, WMonthTelegramCalendar
+from telegram_bot_calendar.base import *
 from utils.cache_keys import (
     HABITS_KEY,
     IS_DONE_KEY,
     IS_NOT_DONE_KEY,
-    REASONS_KEY,
-    MIN_DATE_KEY,
     MAX_DATE_KEY,
+    MIN_DATE_KEY,
+    REASONS_KEY,
 )
-from datetime import date, datetime
-
-from utils.texts import UNMARKED_DATE, MARKED_DATE
-from typing import override
+from utils.texts import MARKED_DATE, UNMARKED_DATE
 
 RU_LSTEP = {"y": "год", "m": "месяц", "d": "день"}
 

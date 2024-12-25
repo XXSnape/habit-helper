@@ -1,15 +1,15 @@
-from datetime import datetime, date
+from datetime import date, datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import TEXT, ForeignKey, text
 from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy.testing.schema import mapped_column
 
 from .base import BaseModel
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from .users import UserModel
     from .tracking import TrackingModel
+    from .users import UserModel
 
 
 class HabitModel(BaseModel):

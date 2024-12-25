@@ -1,16 +1,14 @@
 from datetime import date
 
 from fastapi import HTTPException, status
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from repositories.habits import HabitRepository
 from schemas.habits import (
     HabitCreateSchema,
-    HabitPatchSchema,
-    HabitOutputSchema,
     HabitNameSchema,
+    HabitOutputSchema,
+    HabitPatchSchema,
 )
-
+from sqlalchemy.ext.asyncio import AsyncSession
 from utils.exceptions import habit_not_exists
 
 

@@ -1,16 +1,13 @@
-from telebot import TeleBot
-from telebot.types import CallbackQuery, Message
-
 from inline.callback.enums import HabitPropertiesEnum
 from inline.callback.factories import opportunities_for_change_factory
-from inline.keypads.habits import (
-    get_back_to_action_kb,
-)
+from inline.keypads.habits import get_back_to_action_kb
 from states.habits import ChangeHabitStates
+from telebot import TeleBot
+from telebot.types import CallbackQuery, Message
 from utils.cache_keys import CONTEXT_KEY, HABITS_KEY
 from utils.router_assistants.update_habit import (
-    request_new_property,
     change_property_by_message,
+    request_new_property,
 )
 
 

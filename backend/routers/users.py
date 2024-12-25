@@ -1,33 +1,33 @@
 from typing import Annotated
 
+from core.helper import db_helper
+from dependencies.auth import get_user_id
 from fastapi import APIRouter, Depends, status
+from schemas.results import ResultSchema
+from schemas.tokens import TgIdAndTokenSchema, TokenSchema
+from schemas.users import (
+    UserActivitySchema,
+    UserChangePassword,
+    UserChangeTelegramIdSchema,
+    UserCreate,
+    UserOutput,
+    UserSchema,
+)
+from services.users import (
+    activate_or_deactivate_user,
+    change_password_by_user_id,
+    change_telegram_id_by_credentials,
+    create_user,
+    get_user_info_by_id,
+    verify_existence_user,
+    verify_username,
+)
 from sqlalchemy.ext.asyncio import AsyncSession
+from utils.auth import get_access_token
 
 # from starlette import status
 
 
-from core.helper import db_helper
-from schemas.results import ResultSchema
-from schemas.tokens import TokenSchema, TgIdAndTokenSchema
-from schemas.users import (
-    UserCreate,
-    UserSchema,
-    UserChangePassword,
-    UserOutput,
-    UserChangeTelegramIdSchema,
-    UserActivitySchema,
-)
-from services.users import (
-    verify_username,
-    create_user,
-    verify_existence_user,
-    change_telegram_id_by_credentials,
-    change_password_by_user_id,
-    get_user_info_by_id,
-    activate_or_deactivate_user,
-)
-from utils.auth import get_access_token
-from dependencies.auth import get_user_id
 
 
 router = APIRouter(prefix="/users", tags=["Users"])

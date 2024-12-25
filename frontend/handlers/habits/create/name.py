@@ -1,9 +1,8 @@
-from telebot import TeleBot
-from telebot.types import Message
-
-from utils.login_required import check_registration
 from inline.keypads.cancel import get_cancel_kb
 from states.habits import CreateHabitStates
+from telebot import TeleBot
+from telebot.types import Message
+from utils.login_required import check_registration
 
 
 def request_name(message: Message, bot: TeleBot) -> None:

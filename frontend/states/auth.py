@@ -1,4 +1,4 @@
-from telebot.handler_backends import StatesGroup, State
+from telebot.handler_backends import State, StatesGroup
 
 
 class AuthStates(StatesGroup):

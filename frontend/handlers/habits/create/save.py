@@ -1,10 +1,8 @@
-from telebot import TeleBot
-from telebot.types import Message, CallbackQuery
-
 from api.habits.create_habit import create_new_habit
 from states.habits import CreateHabitStates
-from utils.cache_keys import NAME_KEY, COUNT_KEY, HOUR_KEY, TOKEN_KEY
-
+from telebot import TeleBot
+from telebot.types import CallbackQuery, Message
+from utils.cache_keys import COUNT_KEY, HOUR_KEY, NAME_KEY, TOKEN_KEY
 from utils.refresh_token import get_response_and_refresh_token
 from utils.texts import COMMANDS, HABIT_WAS_CREATED
 

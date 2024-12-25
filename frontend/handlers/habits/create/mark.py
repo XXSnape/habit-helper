@@ -1,6 +1,3 @@
-from telebot import TeleBot
-from telebot.types import CallbackQuery, Message
-
 from api.habits.habit_name import get_habit_name
 from api.habits.mark_habit import mark_habit
 from database.crud.check_user import get_user_token
@@ -8,10 +5,12 @@ from inline.callback.callbacks import REJECTION_REASON_CALLBACK
 from inline.callback.factories import mark_habit_factory
 from inline.keypads.habits import get_reason_waiver_kb
 from states.habits import MarkHabitStates
+from telebot import TeleBot
+from telebot.types import CallbackQuery, Message
 from utils.cache_keys import MARK_KEY, MESSAGE_ID_KEY
 from utils.refresh_token import get_response_and_refresh_token
 from utils.router_assistants.mark import get_data_on_completion_habit
-from utils.texts import TASK_WAS_NOT_COMPLETED_TEXT, COMMANDS
+from utils.texts import COMMANDS, TASK_WAS_NOT_COMPLETED_TEXT
 
 
 def successful_implementation_habit(callback: CallbackQuery, bot: TeleBot) -> None:

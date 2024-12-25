@@ -2,7 +2,6 @@ import logging
 
 import requests
 from requests import RequestException
-
 from utils.exceptions import InvalidAccessToken, InvalidApiResponse
 
 logger = logging.getLogger(name=__name__)

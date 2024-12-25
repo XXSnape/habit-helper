@@ -1,11 +1,10 @@
-from telebot import TeleBot
-from telebot.types import CallbackQuery
-
 from api.habits.delete_habit import delete_habit_by_number
 from inline.callback.constants import MENU_OUTPUT
 from inline.callback.enums import ActionsHabitEnum
 from inline.callback.factories import actions_with_habit_factory
 from inline.keypads.cancel import get_cancel_kb
+from telebot import TeleBot
+from telebot.types import CallbackQuery
 from utils.cache_keys import TOKEN_KEY
 from utils.refresh_token import get_response_and_refresh_token
 

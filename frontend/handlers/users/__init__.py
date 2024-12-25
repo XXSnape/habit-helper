@@ -1,2 +1,2 @@
-from .user_info import register_get_my_info
 from .activate_or_deactivate import register_activate_or_deactivate
+from .user_info import register_get_my_info

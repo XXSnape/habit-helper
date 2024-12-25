@@ -1,12 +1,8 @@
-from telebot import TeleBot, State
-from telebot.types import CallbackQuery, Message
-
 from api.habits.update_habit import update_habit
-from inline.keypads.habits import (
-    get_back_to_action_kb,
-    get_actions_with_habit_kb,
-)
+from inline.keypads.habits import get_actions_with_habit_kb, get_back_to_action_kb
 from states.habits import ReadHabitStates
+from telebot import State, TeleBot
+from telebot.types import CallbackQuery, Message
 from utils.cache_keys import CONTEXT_KEY, TOKEN_KEY
 from utils.refresh_token import get_response_and_refresh_token
 
