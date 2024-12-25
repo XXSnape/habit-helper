@@ -11,7 +11,6 @@ from telebot.apihelper import ApiTelegramException
 from utils.exceptions import InvalidApiResponse
 from utils.refresh_token import get_response_and_refresh_token
 
-d = [f"202411{str(k).zfill(2)}" for k in range(1, 30)]
 
 logger = logging.getLogger(__name__)
 
@@ -60,9 +59,7 @@ def send_reminders_to_all_users(bot: TeleBot, hour: int) -> None:
     :param bot: TeleBot
     :param hour: час отправки
     """
-    # current_date = datetime.now().strftime("%Y%m%d")
-    current_date = d.pop(0)
-    # current_date = "20241214"
+    current_date = datetime.now().strftime("%Y%m%d")
     try:
         habits = get_habits_all_users_by_hour(hour=hour)
         with ThreadPoolExecutor(max_workers=10) as executor:
