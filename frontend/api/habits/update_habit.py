@@ -16,7 +16,7 @@ def update_habit(access_token: str, number: int, new_data: dict, cache: dict) ->
     habit_id = cache[HABITS_KEY][number]["id"]
     make_request(
         method="patch",
-        url=f"http://{settings.api.url}/api/habits/{habit_id}",
+        url=f"http://{settings.api.url}/api/habits/{habit_id}/",
         headers={"Authorization": f"Bearer {access_token}"},
         json=new_data,
         error_message="Привычка удалена",
