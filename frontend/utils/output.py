@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 from utils.cache_keys import HABITS_KEY
+from utils.texts import MARKED_DATE, UNMARKED_DATE
 
 
 def present_data(data: dict, initial_text="") -> str:
@@ -112,3 +113,16 @@ def habit_has_already_been_completed(days: int) -> str:
     :return: сообщение пользователю
     """
     return f"Вы уже выполнили действия для формирования привычки {days} дней. Введите число больше"
+
+
+def get_date_designation(name: str) -> str:
+    """
+    Формирует сообщение о том, какие кнопки за что отвечают на клавиатуре календаря
+    :param name: название привычки
+    :return: инструкция пользователю
+    """
+    return (
+        f"Дни, в которые действия для формирования привычки «{name}» были выполнены - {MARKED_DATE}\n"
+        f"Если не выполнены - {UNMARKED_DATE}\n"
+        "Пустую дату можно отметить, нажав на кнопку в день уведомления"
+    )

@@ -14,8 +14,8 @@ from utils.custom_calendar import (
     CustomCalendar,
     get_completed_and_unfulfilled_dates,
 )
+from utils.output import get_date_designation
 from utils.router_assistants.calendar import checking_habit_for_completion_by_date
-from utils.texts import DATE_DESIGNATIONS
 
 
 def show_calendar(callback: CallbackQuery, bot: TeleBot) -> None:
@@ -41,6 +41,7 @@ def show_calendar(callback: CallbackQuery, bot: TeleBot) -> None:
         data[CONTEXT_KEY] = number
         min_date = data[HABITS_KEY][number][MIN_DATE_KEY]
         max_date = data[HABITS_KEY][number][MAX_DATE_KEY]
+        name = data[HABITS_KEY][number]["name"]
     calendar, step = CustomCalendar(
         completed=completed,
         not_completed=not_completed,
@@ -52,7 +53,7 @@ def show_calendar(callback: CallbackQuery, bot: TeleBot) -> None:
     bot.edit_message_text(
         message_id=callback.message.id,
         chat_id=callback.message.chat.id,
-        text=f"{DATE_DESIGNATIONS}\n\nВыберите {RU_LSTEP[step]}:",
+        text=f"{get_date_designation(name)}\n\nВыберите {RU_LSTEP[step]}:",
         reply_markup=calendar,
     )
 
@@ -74,6 +75,7 @@ def process_date_selection(callback: CallbackQuery, bot: TeleBot) -> None:
         reasons = data[HABITS_KEY][number][REASONS_KEY]
         min_date = data[HABITS_KEY][number][MIN_DATE_KEY]
         max_date = data[HABITS_KEY][number][MAX_DATE_KEY]
+        name = data[HABITS_KEY][number]["name"]
     result, key, step = CustomCalendar(
         completed=completed,
         not_completed=not_completed,
@@ -84,7 +86,7 @@ def process_date_selection(callback: CallbackQuery, bot: TeleBot) -> None:
     ).process(callback.data)
     if not result and key:
         bot.edit_message_text(
-            f"{DATE_DESIGNATIONS}\n\nВыберите {RU_LSTEP[step]}:",
+            f"{get_date_designation(name)}\n\nВыберите {RU_LSTEP[step]}:",
             callback.message.chat.id,
             callback.message.message_id,
             reply_markup=key,
