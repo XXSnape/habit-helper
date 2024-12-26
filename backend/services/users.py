@@ -1,15 +1,9 @@
 from fastapi import HTTPException, status
 from models import UserModel
 from repositories.users import UserRepository
-from schemas.users import (
-    UserActivitySchema,
-    UserChangePassword,
-    UserChangeTelegramIdSchema,
-    UserCreate,
-    UserHabitSchema,
-    UserOutput,
-    UserSchema,
-)
+from schemas.users import (UserActivitySchema, UserChangePassword,
+                           UserChangeTelegramIdSchema, UserCreate,
+                           UserHabitSchema, UserOutput, UserSchema)
 from sqlalchemy.ext.asyncio import AsyncSession
 from utils.auth import get_access_token, hash_password, validate_password
 

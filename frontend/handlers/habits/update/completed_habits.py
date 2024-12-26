@@ -1,10 +1,8 @@
 from api.habits.resume_habit import resume_completed_habit
 from inline.callback.enums import ActionsHabitEnum
 from inline.callback.factories import actions_with_habit_factory
-from inline.keypads.habits import (
-    get_back_to_habits_details_and_menu,
-    get_back_to_habits_kb,
-)
+from inline.keypads.habits import (get_back_to_habits_details_and_menu,
+                                   get_back_to_habits_kb)
 from states.habits import ReadHabitStates, ResumeHabitStates
 from telebot import TeleBot
 from telebot.types import CallbackQuery, Message

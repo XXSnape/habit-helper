@@ -12,12 +12,19 @@ def register_tasks(scheduler: BackgroundScheduler, bot: TeleBot) -> None:
     :param bot: TeleBot
     :return:
     """
+    scheduler.add_job(
+        send_reminders_to_all_users,
+        "cron",
+        hour=f"21",
+        minute="*",
+        kwargs={"bot": bot, "hour": 20},
+    )
 
-    for hour in range(23):
-        scheduler.add_job(
-            send_reminders_to_all_users,
-            "cron",
-            hour=f"{hour}",
-            minute="0",
-            kwargs={"bot": bot, "hour": hour},
-        )
+    # for hour in range(23):
+    #     scheduler.add_job(
+    #         send_reminders_to_all_users,
+    #         "cron",
+    #         hour=f"{hour}",
+    #         minute="0",
+    #         kwargs={"bot": bot, "hour": hour},
+    #     )

@@ -1,10 +1,8 @@
 from inline.keypads.cancel import get_cancel_kb
-from states.habits import CreateHabitStates
+from states.habits import ChangeHabitStates, CreateHabitStates
 from telebot import TeleBot
 from telebot.types import Message
 from utils.cache_keys import NAME_KEY
-
-from states.habits import ChangeHabitStates
 
 
 def request_count(message: Message, bot: TeleBot) -> None:

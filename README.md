@@ -56,6 +56,10 @@ https://github.com/raydqver/tracking-habits.git
 docker compose up
 ```
 
+## CERTS
+В данной директории хранятся файлы private.pem и public.pem с 
+закрытым и открытым ключами соответственно для шифрования JWT-токенов. 
+Они генерируются автоматически запуском скрипта create_certs.py внутри докера.
 
 ## Данные в .env_template
 
@@ -63,10 +67,10 @@ docker compose up
 #### DB_PORT - Порт базы данных
 #### POSTGRES_USER - Логин пользователя 
 #### POSTGRES_PASSWORD - Пароль пользователя
-#### POSTGRES_DB - Название базы данных
+#### POSTGRES_DB - Название базы данных на стороне api
 
 #### TOKEN - Токен бота от [BotFather](https://telegram.me/botfather)
 #### API_HOST - Хост, на котором работает api
-#### DB_NAME - Название базы данных
+#### DB_NAME - Название базы данных на стороне бота
 #### REDIS_HOST - Хост редиса
 #### PORT - Порт, на котором работает api
