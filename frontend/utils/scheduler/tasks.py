@@ -51,8 +51,6 @@ def send_user_notification(bot: TeleBot, habit: dict, current_date: str) -> None
         logger.error("%s", e.description)
 
 
-d = [f"202412{str(da).zfill(2)}" for da in range(1, 30)]
-
 
 def send_reminders_to_all_users(bot: TeleBot, hour: int) -> None:
     """
@@ -61,8 +59,7 @@ def send_reminders_to_all_users(bot: TeleBot, hour: int) -> None:
     :param bot: TeleBot
     :param hour: час отправки
     """
-    # current_date = datetime.now().strftime("%Y%m%d")
-    current_date = d.pop(0)
+    current_date = datetime.now().strftime("%Y%m%d")
     try:
         habits = get_habits_all_users_by_hour(hour=hour)
         with ThreadPoolExecutor(max_workers=10) as executor:
