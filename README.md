@@ -19,6 +19,7 @@ ___
 # Основные используемые фреймворки и инструменты
 
 * ### [FastAPI](https://fastapi.tiangolo.com/)
+* ### [Pydantic](https://docs.pydantic.dev/latest/)
 * ### [pydantic-settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/)
 * ### [SQLAlchemy](https://www.sqlalchemy.org/)
 * ### [Alembic](https://alembic.sqlalchemy.org/en/latest/)
