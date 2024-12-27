@@ -1,6 +1,5 @@
 from api.habits.update_habit import update_habit
-from inline.keypads.habits import (get_actions_with_habit_kb,
-                                   get_back_to_action_kb)
+from inline.keypads.habits import get_actions_with_habit_kb, get_back_to_action_kb
 from states.habits import ReadHabitStates
 from telebot import State, TeleBot
 from telebot.types import CallbackQuery, Message
@@ -98,6 +97,12 @@ def change_property_by_callback(
         new_data=new_data,
         cache=cache,
     )
+    bot.edit_message_text(
+        message_id=callback.message.id,
+        chat_id=callback.message.chat.id,
+        text=text,
+        reply_markup=get_actions_with_habit_kb(number),
+    )
     bot.answer_callback_query(
         callback_query_id=callback.id,
         text=message,
@@ -107,10 +112,4 @@ def change_property_by_callback(
         chat_id=callback.from_user.id,
         user_id=callback.from_user.id,
         state=ReadHabitStates.details,
-    )
-    bot.edit_message_text(
-        message_id=callback.message.id,
-        chat_id=callback.message.chat.id,
-        text=text,
-        reply_markup=get_actions_with_habit_kb(number),
     )

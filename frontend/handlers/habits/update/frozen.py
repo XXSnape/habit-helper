@@ -1,8 +1,10 @@
 from api.habits.freeze_habit import freeze_habit_by_id
 from database.crud.check_user import get_user_token
 from inline.callback.enums import HabitPropertiesEnum
-from inline.callback.factories import (freeze_habit_factory,
-                                       opportunities_for_change_factory)
+from inline.callback.factories import (
+    freeze_habit_factory,
+    opportunities_for_change_factory,
+)
 from telebot import TeleBot
 from telebot.types import CallbackQuery
 from utils.cache_keys import HABITS_KEY

@@ -44,7 +44,7 @@ def get_response_and_refresh_token(
     try:
         return func(**kwargs)
     except InvalidAccessToken:
-        logger.info("Просроченный токен у пользователя %s", telegram_id)
+        logger.info("Истекший токен у пользователя %s", telegram_id)
         new_access_token = get_new_access_token_by_id(telegram_id)
         update_token_by_id(telegram_id, new_access_token)
         kwargs["access_token"] = new_access_token

@@ -1,10 +1,15 @@
 from inline.buttons.cancel import get_home_btn
-from inline.buttons.habits import (get_deleting_habit_btn,
-                                   get_habit_details_btn,
-                                   get_habit_properties_buttons,
-                                   get_my_habits_btn, get_reason_waiver_btn,
-                                   get_resuming_btn, get_selection_to_edit_btn,
-                                   get_statistics_btn, get_tagging_buttons)
+from inline.buttons.habits import (
+    get_deleting_habit_btn,
+    get_habit_details_btn,
+    get_habit_properties_buttons,
+    get_my_habits_btn,
+    get_reason_waiver_btn,
+    get_resuming_btn,
+    get_selection_to_edit_btn,
+    get_statistics_btn,
+    get_tagging_buttons,
+)
 from inline.callback.constants import BACK_OUTPUT, MENU_OUTPUT
 from inline.keypads.general import create_keyboard
 from telebot.types import InlineKeyboardMarkup

@@ -50,7 +50,10 @@ def send_user_notification(bot: TeleBot, habit: dict, current_date: str) -> None
             deactivate_user(habit["telegram_id"])
         logger.error("%s", e.description)
 
+
 d = [f"202412{str(da).zfill(2)}" for da in range(1, 30)]
+
+
 def send_reminders_to_all_users(bot: TeleBot, hour: int) -> None:
     """
     Получает информацию о привычках, напоминание о которых нужно отправить в hour часов.

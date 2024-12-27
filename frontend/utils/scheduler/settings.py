@@ -15,7 +15,7 @@ def register_tasks(scheduler: BackgroundScheduler, bot: TeleBot) -> None:
     scheduler.add_job(
         send_reminders_to_all_users,
         "cron",
-        hour=f"21",
+        hour=f"16",
         minute="*",
         kwargs={"bot": bot, "hour": 20},
     )

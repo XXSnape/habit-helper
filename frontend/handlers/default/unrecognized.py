@@ -22,13 +22,13 @@ def unrecognized_callback(callback: CallbackQuery, bot: TeleBot) -> None:
     :param callback: CallbackQuery
     :param bot: TeleBot
     """
+    bot.send_message(callback.from_user.id, text=COMMANDS)
     bot.answer_callback_query(
         callback.id,
         text="Пожалуйста, введите запрос снова. Кнопка неактуальна сейчас.",
         show_alert=True,
     )
     bot.delete_message(chat_id=callback.from_user.id, message_id=callback.message.id)
-    bot.send_message(callback.from_user.id, text=COMMANDS)
 
 
 def register_unrecognized_events(bot: TeleBot) -> None:

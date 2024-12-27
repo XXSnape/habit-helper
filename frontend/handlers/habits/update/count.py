@@ -6,8 +6,10 @@ from telebot import TeleBot
 from telebot.types import CallbackQuery, Message
 from utils.cache_keys import CONTEXT_KEY, HABITS_KEY, IS_DONE_KEY
 from utils.output import habit_has_already_been_completed
-from utils.router_assistants.update_habit import (change_property_by_message,
-                                                  request_new_property)
+from utils.router_assistants.update_habit import (
+    change_property_by_message,
+    request_new_property,
+)
 
 
 def request_new_count(
