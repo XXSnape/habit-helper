@@ -1,3 +1,5 @@
+from telebot.custom_filters import TextFilter
+
 from inline.callback.callbacks import REGISTRATION_CALLBACK
 from states.auth import AuthStates
 from telebot import TeleBot
@@ -26,5 +28,6 @@ def register_username(bot: TeleBot) -> None:
     bot.register_callback_query_handler(
         request_username,
         pass_bot=True,
-        func=lambda clb: clb.data == REGISTRATION_CALLBACK,
+        text=TextFilter(equals=REGISTRATION_CALLBACK),
+        func=None,
     )

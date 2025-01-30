@@ -9,7 +9,7 @@ from config import settings
 from inline.filters.habits import EditHabitCallbackFilter
 from middlewares.handle_errors import HandleErrorsMiddleware
 from telebot import TeleBot
-from telebot.custom_filters import StateFilter
+from telebot.custom_filters import StateFilter, TextMatchFilter
 from telebot.storage import StateRedisStorage
 from utils.scheduler.settings import register_tasks
 
@@ -76,6 +76,7 @@ def main() -> None:
     bot.add_custom_filter(StateFilter(bot))
     bot.setup_middleware(HandleErrorsMiddleware(bot))
     bot.add_custom_filter(EditHabitCallbackFilter())
+    bot.add_custom_filter(TextMatchFilter())
     register_handlers(bot)
     scheduler = BackgroundScheduler()
     scheduler.configure(timezone="Europe/Moscow")

@@ -1,3 +1,5 @@
+from telebot.custom_filters import TextFilter
+
 from api.habits.my_habits import get_my_habits_by_token
 from inline.callback.callbacks import MY_HABITS_CALLBACK
 from inline.callback.constants import MENU_OUTPUT
@@ -81,5 +83,6 @@ def register_get_habits(bot: TeleBot) -> None:
     bot.register_callback_query_handler(
         get_my_habits_by_callback,
         pass_bot=True,
-        func=lambda c: c.data == MY_HABITS_CALLBACK,
+        text=TextFilter(equals=MY_HABITS_CALLBACK),
+        func=None,
     )

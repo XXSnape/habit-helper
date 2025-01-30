@@ -51,10 +51,3 @@ def register_get_count(bot: TeleBot) -> None:
         pass_bot=True,
         state=CreateHabitStates.count,
     )
-    bot.register_message_handler(
-        handle_invalid_count,
-        func=lambda msg: (msg.text.isdigit() and int(msg.text) in range(1, 366))
-        is False,
-        pass_bot=True,
-        state=ChangeHabitStates.count,
-    )

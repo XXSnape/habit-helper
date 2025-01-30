@@ -61,7 +61,7 @@ class HabitRepository(ManagerRepository):
                 )
             )
             .filter_by(user_id=user_id)
-            .order_by(cls.model.is_frozen.desc())
+            .order_by(cls.model.is_frozen.asc(), cls.model.id.desc())
         )
         if is_complete_null:
             query = query.filter(cls.model.completed_at == null())

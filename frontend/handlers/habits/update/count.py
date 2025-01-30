@@ -4,14 +4,16 @@ from inline.keypads.habits import get_back_to_action_kb
 from states.habits import ChangeHabitStates
 from telebot import TeleBot
 from telebot.types import CallbackQuery, Message
-from utils.cache_keys import CONTEXT_KEY, HABITS_KEY, IS_DONE_KEY
+from utils.cache_keys import CONTEXT_KEY, HABITS_KEY, IS_DONE_KEY, NUMBER_OF_HABITS_PERFORMED
 from utils.output import habit_has_already_been_completed
 from utils.router_assistants.update_habit import (
     change_property_by_message,
     request_new_property,
 )
 
+from logging import getLogger
 
+log = getLogger(__name__)
 def request_new_count(
     callback: CallbackQuery,
     bot: TeleBot,
@@ -23,9 +25,10 @@ def request_new_count(
     """
     number = int(opportunities_for_change_factory.parse(callback.data)["num_habit"])
     with bot.retrieve_data(callback.from_user.id, callback.from_user.id) as data:
+        log.info('data', data)
         data[CONTEXT_KEY] = number
         old_count = data[HABITS_KEY][number]["count"]
-        done_count = len(data[HABITS_KEY][number][IS_DONE_KEY])
+        done_count = data[HABITS_KEY][number][NUMBER_OF_HABITS_PERFORMED]
 
     request_new_property(
         callback=callback,
@@ -45,7 +48,7 @@ def change_count(message: Message, bot: TeleBot) -> None:
     new_count = int(message.text)
     with bot.retrieve_data(message.chat.id, message.chat.id) as data:
         number = data[CONTEXT_KEY]
-        done_count = len(data[HABITS_KEY][number][IS_DONE_KEY])
+        done_count = data[HABITS_KEY][number][NUMBER_OF_HABITS_PERFORMED]
         if new_count <= done_count:
             bot.send_message(
                 message.chat.id,

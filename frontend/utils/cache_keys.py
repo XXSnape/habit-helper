@@ -13,6 +13,7 @@ TEXT_KEY = "text"
 HABITS_KEY = "habits"
 CONTEXT_KEY = "context"
 IS_DONE_KEY = "is_done_habits"
+NUMBER_OF_HABITS_PERFORMED = 'count_performed'
 IS_NOT_DONE_KEY = "is_not_done_habits"
 REASONS_KEY = "reasons"
 MIN_DATE_KEY = "min_date"

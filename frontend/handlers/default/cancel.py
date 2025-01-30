@@ -1,3 +1,5 @@
+from telebot.custom_filters import TextFilter
+
 from inline.callback.callbacks import CALL_OFF_CALLBACK
 from telebot import TeleBot
 from telebot.types import CallbackQuery
@@ -29,5 +31,6 @@ def register_cancel(bot: TeleBot) -> None:
     bot.register_callback_query_handler(
         cancel_and_get_menu,
         pass_bot=True,
-        func=lambda clb: clb.data == CALL_OFF_CALLBACK,
+        text=TextFilter(equals=CALL_OFF_CALLBACK),
+        func=None,
     )

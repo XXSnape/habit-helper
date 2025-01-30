@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from utils.cache_keys import HABITS_KEY
+from utils.cache_keys import HABITS_KEY, NUMBER_OF_HABITS_PERFORMED
 from utils.texts import MARKED_DATE, UNMARKED_DATE
 
 
@@ -91,12 +91,14 @@ def get_habit_details_from_cache(
     except IndexError:
         return None
     created_at = get_format_datetime(habit["created_at"])
+    number_of_habit_performed = sum(track["is_done"] for track in habit["tracking"])
+    habit[NUMBER_OF_HABITS_PERFORMED] = number_of_habit_performed
     details = {
         "Название": habit["name"],
         "Время напоминания": get_format_hour(habit["notification_hour"]),
         "Количество дней для формирования привычки": str(habit["count"]),
         "Осталось дней до конца": str(
-            (habit["count"] - sum(track["is_done"] for track in habit["tracking"]))
+            (habit["count"] - number_of_habit_performed)
         ),
         "Описание": habit["description"],
         "Приостановлена": "Да" if habit["is_frozen"] else "Нет",

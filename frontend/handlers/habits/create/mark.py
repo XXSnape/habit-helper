@@ -1,3 +1,5 @@
+from telebot.custom_filters import TextFilter
+
 from api.habits.habit_name import get_habit_name
 from api.habits.mark_habit import mark_habit
 from database.crud.check_user import get_user_token
@@ -151,7 +153,8 @@ def register_mark_habit(bot: TeleBot) -> None:
         reason_is_not_specified,
         state=MarkHabitStates.reason,
         pass_bot=True,
-        func=lambda c: c.data == REJECTION_REASON_CALLBACK,
+        text=TextFilter(equals=REJECTION_REASON_CALLBACK),
+        func=None,
     )
     bot.register_message_handler(
         reason_is_specified,
