@@ -1,6 +1,7 @@
 """
 Модуль для работы с базой данных.
 """
+from collections.abc import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
@@ -32,7 +33,7 @@ class DBHelper:
             expire_on_commit=False,
         )  # Фабрика сессий для работы с асинхронной базой данных
 
-    async def get_async_session(self) -> AsyncSession:
+    async def get_async_session(self) -> AsyncGenerator[AsyncSession, None]:
         """
         Возвращает сессию для асинхронной работы с базой данных.
         """
