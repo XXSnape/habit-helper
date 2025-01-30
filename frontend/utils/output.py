@@ -97,9 +97,7 @@ def get_habit_details_from_cache(
         "Название": habit["name"],
         "Время напоминания": get_format_hour(habit["notification_hour"]),
         "Количество дней для формирования привычки": str(habit["count"]),
-        "Осталось дней до конца": str(
-            (habit["count"] - number_of_habit_performed)
-        ),
+        "Осталось дней до конца": str((habit["count"] - number_of_habit_performed)),
         "Описание": habit["description"],
         "Приостановлена": "Да" if habit["is_frozen"] else "Нет",
         "Дата и время создания": created_at,

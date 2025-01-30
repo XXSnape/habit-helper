@@ -1,11 +1,10 @@
-from telebot.custom_filters import TextFilter
-
 from api.habits.my_habits import get_my_habits_by_token
 from inline.callback.callbacks import MY_HABITS_CALLBACK
 from inline.callback.constants import MENU_OUTPUT
 from inline.keypads.cancel import get_cancel_kb
 from states.habits import ReadHabitStates
 from telebot import TeleBot
+from telebot.custom_filters import TextFilter
 from telebot.types import CallbackQuery, Message
 from utils.cache_keys import COMPLETED_KEY
 from utils.login_required import check_registration

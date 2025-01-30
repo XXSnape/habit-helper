@@ -2,20 +2,13 @@ from inline.callback.enums import ActionsHabitEnum
 from inline.callback.factories import actions_with_habit_factory
 from telebot import TeleBot
 from telebot.types import CallbackQuery
-from utils.cache_keys import (
-    CONTEXT_KEY,
-    HABITS_KEY,
-    MAX_DATE_KEY,
-    MIN_DATE_KEY,
-    REASONS_KEY,
-)
-from utils.custom_calendar import (
-    RU_LSTEP,
-    CustomCalendar,
-    get_completed_and_unfulfilled_dates,
-)
+from utils.cache_keys import (CONTEXT_KEY, HABITS_KEY, MAX_DATE_KEY,
+                              MIN_DATE_KEY, REASONS_KEY)
+from utils.custom_calendar import (RU_LSTEP, CustomCalendar,
+                                   get_completed_and_unfulfilled_dates)
 from utils.output import get_date_designation
-from utils.router_assistants.calendar import checking_habit_for_completion_by_date
+from utils.router_assistants.calendar import \
+    checking_habit_for_completion_by_date
 
 
 def show_calendar(callback: CallbackQuery, bot: TeleBot) -> None:

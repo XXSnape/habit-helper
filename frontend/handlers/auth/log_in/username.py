@@ -1,8 +1,7 @@
-from telebot.custom_filters import TextFilter
-
 from inline.callback.callbacks import LOG_IN_CALLBACK
 from states.auth import LogInStates
 from telebot import TeleBot
+from telebot.custom_filters import TextFilter
 from telebot.types import CallbackQuery
 from utils.router_assistants.auth import ask_for_username
 

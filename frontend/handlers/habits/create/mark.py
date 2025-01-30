@@ -1,5 +1,3 @@
-from telebot.custom_filters import TextFilter
-
 from api.habits.habit_name import get_habit_name
 from api.habits.mark_habit import mark_habit
 from database.crud.check_user import get_user_token
@@ -8,6 +6,7 @@ from inline.callback.factories import mark_habit_factory
 from inline.keypads.habits import get_reason_waiver_kb
 from states.habits import MarkHabitStates
 from telebot import TeleBot
+from telebot.custom_filters import TextFilter
 from telebot.types import CallbackQuery, Message
 from utils.cache_keys import MARK_KEY, MESSAGE_ID_KEY
 from utils.refresh_token import get_response_and_refresh_token

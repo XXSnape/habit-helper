@@ -1,7 +1,6 @@
-from telebot.custom_filters import TextFilter
-
 from inline.callback.callbacks import CALL_OFF_CALLBACK
 from telebot import TeleBot
+from telebot.custom_filters import TextFilter
 from telebot.types import CallbackQuery
 from utils.texts import COMMANDS
 

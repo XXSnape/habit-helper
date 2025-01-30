@@ -6,10 +6,8 @@ from telebot import TeleBot
 from telebot.types import CallbackQuery
 from utils.cache_keys import CONTEXT_KEY, HABITS_KEY
 from utils.output import get_format_hour
-from utils.router_assistants.update_habit import (
-    change_property_by_callback,
-    request_new_property,
-)
+from utils.router_assistants.update_habit import (change_property_by_callback,
+                                                  request_new_property)
 
 
 def request_new_time(callback: CallbackQuery, bot: TeleBot) -> None:

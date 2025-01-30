@@ -51,7 +51,6 @@ def send_user_notification(bot: TeleBot, habit: dict, current_date: str) -> None
         logger.error("%s", e.description)
 
 
-
 def send_reminders_to_all_users(bot: TeleBot, hour: int) -> None:
     """
     Получает информацию о привычках, напоминание о которых нужно отправить в hour часов.

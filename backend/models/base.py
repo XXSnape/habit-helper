@@ -2,7 +2,8 @@
 Модуль с абстрактным классом Base.
 """
 
-from sqlalchemy.orm import DeclarativeBase, Mapped, declared_attr, mapped_column
+from sqlalchemy.orm import (DeclarativeBase, Mapped, declared_attr,
+                            mapped_column)
 
 
 class BaseModel(DeclarativeBase):

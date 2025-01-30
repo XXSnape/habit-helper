@@ -1,6 +1,8 @@
 from inline.buttons.cancel import get_home_btn
-from inline.callback.callbacks import CB, LOG_IN_CALLBACK, REGISTRATION_CALLBACK
-from inline.callback.constants import LOG_IN_OUTPUT, MENU_OUTPUT, REGISTER_OUTPUT
+from inline.callback.callbacks import (CB, LOG_IN_CALLBACK,
+                                       REGISTRATION_CALLBACK)
+from inline.callback.constants import (LOG_IN_OUTPUT, MENU_OUTPUT,
+                                       REGISTER_OUTPUT)
 
 from .types import Buttons
 
