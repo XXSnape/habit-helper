@@ -1,4 +1,4 @@
-from typing import Any, Sequence, Tuple
+from typing import Any, Sequence
 
 from models import HabitModel, UserModel
 from repositories.repository import ManagerRepository

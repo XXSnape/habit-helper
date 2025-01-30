@@ -1,7 +1,6 @@
-from repositories.habits import HabitRepository
 from repositories.tracking import TrackingRepository
 from schemas.habits import MarkHabitSchema
-from services.habits import end_habit, habit_not_exists
+from services.habits import end_habit
 from sqlalchemy.ext.asyncio import AsyncSession
 from utils.validations import check_date_format
 

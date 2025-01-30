@@ -1,5 +1,3 @@
-from logging import getLogger
-
 from inline.callback.enums import HabitPropertiesEnum
 from inline.callback.factories import opportunities_for_change_factory
 from inline.keypads.habits import get_back_to_action_kb

@@ -50,7 +50,7 @@ class HandleErrorsMiddleware(BaseMiddleware):
         :param data: дополнительные данные
         """
         self.logger.info(
-            f"Получено новое сообщение с id %s от пользователя %s c id %s",
+            "Получено новое сообщение с id %s от пользователя %s c id %s",
             message.id,
             message.from_user.first_name,
             message.from_user.id,

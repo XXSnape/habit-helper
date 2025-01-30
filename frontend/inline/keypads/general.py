@@ -1,5 +1,5 @@
 from inline.buttons.types import Buttons
-from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
+from telebot.types import InlineKeyboardMarkup
 from telebot.util import quick_markup
 
 

@@ -1,7 +1,7 @@
 from datetime import date
 
 from models import HabitModel
-from sqlalchemy import Date, ForeignKey, UniqueConstraint, func
+from sqlalchemy import ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy.testing.schema import mapped_column
 
