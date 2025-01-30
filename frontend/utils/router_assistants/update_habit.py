@@ -1,6 +1,5 @@
 from api.habits.update_habit import update_habit
-from inline.keypads.habits import (get_actions_with_habit_kb,
-                                   get_back_to_action_kb)
+from inline.keypads.habits import get_actions_with_habit_kb, get_back_to_action_kb
 from states.habits import ReadHabitStates
 from telebot import State, TeleBot
 from telebot.types import CallbackQuery, Message

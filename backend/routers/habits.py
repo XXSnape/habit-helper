@@ -3,16 +3,26 @@ from typing import Annotated
 from core.helper import db_helper
 from dependencies.auth import get_user_id
 from fastapi import APIRouter, Depends, HTTPException, status
-from schemas.habits import (HabitCompletedSchema, HabitCreateSchema,
-                            HabitNameSchema, HabitOutputSchema,
-                            HabitPatchSchema, HabitResumeSchema,
-                            MarkHabitSchema)
+from schemas.habits import (
+    HabitCompletedSchema,
+    HabitCreateSchema,
+    HabitNameSchema,
+    HabitOutputSchema,
+    HabitPatchSchema,
+    HabitResumeSchema,
+    MarkHabitSchema,
+)
 from schemas.results import ResultSchema
 from schemas.users import UserHabitSchema
-from services.habits import (create_habit, delete_habit_by_id,
-                             get_habit_name_by_id, get_habits_by_id,
-                             get_number_completed, patch_habit_by_id,
-                             resume_habit_by_id)
+from services.habits import (
+    create_habit,
+    delete_habit_by_id,
+    get_habit_name_by_id,
+    get_habits_by_id,
+    get_number_completed,
+    patch_habit_by_id,
+    resume_habit_by_id,
+)
 from services.tracking import is_habit_complete, mark_habit_by_id
 from services.users import get_users_habits_by_hour
 from sqlalchemy.ext.asyncio import AsyncSession

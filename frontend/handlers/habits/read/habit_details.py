@@ -1,8 +1,10 @@
 from inline.callback.constants import MENU_OUTPUT
 from inline.callback.factories import habit_details_factory
 from inline.keypads.cancel import get_cancel_kb
-from inline.keypads.habits import (get_actions_with_completed_habit_kb,
-                                   get_actions_with_habit_kb)
+from inline.keypads.habits import (
+    get_actions_with_completed_habit_kb,
+    get_actions_with_habit_kb,
+)
 from states.habits import ReadHabitStates
 from telebot import TeleBot
 from telebot.types import CallbackQuery, Message
