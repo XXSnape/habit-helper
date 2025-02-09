@@ -25,7 +25,6 @@ from services.users import (
 from sqlalchemy.ext.asyncio import AsyncSession
 from utils.auth import get_access_token
 
-# from starlette import status
 
 
 router = APIRouter(prefix="/users", tags=["Users"])

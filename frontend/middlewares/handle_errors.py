@@ -73,7 +73,7 @@ class HandleErrorsMiddleware(BaseMiddleware):
                 handle_token_missing(bot=self._bot, telegram_id=message.chat.id)
                 return
 
-            self.logger.error("Ошибка: %s", str(exception))
+            self.logger.error("Ошибка: %s", str(exception), exc_info=exception)
             self._bot.send_message(
                 message.chat.id,
                 text="Произошла ошибка. Пожалуйста, попробуйте позже.",
@@ -127,7 +127,7 @@ class HandleErrorsMiddleware(BaseMiddleware):
                 text = str(exception)
             else:
                 text = "Кнопка больше не актуальна, пожалуйста, сделайте запрос снова"
-            self.logger.error("Ошибка %s", str(exception))
+            self.logger.error("Ошибка %s", str(exception), exc_info=exception)
             self._bot.answer_callback_query(callback.id, text=text, show_alert=True)
             self._bot.delete_state(callback.from_user.id, callback.from_user.id)
             if isinstance(exception, ApiTelegramException) is False:

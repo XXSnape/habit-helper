@@ -23,7 +23,7 @@ def get_token_payload(
     except InvalidTokenError as e:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"invalid token error: {e}",
+            detail=f"invalid token error",
         )
     return payload
 
