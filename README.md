@@ -46,7 +46,7 @@ ___
 * Убедитесь, что docker установлен на локальной машине ([Как установить Docker?](https://docs.docker.com/get-started/get-docker/))
 * Склонируйте репозиторий на локальную машину
 ```sh
-https://github.com/raydqver/tracking-habits.git
+https://github.com/XXSnape/tracking-habits.git
 ```
 
 * Создайте файл .env co своими данными в директориях backend и frontend и скопируйте все из .env_template,
